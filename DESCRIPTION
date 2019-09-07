@@ -1,0 +1,12 @@
+Package: rdracor
+Type: Package
+Title: Access To The DraCor API
+Version: 0.1.0
+Author: Ivan Pozdniakov <bucherr@yandex.ru>
+Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Imports: jsonlite, utils
