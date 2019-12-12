@@ -1,12 +1,20 @@
 Package: rdracor
 Type: Package
 Title: Access To The DraCor API
-Version: 0.1.0
+Version: 0.2.0
 Author: Ivan Pozdniakov <bucherr@yandex.ru>
 Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: The package is a wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports: jsonlite, utils
+Imports: 
+    jsonlite (>= 1.6),
+    utils,
+    data.table (>= 1.12.2),
+    xml2 (>= 1.2.2),
+    ggplot2 (>= 3.2.1),
+    igraph (>= 1.2.4.1)
+Suggests: 
+    testthat (>= 2.1.0)
+RoxygenNote: 6.1.1

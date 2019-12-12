@@ -13,6 +13,4 @@
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 
-get_dracor <- function() {
-  type.convert(fromJSON("https://dracor.org/api/metrics", flatten = T)$metrics)
-}
+

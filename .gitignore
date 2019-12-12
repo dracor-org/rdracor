@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+R/draft.R
+R/examples.R
