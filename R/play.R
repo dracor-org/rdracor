@@ -97,6 +97,7 @@ get_sparql <- function(sparql_query = NULL) {
 }
 
 #' @import igraph
+#' @exportClass play_igraph
 #' @export
 get_play_igraph <- function(corpus = NULL, play = NULL) {
   nodes <- fromJSON(form_play_request(corpus, play, "cast"))

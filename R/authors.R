@@ -14,6 +14,7 @@ top_authors <- function(authors, top_n = 5) {
 #functions for export
 
 #' @import data.table
+#' @exportClass authors
 #' @export
 authors <- function(corpus){
   N <- name <- `.` <- NULL #to pass check

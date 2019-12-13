@@ -1,5 +1,6 @@
 #' @importFrom graphics abline axis par plot.default segments text
 #' @importFrom utils type.convert
+#' @exportClass corpus
 
 corpus <- function(cor_fromjson){
   cor_df <- type.convert(cor_fromjson$dramas)
@@ -26,6 +27,7 @@ get_corpus <- function(name =  NULL,
   corpus(corp_list)
 }
 
+#' @exportMethod summary corpus
 summary.corpus <- function(corpus){
   written <- range(corpus$writtenYear, na.rm = T)
   premiere <- range(corpus$premiereYear, na.rm = T)

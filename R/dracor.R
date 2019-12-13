@@ -4,6 +4,7 @@ get_dracor_api_info <- function(){
   fromJSON("https://dracor.org/api/info")
 }
 
+#' @exportClass dracor
 #' @export
 dracor <- function(dracor_df){
   dracor <- type.convert(dracor_df, as.is = TRUE)
@@ -26,7 +27,6 @@ is.dracor <- function(x) {
 get_dracor <- function() dracor(fromJSON("https://dracor.org/api/corpora?include=metrics", flatten = T))
 
 #' @exportMethod summary dracor
-#' @export
 summary.dracor <- function(object){
   n_plays <- sum(object$plays)
   n_corpora <- nrow(object)

@@ -79,7 +79,7 @@ plot(godunov)
 
 ## Other commands
 
-```{r}
+```{r, eval=FALSE}
 get_play_cast(corpus = "rus", 
               play = "pushkin-boris-godunov")
 get_play_metadata(corpus = "rus", 
