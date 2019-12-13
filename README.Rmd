@@ -1,0 +1,106 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# rdracor <img src="man/figures/logo.png" align="right" width="120" />
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API]( https://dracor.org/documentation/api). More on Dracor project [here](https://dracor.org). 
+
+## Installation
+
+
+``` r
+#install.packages("devtools") #if you don't have devtools installed
+devtools::install_github("dracor-org/rdracor")
+```
+
+## General info on corpora
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(rdracor)
+get_dracor_api_info()## basic example code
+```
+
+```{r}
+corpora <- get_dracor()
+summary(corpora)
+corpora
+```
+
+## Plays in the corpus
+
+```{r}
+ru <- get_corpus("rus")
+head(ru)
+summary(ru)
+ru_au <- authors(ru)
+head(ru_au)
+summary(ru_au)
+plot(ru_au, top_minplays = 4)
+```
+
+## Play network
+
+You can extract network for a specific play:
+```{r}
+godunov <- get_play_igraph(corpus = "rus", 
+                           play = "pushkin-boris-godunov")
+```
+
+This will create an object of S3 class `"play_igraph"` that is heritated from `"igraph"`. It means that you can work with it as an `"igraph"` object:
+
+```{r}
+library(igraph)
+edge_density(godunov)
+diameter(godunov)
+graph.cohesion(godunov)
+```
+
+You can plot it, the default parameters are adjusted to the specific of the corpus. For examples, vertices are coloured based on the gender and shape is based on whether a character is a group:
+
+```{r}
+plot(godunov)
+```
+
+## Other commands
+
+```{r}
+get_play_cast(corpus = "rus", 
+              play = "pushkin-boris-godunov")
+get_play_metadata(corpus = "rus", 
+                  play = "pushkin-boris-godunov")
+get_play_metrics(corpus = "rus", 
+                 play = "pushkin-boris-godunov")
+get_play_networkdata_csv(corpus = "rus", 
+                         play = "pushkin-boris-godunov")
+get_play_networkdata_gexf(corpus = "rus", 
+                         play = "pushkin-boris-godunov")
+get_play_rdf(corpus = "rus", 
+             play = "pushkin-boris-godunov")
+get_play_spoken_text(corpus = "rus", 
+                     play = "pushkin-boris-godunov")
+get_play_spoken_text_bych(corpus = "rus", 
+                          play = "pushkin-boris-godunov")
+get_play_stage_directions(corpus = "rus", 
+                          play = "pushkin-boris-godunov")
+get_play_stage_directions_with_sp(corpus = "rus", 
+                                  play = "pushkin-boris-godunov")
+get_play_tei(corpus = "rus", 
+             play = "pushkin-boris-godunov")
+```
+

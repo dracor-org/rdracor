@@ -226,3 +226,13 @@
 #
 # ig <- d2ig(cs)
 # summary(ig)
+#
+#
+# ?graph_from_adjacency_matrix()
+# diameter(boris)
+# names(boris)
+# boris$names <- boris$name
+# setnames(boris, "name", "names")
+# as_data_frame(boris, "vertices", vertices = NULL)
+# graph.cohesion(boris)
+
