@@ -17,8 +17,6 @@ dracor <- function(dracor_df){
   return(dracor)
 }
 
-#' @exportMethod is dracor
-#' @export
 is.dracor <- function(x) {
   inherits(x, "dracor")
 }
@@ -26,7 +24,8 @@ is.dracor <- function(x) {
 #' @export
 get_dracor <- function() dracor(fromJSON("https://dracor.org/api/corpora?include=metrics", flatten = T))
 
-#' @exportMethod summary dracor
+#' @method summary dracor
+#' @export
 summary.dracor <- function(object){
   n_plays <- sum(object$plays)
   n_corpora <- nrow(object)
@@ -36,12 +35,12 @@ summary.dracor <- function(object){
       sep = "\t\n\n")
 }
 
-#' @exportMethod plot dracor
+#' @method plot dracor
 #' @export
 plot.dracor <- function(x, pch = 16, col = "black",
                         lty.lolly = 1, lty.baseline = 2, cex = 0.8,
                         left_margin = 10.5, ...) {
-  y_in <- 1:nrow(x)
+  y_in <- rev(1:nrow(x))
   old.par <- par(no.readonly = TRUE)
   par(mar=c(3,left_margin,4,2)+0.1, mgp = c(2,1,0))
   plot.default(x$plays, y_in, pch = pch,
@@ -54,7 +53,7 @@ plot.dracor <- function(x, pch = 16, col = "black",
                col = col,
                lty = lty.lolly,
                ...)
-  axis(2, at=y_in,labels=x$corpus.title, las = 1, cex.axis = cex)
+  axis(2, at=y_in,labels=x$title, las = 1, cex.axis = cex)
   abline(v = 0, lty = lty.baseline)
   segments(0, y_in, x$plays, y_in, col = col)
   text(x$plays+0.1*max(x$plays), y_in, labels = x$plays, col = col, cex = cex)

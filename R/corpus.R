@@ -11,6 +11,10 @@ corpus <- function(cor_fromjson){
             class = c("corpus", class(cor_df)))
 }
 
+is.corpus <- function(x) {
+  inherits(x, "corpus")
+}
+
 #' @importFrom  jsonlite fromJSON
 #' @export
 get_corpus <- function(name =  NULL,
@@ -27,7 +31,8 @@ get_corpus <- function(name =  NULL,
   corpus(corp_list)
 }
 
-#' @exportMethod summary corpus
+#' @method summary corpus
+#' @export
 summary.corpus <- function(corpus){
   written <- range(corpus$writtenYear, na.rm = T)
   premiere <- range(corpus$premiereYear, na.rm = T)

@@ -111,8 +111,6 @@ get_play_igraph <- function(corpus = NULL, play = NULL) {
             class = c("play_igraph", "igraph"))
 }
 
-#' @exportMethod is play_igraph
-#' @export
 is.play_igraph <- function(x) {
   inherits(x, "play_igraph")
 }
@@ -126,7 +124,7 @@ label_play_graph <- function(graph, top_nodes = 3, max_graph = 30) {
   vertices_labels
 }
 
-#' @exportMethod plot play_igraph
+#' @method plot play_igraph
 #' @export
 plot.play_igraph <- function(x,
                              gender_colours = c(MALE = "#26B69E",

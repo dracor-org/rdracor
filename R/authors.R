@@ -26,13 +26,11 @@ authors <- function(corpus){
             class = c("authors", class(authors_dt)))
 }
 
-#' @exportMethod is authors
-#' @export
 is.authors <- function(x) {
   inherits(x, "authors")
 }
 
-#' @exportMethod summary authors
+#' @method summary authors
 #' @export
 summary.authors <- function(object, ...){
   n <- nrow(object)
@@ -40,7 +38,7 @@ summary.authors <- function(object, ...){
               n, attr(object, "title"), top_authors(object)))
 }
 
-#' @exportMethod plot authors
+#' @method plot authors
 #' @export
 plot.authors <- function(x,
                          extract_surnames = FALSE,

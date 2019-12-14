@@ -40,6 +40,7 @@ get_dracor_api_info()## basic example code
 corpora <- get_dracor()
 summary(corpora)
 corpora
+plot(corpora)
 ```
 
 ## Plays in the corpus
