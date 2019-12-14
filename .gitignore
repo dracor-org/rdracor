@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-R/draft.R
-R/examples.R
+examples/
 rdracor.Rproj
 README.Rmd
