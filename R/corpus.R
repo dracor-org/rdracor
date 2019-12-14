@@ -33,16 +33,16 @@ get_corpus <- function(name =  NULL,
 
 #' @method summary corpus
 #' @export
-summary.corpus <- function(corpus){
-  written <- range(corpus$writtenYear, na.rm = T)
-  premiere <- range(corpus$premiereYear, na.rm = T)
-  printed <- range(corpus$printYear, na.rm = T)
+summary.corpus <- function(object, ...){
+  written <- range(object$writtenYear, na.rm = T)
+  premiere <- range(object$premiereYear, na.rm = T)
+  printed <- range(object$printYear, na.rm = T)
   cat(sprintf("Written years (range): %d - %d", written[1], written[2]),
       sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2]),
       sprintf("Years of the first printing (range): %d - %d", printed[1], printed[2]),
-      sprintf("%d plays in %s", nrow(corpus), attr(corpus, "title")),
+      sprintf("%d plays in %s", nrow(object), attr(object, "title")),
       sprintf("Corpus id: %s, repository: %s",
-              attr(corpus, "name"),
-              attr(corpus, "repository")),
+              attr(object, "name"),
+              attr(object, "repository")),
       sep = "\t\n")
 }

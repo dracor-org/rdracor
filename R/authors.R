@@ -44,7 +44,8 @@ plot.authors <- function(x,
                          extract_surnames = FALSE,
                          top_n = nrow(x),
                          top_minplays = 1,
-                         top_ratio = 1){
+                         top_ratio = 1,
+                         ...){
   N <- NULL #to pass check
   if(extract_surnames){
     x$name <- shortening_names(x$name)

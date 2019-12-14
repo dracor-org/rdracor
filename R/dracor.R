@@ -26,7 +26,7 @@ get_dracor <- function() dracor(fromJSON("https://dracor.org/api/corpora?include
 
 #' @method summary dracor
 #' @export
-summary.dracor <- function(object){
+summary.dracor <- function(object, ...){
   n_plays <- sum(object$plays)
   n_corpora <- nrow(object)
   last_upd <- which.max(object$updated)
