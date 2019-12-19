@@ -85,7 +85,7 @@ Plays in the corpus
 -------------------
 
 ``` r
-ru <- get_corpus("rus")
+ru <- get_corpus(corpus = "rus")
 head(ru)
 #>          id                                name yearNormalized
 #> 1 rus000001    turgenev-zavtrak-u-predvoditelja           1849
