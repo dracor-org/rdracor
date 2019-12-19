@@ -23,7 +23,7 @@ get_corpus <- function(name =  NULL,
   if (is.null(name)) {
     stop("You must provide name or URL")
   } else {
-    corp_list <- fromJSON(URL, flatten = T)
+    corp_list <- dracor_api(request = URL, expected_format = "application/json")
   }
   if (full_metadata) {
     corp_list$dramas <- merge(corp_list$dramas, fromJSON(paste0(URL, "/metadata"), flatten = TRUE))

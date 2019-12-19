@@ -49,12 +49,12 @@ dracor_error <- function(resp) {
 #' @import data.table
 #' @export
 dracor_api <- function(request,
-                       default_format = FALSE,
                        expected_format =
                          c("application/json",
                            "application/xml",
                            "text/csv",
                            "text/plain"),
+                       default_format = FALSE,
                        flatten = TRUE,
                        split_text = TRUE) {
   expected_format <- match.arg(expected_format)

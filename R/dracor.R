@@ -1,7 +1,7 @@
 #' @importFrom jsonlite fromJSON
 #' @export
-get_dracor_api_info <- function(){
-  fromJSON("https://dracor.org/api/info")
+get_dracor_api_info <- function() {
+  as.data.frame(dracor_api("https://dracor.org/api/info", expected_format = "application/json"))
 }
 
 #' @exportClass dracor
@@ -22,7 +22,8 @@ is.dracor <- function(x) {
 }
 
 #' @export
-get_dracor <- function() dracor(fromJSON("https://dracor.org/api/corpora?include=metrics", flatten = T))
+get_dracor <- function() dracor(dracor_api("https://dracor.org/api/corpora?include=metrics",
+                                           expected_format = "application/json"))
 
 #' @method summary dracor
 #' @export
