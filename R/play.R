@@ -1,18 +1,3 @@
-form_play_request <- function(corpus = NULL, play = NULL, type = NULL){
-  if (is.null(corpus)) {
-    stop("You need to provide a corpus")
-  }
-  if (is.null(play)) {
-    stop("You need to provide a play")
-  }
-  request <- paste0("https://dracor.org/api/corpora/", corpus ,"/play/", play)
-  if (!is.null(type)){
-    return(paste(request, type, sep = "/"))
-  } else {
-    return(request)
-  }
-}
-
 #' @export
 get_play_metadata <- function(corpus = NULL, play = NULL){
   fromJSON(form_play_request(corpus, play))
