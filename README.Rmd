@@ -58,6 +58,7 @@ plot(ru_au, top_minplays = 4)
 ## Play network
 
 You can extract network for a specific play:
+
 ```{r}
 godunov <- get_play_igraph(corpus = "rus", 
                            play = "pushkin-boris-godunov")
