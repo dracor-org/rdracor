@@ -55,8 +55,8 @@ dracor_api <- function(request,
                            "text/csv",
                            "text/plain"),
                        default_format = FALSE,
-                       flatten = TRUE,
-                       split_text = TRUE) {
+                       split_text = TRUE,
+                       ...) {
   expected_format <- match.arg(expected_format)
   if (default_format) {
     resp <- GET(request)
@@ -67,14 +67,14 @@ dracor_api <- function(request,
   dracor_error(resp)
   cont <- content(resp, as = "text", encoding = "UTF-8")
   if (expected_format == "application/json") {
-    return(fromJSON(cont, flatten = flatten))
+    return(fromJSON(cont, ...))
   } else if (expected_format == "application/xml") {
-    return(read_xml(cont))
+    return(read_xml(cont, ...))
   } else if (expected_format == "text/csv") {
-    return(fread(cont))
+    return(fread(cont, ...))
   } else if (expected_format == "text/plain") {
     if (split_text) {
-      return(strsplit(cont, "\n"))
+      return(unlist(strsplit(cont, "\n")))
     } else {
       return(cont)
     }
