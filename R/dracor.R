@@ -8,7 +8,7 @@ get_dracor_api_info <- function() {
 #' @export
 dracor <- function(dracor_df){
   dracor <- type.convert(dracor_df, as.is = TRUE)
-  names(dracor) <- gsub("metrics.", "", names(dracor))
+  names(dracor) <- gsub("metrics.", "", names(dracor), fixed = TRUE)
   dracor$updated <- as.POSIXct(dracor$updated, format = "%FT%H:%M:%OS", tz = "UTC")
   dracor <- dracor[order(-dracor$plays),]
   attributes(dracor) <- c(attributes(dracor),
@@ -23,7 +23,7 @@ is.dracor <- function(x) {
 
 #' @export
 get_dracor <- function() dracor(dracor_api("https://dracor.org/api/corpora?include=metrics",
-                                           expected_format = "application/json"))
+                                           expected_format = "application/json", flatten = TRUE))
 
 #' @method summary dracor
 #' @export

@@ -1,7 +1,7 @@
 Package: rdracor
 Type: Package
 Title: Access To The DraCor API
-Version: 0.2.2
+Version: 0.3.0
 Author: Ivan Pozdniakov <bucherr@yandex.ru>
 Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
 Description: The package is a wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
@@ -14,5 +14,8 @@ Imports:
     data.table (>= 1.12.2),
     xml2 (>= 1.2.2),
     ggplot2 (>= 3.2.1),
-    igraph (>= 1.2.4.1)
+    igraph (>= 1.2.4.1),
+    httr (>= 1.4.1)
 RoxygenNote: 6.1.1
+Suggests: 
+    testthat

@@ -17,7 +17,7 @@ form_play_request <-
     }
   }
 
-
+#' @import httr
 dracor_error <- function(resp) {
   if (resp$status_code == 404) {
     stop(
