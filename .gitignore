@@ -6,3 +6,4 @@ examples/
 man/.DS_Store
 rdracor.Rproj
 .DS_Store
+tests/.DS_Store

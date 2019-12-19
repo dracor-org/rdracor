@@ -17,11 +17,11 @@ is.corpus <- function(x) {
 
 #' @importFrom  jsonlite fromJSON
 #' @export
-get_corpus <- function(name =  NULL,
-                       URL = paste0("https://dracor.org/api/corpora/", name),
+get_corpus <- function(corpus =  NULL,
+                       URL = paste0("https://dracor.org/api/corpora/", corpus),
                        full_metadata = TRUE) {
-  if (is.null(name)) {
-    stop("You must provide name or URL")
+  if (is.null(corpus) & URL == "https://dracor.org/api/corpora/") {
+    stop("You must provide corpus id or URL")
   } else {
     corp_list <- dracor_api(request = URL, expected_format = "application/json")
   }

@@ -46,7 +46,7 @@ plot(corpora)
 ## Plays in the corpus
 
 ```{r}
-ru <- get_corpus("rus")
+ru <- get_corpus(corpus = "rus")
 head(ru)
 summary(ru)
 ru_au <- authors(ru)

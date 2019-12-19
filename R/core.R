@@ -59,19 +59,19 @@ dracor_api <- function(request,
                        ...) {
   expected_format <- match.arg(expected_format)
   if (default_format) {
-    resp <- GET(request)
-    return(content(resp, as = "text", encoding = "UTF-8"))
+    resp <- httr::GET(request)
+    return(httr::content(resp, as = "text", encoding = "UTF-8"))
   } else {
-    resp <- GET(request, accept(expected_format))
+    resp <- httr::GET(request, accept(expected_format))
   }
   dracor_error(resp)
-  cont <- content(resp, as = "text", encoding = "UTF-8")
+  cont <- httr::content(resp, as = "text", encoding = "UTF-8")
   if (expected_format == "application/json") {
-    return(fromJSON(cont, ...))
+    return(jsonlite::fromJSON(cont, ...))
   } else if (expected_format == "application/xml") {
-    return(read_xml(cont, ...))
+    return(xml2::read_xml(cont, ...))
   } else if (expected_format == "text/csv") {
-    return(fread(cont, ...))
+    return(data.table::fread(cont, ...))
   } else if (expected_format == "text/plain") {
     if (split_text) {
       return(unlist(strsplit(cont, "\n")))

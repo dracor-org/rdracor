@@ -23,64 +23,59 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(rdracor)
 get_dracor_api_info()## basic example code
-#> $name
-#> [1] "DraCor API"
-#> 
-#> $status
-#> [1] "beta"
-#> 
-#> $existdb
-#> [1] "4.7.0"
-#> 
-#> $version
-#> [1] "0.59.0"
+#>         name status existdb version
+#> 1 DraCor API   beta   4.7.0  0.59.0
 ```
 
 ``` r
 corpora <- get_dracor()
 summary(corpora)
-#> There are 944 plays in 9 corpora 
+#> There are 947 plays in 10 corpora    
 corpora
-#>                                  repository  name
-#> 3   https://github.com/dracor-org/gerdracor   ger
-#> 6   https://github.com/dracor-org/rusdracor   rus
-#> 9   https://github.com/dracor-org/swedracor   swe
-#> 2   https://github.com/dracor-org/caldracor   cal
-#> 4 https://github.com/dracor-org/greekdracor greek
-#> 7 https://github.com/dracor-org/shakedracor shake
-#> 5   https://github.com/dracor-org/romdracor   rom
-#> 8  https://github.com/dracor-org/spandracor  span
-#> 1   https://github.com/dracor-org/alsdracor   als
-#>                                    uri                    title characters
-#> 3   https://dracor.org/api/corpora/ger      German Drama Corpus      10734
-#> 6   https://dracor.org/api/corpora/rus     Russian Drama Corpus       3636
-#> 9   https://dracor.org/api/corpora/swe     Swedish Drama Corpus        769
-#> 2   https://dracor.org/api/corpora/cal    Calderón Drama Corpus        839
-#> 4 https://dracor.org/api/corpora/greek       Greek Drama Corpus        437
-#> 7 https://dracor.org/api/corpora/shake Shakespeare Drama Corpus       1433
-#> 5   https://dracor.org/api/corpora/rom       Roman Drama Corpus        385
-#> 8  https://dracor.org/api/corpora/span     Spanish Drama Corpus        580
-#> 1   https://dracor.org/api/corpora/als    Alsatian Drama Corpus         16
-#>   female text male             updated     sp  stage plays wordcount.text
-#> 3   2301  474 7365 2019-12-10 18:23:17 330206 160681   474        8342891
-#> 6    858  210 2550 2019-12-10 17:33:53 117093  48493   210        2274917
-#> 9    327   73  382 2019-09-08 00:34:42  35420  17209    68         737001
-#> 2    284   54  550 2019-09-28 11:31:40  23966   4758    54         568412
-#> 4    110   39  275 2019-12-10 16:44:54  15693     11    39         321599
-#> 7      0   37    0 2019-06-23 23:40:19  31066  10450    37         908286
-#> 5    104   36  253 2019-12-10 09:46:11  18425    203    36         306144
-#> 8    226   25  331 2019-11-05 14:12:47  23600   8393    25         444620
-#> 1      8    1    8 2019-12-07 18:27:03   1334    211     1          36362
-#>   wordcount.sp wordcount.stage
-#> 3      7966041         1016145
-#> 6      2151978          208664
-#> 9       690633           96212
-#> 2       544039           27898
-#> 4       320968              20
-#> 7       876744           41230
-#> 5       291707             527
-#> 8       388883           84337
-#> 1        35959             719
+#>                                   repository  name
+#> 3    https://github.com/dracor-org/gerdracor   ger
+#> 6    https://github.com/dracor-org/rusdracor   rus
+#> 9    https://github.com/dracor-org/swedracor   swe
+#> 2    https://github.com/dracor-org/caldracor   cal
+#> 4  https://github.com/dracor-org/greekdracor greek
+#> 7  https://github.com/dracor-org/shakedracor shake
+#> 5    https://github.com/dracor-org/romdracor   rom
+#> 8   https://github.com/dracor-org/spandracor  span
+#> 10   https://github.com/dracor-org/tatdracor   tat
+#> 1    https://github.com/dracor-org/alsdracor   als
+#>                                     uri                    title
+#> 3    https://dracor.org/api/corpora/ger      German Drama Corpus
+#> 6    https://dracor.org/api/corpora/rus     Russian Drama Corpus
+#> 9    https://dracor.org/api/corpora/swe     Swedish Drama Corpus
+#> 2    https://dracor.org/api/corpora/cal    Calderón Drama Corpus
+#> 4  https://dracor.org/api/corpora/greek       Greek Drama Corpus
+#> 7  https://dracor.org/api/corpora/shake Shakespeare Drama Corpus
+#> 5    https://dracor.org/api/corpora/rom       Roman Drama Corpus
+#> 8   https://dracor.org/api/corpora/span     Spanish Drama Corpus
+#> 10   https://dracor.org/api/corpora/tat       Tatar Drama Corpus
+#> 1    https://dracor.org/api/corpora/als    Alsatian Drama Corpus
+#>    characters female text male             updated     sp  stage plays
+#> 3       10734   2301  474 7365 2019-12-10 18:23:17 330206 160681   474
+#> 6        3636    858  210 2550 2019-12-10 17:33:53 117093  48493   210
+#> 9         769    327   73  382 2019-09-08 00:34:42  35420  17209    68
+#> 2         839    284   54  550 2019-09-28 11:31:40  23966   4758    54
+#> 4         437    110   39  275 2019-12-10 16:44:54  15693     11    39
+#> 7        1433      0   37    0 2019-06-23 23:40:19  31066  10450    37
+#> 5         385    104   36  253 2019-12-10 09:46:11  18425    203    36
+#> 8         580    226   25  331 2019-11-05 14:12:47  23600   8393    25
+#> 10         30      9    3   20 2019-12-16 21:57:13    701    433     3
+#> 1          16      8    1    8 2019-12-07 18:27:03   1334    211     1
+#>    wordcount.text wordcount.sp wordcount.stage
+#> 3         8342891      7966041         1016145
+#> 6         2274917      2151978          208664
+#> 9          737001       690633           96212
+#> 2          568412       544039           27898
+#> 4          321599       320968              20
+#> 7          908286       876744           41230
+#> 5          306144       291707             527
+#> 8          444620       388883           84337
+#> 10          13037        12223            1788
+#> 1           36362        35959             719
 plot(corpora)
 ```
 
@@ -99,13 +94,20 @@ head(ru)
 #> 4 rus000004              turgenev-provintsialka           1851
 #> 5 rus000005             turgenev-neostorozhnost           1843
 #> 6 rus000006                  turgenev-nahlebnik           1857
-#>                        title                 subtitle authors     source
-#> 1     Завтрак у предводителя                        –    1, 2 Wikisource
-#> 2           Вечер в Сорренте                    Сцена    1, 2 Wikisource
-#> 3 Разговор на большой дороге                    Сцена    1, 2 Wikisource
-#> 4               Провинциалка Комедия в одном действии    1, 2 Wikisource
-#> 5             Неосторожность                        –    1, 2 Wikisource
-#> 6                  Нахлебник Комедия в двух действиях    1, 2 Wikisource
+#>                        title                 subtitle      author.key
+#> 1     Завтрак у предводителя                        – wikidata:Q42831
+#> 2           Вечер в Сорренте                    Сцена wikidata:Q42831
+#> 3 Разговор на большой дороге                    Сцена wikidata:Q42831
+#> 4               Провинциалка Комедия в одном действии wikidata:Q42831
+#> 5             Неосторожность                        – wikidata:Q42831
+#> 6                  Нахлебник Комедия в двух действиях wikidata:Q42831
+#>                author.name authors     source
+#> 1 Тургенев, Иван Сергеевич    1, 2 Wikisource
+#> 2 Тургенев, Иван Сергеевич    1, 2 Wikisource
+#> 3 Тургенев, Иван Сергеевич    1, 2 Wikisource
+#> 4 Тургенев, Иван Сергеевич    1, 2 Wikisource
+#> 5 Тургенев, Иван Сергеевич    1, 2 Wikisource
+#> 6 Тургенев, Иван Сергеевич    1, 2 Wikisource
 #>                                                              sourceUrl
 #> 1     https://ru.wikisource.org/wiki/Завтрак_у_предводителя_(Тургенев)
 #> 2           https://ru.wikisource.org/wiki/Вечер_в_Сорренте_(Тургенев)
@@ -127,34 +129,27 @@ head(ru)
 #> 4              https://dracor.org/api/corpora/rus/play/turgenev-provintsialka/networkdata/csv
 #> 5             https://dracor.org/api/corpora/rus/play/turgenev-neostorozhnost/networkdata/csv
 #> 6                  https://dracor.org/api/corpora/rus/play/turgenev-nahlebnik/networkdata/csv
-#>   wikidataId      author.key              author.name size  genre
-#> 1  Q19164018 wikidata:Q42831 Тургенев, Иван Сергеевич   11 comedy
-#> 2  Q19140432 wikidata:Q42831 Тургенев, Иван Сергеевич    7   <NA>
-#> 3  Q19215006 wikidata:Q42831 Тургенев, Иван Сергеевич    3   <NA>
-#> 4   Q4659065 wikidata:Q42831 Тургенев, Иван Сергеевич    7 comedy
-#> 5   Q3204064 wikidata:Q42831 Тургенев, Иван Сергеевич    6   <NA>
-#> 6   Q3225142 wikidata:Q42831 Тургенев, Иван Сергеевич   14 comedy
-#>   averageClustering numOfPersonGroups   density averagePathLength
-#> 1         0.9185426                 0 0.8727273          1.127273
-#> 2         0.5190476                 0 0.4761905          1.619048
-#> 3         1.0000000                 0 1.0000000          1.000000
-#> 4         0.9238095                 0 0.8095238          1.190476
-#> 5         0.7666667                 0 0.7333333          1.266667
-#> 6         1.0000000                 1 1.0000000          1.000000
-#>                 maxDegreeIds averageDegree diameter yearPremiered
-#> 1         several characters      8.727273        2          1849
-#> 2                     avakov      2.857143        3          1884
-#> 3 efrem|mihrjutkin|seliverst      2.000000        1            NA
-#> 4   darja_ivanovna|stupendev      4.857143        2          1851
-#> 5                  don_pablo      3.666667        2            NA
-#> 6         several characters     13.000000        1          1862
-#>   yearPrinted maxDegree numOfSpeakers numConnectedComponents
-#> 1        1856        10            11                      1
-#> 2        1888         5             7                      1
-#> 3        1851         2             3                      1
-#> 4        1851         6             7                      1
-#> 5        1843         5             6                      1
-#> 6        1857        13            14                      1
+#>   wikidataId size  genre averageClustering numOfPersonGroups   density
+#> 1  Q19164018   11 comedy         0.9185426                 0 0.8727273
+#> 2  Q19140432    7   <NA>         0.5190476                 0 0.4761905
+#> 3  Q19215006    3   <NA>         1.0000000                 0 1.0000000
+#> 4   Q4659065    7 comedy         0.9238095                 0 0.8095238
+#> 5   Q3204064    6   <NA>         0.7666667                 0 0.7333333
+#> 6   Q3225142   14 comedy         1.0000000                 1 1.0000000
+#>   averagePathLength               maxDegreeIds averageDegree diameter
+#> 1          1.127273         several characters      8.727273        2
+#> 2          1.619048                     avakov      2.857143        3
+#> 3          1.000000 efrem|mihrjutkin|seliverst      2.000000        1
+#> 4          1.190476   darja_ivanovna|stupendev      4.857143        2
+#> 5          1.266667                  don_pablo      3.666667        2
+#> 6          1.000000         several characters     13.000000        1
+#>   yearPremiered yearPrinted maxDegree numOfSpeakers numConnectedComponents
+#> 1          1849        1856        10            11                      1
+#> 2          1884        1888         5             7                      1
+#> 3            NA        1851         2             3                      1
+#> 4          1851        1851         6             7                      1
+#> 5            NA        1843         5             6                      1
+#> 6          1862        1857        13            14                      1
 #>   numOfSpeakersUnknown yearWritten numOfSpeakersFemale numOfSegments
 #> 1                    0        1849                   1            11
 #> 2                    0        1852                   2            15
