@@ -4,7 +4,7 @@ Title: Access To The DraCor API
 Version: 0.3.2
 Author: Ivan Pozdniakov <bucherr@yandex.ru>
 Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
-Description: The package is a wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
+Description: Wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
