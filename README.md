@@ -4,7 +4,8 @@ rdracor <img src="man/figures/logo.png" align="right" width="120" />
 ====================================================================
 
 <!-- badges: start -->
-<!-- badges: end -->
+[![Travis build status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor) <!-- badges: end -->
+
 The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API](https://dracor.org/documentation/api). More on Dracor project [here](https://dracor.org).
 
 Installation
