@@ -30,7 +30,7 @@ get_dracor_api_info()## basic example code
 ``` r
 corpora <- get_dracor()
 summary(corpora)
-#> There are 947 plays in 10 corpora    
+#> There are 953 plays in 10 corpora    
 corpora
 #>                                   repository  name
 #> 3    https://github.com/dracor-org/gerdracor   ger
@@ -55,18 +55,18 @@ corpora
 #> 10   https://dracor.org/api/corpora/tat       Tatar Drama Corpus
 #> 1    https://dracor.org/api/corpora/als    Alsatian Drama Corpus
 #>    characters female text male             updated     sp  stage plays
-#> 3       10734   2301  474 7365 2019-12-10 18:23:17 330206 160681   474
+#> 3       11717   2411  480 8204 2020-01-06 10:29:36 339583 165134   480
 #> 6        3636    858  210 2550 2019-12-10 17:33:53 117093  48493   210
 #> 9         769    327   73  382 2019-09-08 00:34:42  35420  17209    68
-#> 2         839    284   54  550 2019-09-28 11:31:40  23966   4758    54
+#> 2         839    284   54  550 2019-12-21 18:10:41  23966   4758    54
 #> 4         437    110   39  275 2019-12-10 16:44:54  15693     11    39
 #> 7        1433      0   37    0 2019-06-23 23:40:19  31066  10450    37
 #> 5         385    104   36  253 2019-12-10 09:46:11  18425    203    36
 #> 8         580    226   25  331 2019-11-05 14:12:47  23600   8393    25
 #> 10         30      9    3   20 2019-12-16 21:57:13    701    433     3
-#> 1          16      8    1    8 2019-12-07 18:27:03   1334    211     1
+#> 1          16      8    1    8 2019-12-21 18:09:28   1334    211     1
 #>    wordcount.text wordcount.sp wordcount.stage
-#> 3         8342891      7966041         1016145
+#> 3         8646715      8252666         1047656
 #> 6         2274917      2151978          208664
 #> 9          737001       690633           96212
 #> 2          568412       544039           27898
@@ -210,7 +210,7 @@ godunov <- get_play_igraph(corpus = "rus",
                            play = "pushkin-boris-godunov")
 ```
 
-This will create an object of S3 class `"play_igraph"` that is heritated from `"igraph"`. It means that you can work with it as an `"igraph"` object:
+This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. It means that you can work with it as an `"igraph"` object:
 
 ``` r
 library(igraph)
