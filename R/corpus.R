@@ -15,6 +15,19 @@ is.corpus <- function(x) {
   inherits(x, "corpus")
 }
 
+
+#' Retrieve metadata for all plays in a corpus.
+#'
+#' The Dracor API lets you request data for plays for a specific corpus. \code{get_corpus} returns \code{\link{dracor}} object that inherits data.frame.
+#'
+#' You need to provide a valid name for the corpus, e.g. \code{"rus"}, \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}} to extract names for all available corpora.
+#'
+#' @param corpus Name of the corpus (\code{name} column within an object returned by \code{\link{get_dracor}}).
+#' @param URL Request URL.
+#' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
+#' @return \code{\link{dracor}} object that inherits data.frame.
+#' @examples
+#' get_corpus("rus")
 #' @importFrom  jsonlite fromJSON
 #' @export
 get_corpus <- function(corpus =  NULL,
