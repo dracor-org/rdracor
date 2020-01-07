@@ -1,28 +1,22 @@
-#' @importFrom graphics abline axis par plot.default segments text
-#' @importFrom utils type.convert
-#' @exportClass corpus
-
-corpus <- function(cor_fromjson){
-  cor_df <- type.convert(cor_fromjson$dramas)
-  structure(cor_df,
-            name = cor_fromjson$name,
-            title = cor_fromjson$title,
-            repository = cor_fromjson$repository,
-            class = c("corpus", class(cor_df)))
-}
-
-is.corpus <- function(x) {
-  inherits(x, "corpus")
-}
-
 
 #' Retrieve metadata for all plays in a corpus.
 #'
-#' The Dracor API lets you request data for plays for a specific corpus. \code{get_corpus} returns \code{\link{dracor}} object that inherits data.frame (and can be used as such) but specified \code{\link{summary}} method and \code{\link{authors}} function.
+#' The Dracor API lets you request data for plays for a specific corpus.
+#' \code{get_corpus} returns \code{dracor} object that inherits
+#' data.frame (and can be used as such) but specified \code{\link{summary}}
+#' method and \code{\link{authors}} function.
 #'
-#' You need to provide a valid name for the corpus, e.g. \code{"rus"}, \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}} to extract names for all available corpora.
+#' \code{get_corpus} returns a \code{dracor} object that inherits
+#' data.frame (and can be used as such).
 #'
-#' @param corpus Name of the corpus (\code{name} column within an object returned by \code{\link{get_dracor}}).
+#' \code{corpus} constructs \code{corpus} object
+#'
+#' You need to provide a valid name for the corpus, e.g. \code{"rus"},
+#' \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}}
+#' to extract names for all available corpora.
+#'
+#' @param corpus Name of the corpus (\code{name} column within an object
+#'   returned by \code{\link{get_dracor}}).
 #' @param URL Request URL.
 #' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
 #' @return \code{\link{dracor}} object that inherits data.frame (and can be used as such) but with additional
@@ -30,7 +24,8 @@ is.corpus <- function(x) {
 #' ru <- get_corpus("rus")
 #' head(ru)
 #' summary(ru)
-#' @seealso \code{\link{get_dracor}}, \code{\link{authors}}
+#' @seealso \code{\link{get_dracor}}, \code{\link{authors}},
+#'   \code{\link{get_dracor}}
 #' @importFrom  jsonlite fromJSON
 #' @export
 get_corpus <- function(corpus =  NULL,
@@ -47,8 +42,34 @@ get_corpus <- function(corpus =  NULL,
   corpus(corp_list)
 }
 
+#' @param corpus_list A list that is returned by \code{\link{get_dracor}}
+#' @importFrom graphics abline axis par plot.default segments text
+#' @importFrom utils type.convert
+#' @exportClass corpus
+#' @rdname get_corpus
+
+corpus <- function(corpus_list){
+  cor_df <- type.convert(corpus_list$dramas)
+  structure(cor_df,
+            name = corpus_list$name,
+            title = corpus_list$title,
+            repository = corpus_list$repository,
+            class = c("corpus", class(cor_df)))
+}
+
+#' @param x An object to test.
+#' @export
+#' @rdname get_corpus
+is.corpus <- function(x) {
+  inherits(x, "corpus")
+}
+
+
+#' @param object An object for which a summary is desired.
+#' @param ... Additional agruments.
 #' @method summary corpus
 #' @export
+#' @rdname get_corpus
 summary.corpus <- function(object, ...){
   written <- range(object$writtenYear, na.rm = T)
   premiere <- range(object$premiereYear, na.rm = T)

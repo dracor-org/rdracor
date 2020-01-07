@@ -2,27 +2,55 @@
 % Please edit documentation in R/corpus.R
 \name{get_corpus}
 \alias{get_corpus}
+\alias{corpus}
+\alias{is.corpus}
+\alias{summary.corpus}
 \title{Retrieve metadata for all plays in a corpus.}
 \usage{
 get_corpus(corpus = NULL,
   URL = paste0("https://dracor.org/api/corpora/", corpus),
   full_metadata = TRUE)
+
+corpus(corpus_list)
+
+is.corpus(x)
+
+\method{summary}{corpus}(object, ...)
 }
 \arguments{
-\item{corpus}{Name of the corpus (\code{name} column within an object returned by \code{\link{get_dracor}}).}
+\item{corpus}{Name of the corpus (\code{name} column within an object
+returned by \code{\link{get_dracor}}).}
 
 \item{URL}{Request URL.}
 
 \item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
+
+\item{corpus_list}{A list that is returned by \code{\link{get_dracor}}}
+
+\item{x}{An object to test.}
+
+\item{object}{An object for which a summary is desired.}
+
+\item{...}{Additional agruments.}
 }
 \value{
 \code{\link{dracor}} object that inherits data.frame (and can be used as such) but with additional
 }
 \description{
-The Dracor API lets you request data for plays for a specific corpus. \code{get_corpus} returns \code{\link{dracor}} object that inherits data.frame (and can be used as such) but specified \code{\link{summary}} method and \code{\link{authors}} function.
+The Dracor API lets you request data for plays for a specific corpus.
+\code{get_corpus} returns \code{dracor} object that inherits
+data.frame (and can be used as such) but specified \code{\link{summary}}
+method and \code{\link{authors}} function.
 }
 \details{
-You need to provide a valid name for the corpus, e.g. \code{"rus"}, \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}} to extract names for all available corpora.
+\code{get_corpus} returns a \code{dracor} object that inherits
+data.frame (and can be used as such).
+
+\code{corpus} constructs \code{corpus} object
+
+You need to provide a valid name for the corpus, e.g. \code{"rus"},
+\code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}}
+to extract names for all available corpora.
 }
 \examples{
 ru <- get_corpus("rus")
@@ -30,5 +58,6 @@ head(ru)
 summary(ru)
 }
 \seealso{
-\code{\link{get_dracor}}, \code{\link{authors}}
+\code{\link{get_dracor}}, \code{\link{authors}},
+  \code{\link{get_dracor}}
 }
