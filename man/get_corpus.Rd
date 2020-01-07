@@ -16,14 +16,19 @@ get_corpus(corpus = NULL,
 \item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
 }
 \value{
-\code{\link{dracor}} object that inherits data.frame.
+\code{\link{dracor}} object that inherits data.frame (and can be used as such) but with additional
 }
 \description{
-The Dracor API lets you request data for plays for a specific corpus. \code{get_corpus} returns \code{\link{dracor}} object that inherits data.frame.
+The Dracor API lets you request data for plays for a specific corpus. \code{get_corpus} returns \code{\link{dracor}} object that inherits data.frame (and can be used as such) but specified \code{\link{summary}} method and \code{\link{authors}} function.
 }
 \details{
 You need to provide a valid name for the corpus, e.g. \code{"rus"}, \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}} to extract names for all available corpora.
 }
 \examples{
-get_corpus("rus")
+ru <- get_corpus("rus")
+head(ru)
+summary(ru)
+}
+\seealso{
+\code{\link{get_dracor}}, \code{\link{authors}}
 }
