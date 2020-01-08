@@ -43,36 +43,62 @@ dracor_error <- function(resp) {
   }
 }
 
+#' Send a GET request to DraCor API and parse the results
+#'
+#' Sending a GET request to DraCor API with a specified expected type and parse
+#' results depending on selected expected type.
+#'
+#' There are four different MIME types (aka internet media type) that can be
+#' retrieved for DraCor API, the specific combination of possible MIME types
+#' depends on API command. When \code{parse = TRUE} is used, the content is
+#' parsed depending on selected MIME type in \code{expected_type}:
+#' \describe{
+#'   \item{\code{application/json}}{\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
+#'   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
+#'   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
+#'   \item{\code{text/plain}}{No need for additional preprocessing}}
+#'
+#' @param request Character, valid GET request.
+#' @param expected_type Character, MIME type: one of \code{"application/json"},
+#'   \code{"application/xml"}, \code{"text/csv"}, \code{"text/plain"}.
+#' @param parse Logical, if \code{TRUE} (default value), then a response is parsed depending on
+#'   \code{expected_type}. See details below.
+#' @param default_type Logical, if \code{TRUE}, default response data type is
+#'   returned. Therefore, a response is not parsed and \code{parse} is ignored.
 #' @import httr
 #' @importFrom jsonlite fromJSON
 #' @import xml2
 #' @import data.table
 #' @export
 dracor_api <- function(request,
-                       expected_format =
+                       expected_type =
                          c("application/json",
                            "application/xml",
                            "text/csv",
                            "text/plain"),
-                       default_format = FALSE,
+                       parse = TRUE,
+                       default_type = FALSE,
                        split_text = TRUE,
                        ...) {
-  expected_format <- match.arg(expected_format)
-  if (default_format) {
+  expected_type <- match.arg(expected_type)
+  if (default_type) {
     resp <- httr::GET(request)
     return(httr::content(resp, as = "text", encoding = "UTF-8"))
   } else {
-    resp <- httr::GET(request, accept(expected_format))
+    resp <- httr::GET(request, httr::accept(expected_type))
   }
   dracor_error(resp)
   cont <- httr::content(resp, as = "text", encoding = "UTF-8")
-  if (expected_format == "application/json") {
+  if (!parse) {
+    return(cont)
+  }
+  if (expected_type == "application/json") {
     return(jsonlite::fromJSON(cont, ...))
-  } else if (expected_format == "application/xml") {
+  } else if (expected_type == "application/xml") {
     return(xml2::read_xml(cont, ...))
-  } else if (expected_format == "text/csv") {
+  } else if (expected_type == "text/csv") {
     return(data.table::fread(cont, ...))
-  } else if (expected_format == "text/plain") {
+  } else if (expected_type == "text/plain") {
     if (split_text) {
       return(unlist(strsplit(cont, "\n")))
     } else {
@@ -80,4 +106,3 @@ dracor_api <- function(request,
     }
   }
 }
-

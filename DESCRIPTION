@@ -1,7 +1,7 @@
 Package: rdracor
 Type: Package
 Title: Access To The DraCor API
-Version: 0.3.2
+Version: 0.4.0
 Author: Ivan Pozdniakov <bucherr@yandex.ru>
 Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
 Description: Wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
@@ -11,6 +11,7 @@ LazyData: true
 Imports: 
     jsonlite (>= 1.6),
     utils,
+    methods,
     data.table (>= 1.12.2),
     xml2 (>= 1.2.2),
     ggplot2 (>= 3.2.1),
