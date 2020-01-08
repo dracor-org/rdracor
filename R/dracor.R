@@ -111,7 +111,6 @@ plot.dracor <- function(x,
     las = 1,
     cex.axis = cex
   )
-  abline(v = 0, lty = lty.baseline)
   segments(0, y_in, x$plays, y_in, col = col)
   text(
     x$plays + 0.1 * max(x$plays),
