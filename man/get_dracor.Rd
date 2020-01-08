@@ -13,8 +13,14 @@ get_dracor()
 
 \method{summary}{dracor}(object, ...)
 
-\method{plot}{dracor}(x, pch = 16, col = "black", lty.lolly = 1,
-  lty.baseline = 2, cex = 0.8, left_margin = 10.5, ...)
+\method{plot}{dracor}(x, ...)
+}
+\arguments{
+\item{x}{A \code{dracor} object.}
+
+\item{object}{An object of class \code{"dracor"}.}
+
+\item{...}{Other arguments to be passed.}
 }
 \value{
 \code{dracor} object that inherits data.frame (and can be used

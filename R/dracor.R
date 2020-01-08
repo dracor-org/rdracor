@@ -56,6 +56,8 @@ is.dracor <- function(x) {
   inherits(x, "dracor")
 }
 
+#' @param object An object of class \code{"dracor"}.
+#' @param ... Other arguments to be passed.
 #' @method summary dracor
 #' @export
 #' @describeIn get_dracor Meaningful summary for \code{dracor} object.
@@ -74,18 +76,19 @@ summary.dracor <- function(object, ...) {
   )
 }
 
+#' @param x A \code{dracor} object.
 #' @method plot dracor
 #' @export
 #' @describeIn get_dracor Plots how many plays are
 #' available for each corpus.
 plot.dracor <- function(x,
-                        pch = 16,
-                        col = "black",
-                        lty.lolly = 1,
-                        lty.baseline = 2,
-                        cex = 0.8,
-                        left_margin = 10.5,
                         ...) {
+  pch = 16
+  col = "black"
+  lty.lolly = 1
+  lty.baseline = 2
+  cex = 0.8
+  left_margin = 10.5
   y_in <- rev(1:nrow(x))
   old.par <- par(no.readonly = TRUE)
   par(mar = c(3, left_margin, 4, 2) + 0.1,
