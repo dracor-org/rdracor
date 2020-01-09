@@ -69,7 +69,7 @@ This will create an object of S3 class `"play_igraph"` that inherits from `"igra
 ```{r}
 library(igraph)
 edge_density(godunov)
-diameter(godunov)
+diameter(godunov, weights = NA)
 graph.cohesion(godunov)
 ```
 
