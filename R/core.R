@@ -3,11 +3,13 @@ form_play_request <-
            play = NULL,
            type = NULL) {
     if (is.null(corpus)) {
-      stop("You need to provide a corpus")
+      stop("You need to provide a corpus name")
     }
     if (is.null(play)) {
-      stop("You need to provide a play")
+      stop("You need to provide a play name")
     }
+    stopifnot(is.character(corpus) && length(corpus) == 1)
+    stopifnot(is.character(play) && length(play) == 1)
     request <-
       paste0("https://dracor.org/api/corpora/", corpus , "/play/", play)
     if (!is.null(type)) {
