@@ -316,15 +316,16 @@ get_sparql <- function(sparql_query = NULL, ...) {
 #' @exportClass play_igraph
 #' @export
 play_igraph <- function(corpus = NULL, play = NULL) {
-  nodes <- fromJSON(form_play_request(corpus, play, "cast"))
+  nodes <- get_play_cast(corpus = corpus, play = play)
   nodes <- nodes[, c("id", names(nodes)[names(nodes) != "id"])]
-  edges <- fread(form_play_request(corpus, play, "networkdata/csv"),
-                 encoding = "UTF-8")
+  edges <- get_play_networkdata_csv(corpus = corpus, play = play)
   setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
     graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
   structure(graph,
+            corpus = corpus,
+            play = play,
             class = c("play_igraph", "igraph"))
 }
 

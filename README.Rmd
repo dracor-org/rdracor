@@ -57,7 +57,7 @@ plot(ru_au, top_minplays = 4)
 
 ## Play network
 
-You can extract network for a specific play:
+You can extract a network (undirected weighted graph) for a specific play:
 
 ```{r}
 godunov <- play_igraph(corpus = "rus",
