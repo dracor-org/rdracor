@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor)
+[![Codecov test coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master)
 <!-- badges: end -->
 
 The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API]( https://dracor.org/documentation/api). More on Dracor project [here](https://dracor.org). 
@@ -30,17 +31,15 @@ devtools::install_github("dracor-org/rdracor")
 
 ## General info on corpora
 
-This is a basic example which shows you how to solve a common problem:
+We can extract general information about available corpora:
 
 ```{r example}
 library(rdracor)
-get_dracor_api_info()## basic example code
 ```
 
 ```{r}
 corpora <- get_dracor()
 summary(corpora)
-corpora
 plot(corpora)
 ```
 
@@ -48,10 +47,8 @@ plot(corpora)
 
 ```{r}
 ru <- get_corpus(corpus = "rus")
-head(ru)
 summary(ru)
 ru_au <- authors(ru)
-head(ru_au)
 summary(ru_au)
 plot(ru_au, top_minplays = 4)
 ```
@@ -61,8 +58,8 @@ plot(ru_au, top_minplays = 4)
 You can extract network for a specific play:
 
 ```{r}
-godunov <- get_play_igraph(corpus = "rus", 
-                           play = "pushkin-boris-godunov")
+godunov <- play_igraph(corpus = "rus",
+                       play = "pushkin-boris-godunov")
 ```
 
 This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. It means that you can work with it as an `"igraph"` object:
@@ -79,31 +76,3 @@ You can plot it: it will use plot method for `igraph` objects with some adjusted
 ```{r}
 plot(godunov)
 ```
-
-## Other commands
-
-```{r, eval=FALSE}
-get_play_cast(corpus = "rus", 
-              play = "pushkin-boris-godunov")
-get_play_metadata(corpus = "rus", 
-                  play = "pushkin-boris-godunov")
-get_play_metrics(corpus = "rus", 
-                 play = "pushkin-boris-godunov")
-get_play_networkdata_csv(corpus = "rus", 
-                         play = "pushkin-boris-godunov")
-get_play_networkdata_gexf(corpus = "rus", 
-                         play = "pushkin-boris-godunov")
-get_play_rdf(corpus = "rus", 
-             play = "pushkin-boris-godunov")
-get_play_spoken_text(corpus = "rus", 
-                     play = "pushkin-boris-godunov")
-get_play_spoken_text_bych(corpus = "rus", 
-                          play = "pushkin-boris-godunov")
-get_play_stage_directions(corpus = "rus", 
-                          play = "pushkin-boris-godunov")
-get_play_stage_directions_with_sp(corpus = "rus", 
-                                  play = "pushkin-boris-godunov")
-get_play_tei(corpus = "rus", 
-             play = "pushkin-boris-godunov")
-```
-

@@ -35,5 +35,5 @@ test_that("summary for dracor object is visible", {
   summary_length <- nchar(summary_captured)
   len_checks <-
     c(summary_length[1] > 0, summary_length[2] == 0, summary_length[3] > 0)
-expect_true(all(len_checks))
+  expect_true(all(len_checks))
 })

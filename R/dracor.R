@@ -42,7 +42,7 @@ dracor <- function(dracor_df) {
   names(dracor) <- gsub("metrics.", "", names(dracor), fixed = TRUE)
   dracor$updated <-
     as.POSIXct(dracor$updated, format = "%FT%H:%M:%OS", tz = "UTC")
-  dracor <- dracor[order(-dracor$plays),]
+  dracor <- dracor[order(-dracor$plays), ]
   attributes(dracor) <- c(attributes(dracor),
                           get_dracor_api_info())
   class(dracor) <- c("dracor", class(dracor))
@@ -67,11 +67,9 @@ summary.dracor <- function(object, ...) {
   last_upd <- which.max(object$updated)
   cat(
     sprintf("There are %d plays in %d corpora", n_plays, n_corpora),
-    sprintf(
-      "The last update was %s for %s",
-      object$updated[last_upd],
-      object$title[last_upd]
-    ),
+    sprintf("The last update was %s for %s",
+            object$updated[last_upd],
+            object$title[last_upd]),
     sep = "\t\n\n"
   )
 }

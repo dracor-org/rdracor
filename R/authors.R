@@ -1,14 +1,18 @@
 #helper functions ---
 #' @import ggplot2
-shortening_names <- function(name) gsub(",.*", "",name)
+shortening_names <- function(name)
+  gsub(",.*", "", name)
 
-theme_rdracor_minimal <- theme_minimal()+
+theme_rdracor_minimal <- theme_minimal() +
   theme(axis.title = element_blank(),
         panel.grid = element_blank())
 
 top_authors <- function(authors, top_n = 5) {
-  authors_short <- authors[1:min(nrow(authors), top_n),]
-  paste(authors_short$N, authors_short$name, sep = " - ", collapse = "\t\n")
+  authors_short <- authors[1:min(nrow(authors), top_n), ]
+  paste(authors_short$N,
+        authors_short$name,
+        sep = " - ",
+        collapse = "\t\n")
 }
 
 #functions for export
@@ -34,7 +38,7 @@ top_authors <- function(authors, top_n = 5) {
 #' @import data.table
 #' @exportClass authors
 #' @export
-authors <- function(corpus){
+authors <- function(corpus) {
   plays <- N <- name <- `.` <- NULL #to pass check
   if (is.character(corpus)) {
     corpus <- get_corpus(corpus)
@@ -67,10 +71,16 @@ is.authors <- function(x) {
 #' @method summary authors
 #' @export
 #' @describeIn authors Meaningful summary for \code{authors} object
-summary.authors <- function(object, ...){
+summary.authors <- function(object, ...) {
   n <- nrow(object)
-  cat(sprintf("There are %d authors in %s\t\n\nTop authors of the Corpus:\t\n%s",
-              n, attr(object, "title"), top_authors(object)))
+  cat(
+    sprintf(
+      "There are %d authors in %s\t\n\nTop authors of the Corpus:\t\n%s",
+      n,
+      attr(object, "title"),
+      top_authors(object)
+    )
+  )
 }
 
 #' Plot number of plays by authors of the corpus
@@ -106,14 +116,14 @@ plot.authors <- function(x,
                          top_n = nrow(x),
                          top_minplays = 1,
                          top_ratio = 1,
-                         ...){
-  if(only_surnames){
+                         ...) {
+  if (only_surnames) {
     x$name <- shortening_names(x$name)
   }
-  top_authors <- min(ceiling(top_ratio*nrow(x)),
+  top_authors <- min(ceiling(top_ratio * nrow(x)),
                      top_n,
-                     nrow(x[x$plays>=top_minplays,]))
-  x <- x[1:top_authors,]
+                     nrow(x[x$plays >= top_minplays, ]))
+  x <- x[1:top_authors, ]
   pch = 16
   col = "black"
   lty.lolly = 1

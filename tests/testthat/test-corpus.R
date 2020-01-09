@@ -9,4 +9,3 @@ test_that("Russian corpus downloaded", {
 test_that("non-existant corpus returns error", {
   expect_error(get_corpus("non-existant"))
 })
-
