@@ -413,7 +413,7 @@ plot.play_igraph <- function(x,
 #' @describeIn play_igraph Meaningful summary for \code{"play_igraph"} object:
 #'   network properties, gender distribution
 summary.play_igraph <- function(object, ...) {
-  genders <- igraph::as_data_frame(object, "vertices")$gender
+  genders <- igraph::V(object)$gender
   density <- igraph::edge_density(object)
   diam <- igraph::diameter(object, directed = FALSE)
   cohesion <- igraph::graph.cohesion(object)

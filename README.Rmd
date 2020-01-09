@@ -78,3 +78,10 @@ You can plot it: it will use plot method for `igraph` objects with some adjusted
 ```{r}
 plot(godunov)
 ```
+
+In addition, you can get a summary for a network:  
+
+```{r}
+summary(godunov)
+```
+

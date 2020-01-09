@@ -91,3 +91,21 @@ plot(godunov)
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+In addition, you can get a summary for a network:
+
+``` r
+summary(godunov)
+#> rus: pushkin-boris-godunov - network summary 
+#>  
+#>          Size: 79 (9 FEMALES, 69 MALES, 1 UNKNOWN)   
+#>       Density: 0.11  
+#>        Degree:   
+#>          - Maximum: 29 (Борис)   
+#>      Diameter: 7 
+#>    Clustering:   
+#>           - Global: 0.65 
+#>    - Average local: 0.92 
+#>      Cohesion: 1.00  
+#> Assortativity: -0.06
+```
