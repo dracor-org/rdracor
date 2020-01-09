@@ -2,12 +2,6 @@ form_play_request <-
   function(corpus = NULL,
            play = NULL,
            type = NULL) {
-    if (is.null(corpus)) {
-      stop("You need to provide a corpus name")
-    }
-    if (is.null(play)) {
-      stop("You need to provide a play name")
-    }
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)
     request <-
