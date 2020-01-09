@@ -7,3 +7,5 @@ man/.DS_Store
 rdracor.Rproj
 .DS_Store
 tests/.DS_Store
+R/.DS_Store
+man/figures/.DS_Store
