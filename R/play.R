@@ -406,29 +406,38 @@ plot.play_igraph <- function(x,
   )
 }
 
+
 #' @param object An object of class \code{"play_igraph"}.
 #' @method summary play_igraph
 #' @export
-#' @describeIn authors Meaningful summary for \code{play_igraph} object:
+#' @describeIn play_igraph Meaningful summary for \code{"play_igraph"} object:
 #'   network properties, gender distribution
-summary.play_igraph <- function(object, ...){
-  genders <- igraph::as_data_frame(zhen, "vertices")$gender
+summary.play_igraph <- function(object, ...) {
+  genders <- igraph::as_data_frame(object, "vertices")$gender
   density <- igraph::edge_density(object)
   diam <- igraph::diameter(object, directed = FALSE)
   cohesion <- igraph::graph.cohesion(object)
   assort <- igraph::assortativity.degree(object, directed = FALSE)
   global_clustering <- igraph::transitivity(object, "global")
-  local_clustering_average <- igraph::transitivity(object, "average")
+  local_clustering_average <-
+    igraph::transitivity(object, "average")
   degrees <- igraph::degree(object)
-  top_nodes <- paste(names(degrees)[degrees == max(degrees)], collapse = ", ")
+  top_nodes <-
+    paste(names(degrees)[degrees == max(degrees)], collapse = ", ")
   cat(
-    sprintf("%s: %s - network summary", attr(object, "corpus"), attr(object, "play")),
+    sprintf(
+      "%s: %s - network summary",
+      attr(object, "corpus"),
+      attr(object, "play")
+    ),
     sprintf(""),
-    sprintf("         Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",
-            length(genders),
-            sum(genders == "FEMALE"),
-            sum(genders == "MALE"),
-            sum(genders == "UNKNOWN")),
+    sprintf(
+      "         Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",
+      length(genders),
+      sum(genders == "FEMALE"),
+      sum(genders == "MALE"),
+      sum(genders == "UNKNOWN")
+    ),
     sprintf("      Density: %.2f", density),
     sprintf("       Degree:"),
     sprintf("         - Maximum: %i (%s)", max(degrees), top_nodes),

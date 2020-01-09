@@ -4,6 +4,7 @@
 \alias{play_igraph}
 \alias{is.play_igraph}
 \alias{plot.play_igraph}
+\alias{summary.play_igraph}
 \title{Retrieve an igraph network for a play.}
 \usage{
 play_igraph(corpus = NULL, play = NULL)
@@ -11,6 +12,8 @@ play_igraph(corpus = NULL, play = NULL)
 \method{is}{play_igraph}(x)
 
 \method{plot}{play_igraph}(x, ...)
+
+\method{summary}{play_igraph}(object, ...)
 }
 \arguments{
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
@@ -23,6 +26,8 @@ play_igraph(corpus = NULL, play = NULL)
 \item{x}{An R object.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
+
+\item{object}{An object of class \code{"play_igraph"}.}
 }
 \value{
 \code{play_igraph} Object that inherits \code{igraph} and can be
@@ -38,6 +43,9 @@ constructed based on characters' cooccurrence matrix.
 
 \item \code{plot}: Plot \code{play_igraph} using \code{play_igraph}
 with slightly modified defaults.
+
+\item \code{summary}: Meaningful summary for \code{"play_igraph"} object:
+network properties, gender distribution
 }}
 
 \examples{

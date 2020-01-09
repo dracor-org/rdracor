@@ -14,7 +14,6 @@ Imports:
     methods,
     data.table (>= 1.12.2),
     xml2 (>= 1.2.2),
-    ggplot2 (>= 3.2.1),
     igraph (>= 1.2.4.1),
     httr (>= 1.4.1)
 RoxygenNote: 6.1.1

@@ -1,11 +1,7 @@
 #helper functions ---
-#' @import ggplot2
 shortening_names <- function(name)
   gsub(",.*", "", name)
 
-theme_rdracor_minimal <- theme_minimal() +
-  theme(axis.title = element_blank(),
-        panel.grid = element_blank())
 
 top_authors <- function(authors, top_n = 5) {
   authors_short <- authors[1:min(nrow(authors), top_n), ]
