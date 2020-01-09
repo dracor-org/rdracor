@@ -76,14 +76,6 @@ This will create an object of S3 class `"play_igraph"` that inherits from `"igra
 
 ``` r
 library(igraph)
-#> 
-#> Attaching package: 'igraph'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     decompose, spectrum
-#> The following object is masked from 'package:base':
-#> 
-#>     union
 edge_density(godunov)
 #> [1] 0.1061344
 diameter(godunov)
