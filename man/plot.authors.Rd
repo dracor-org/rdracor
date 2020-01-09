@@ -21,6 +21,8 @@ plotted.}
 \item{top_ratio}{Numeric, from 0 to 1, maximum ratio of top authors to be
 plotted. For example, with \code{top_ratio = 0.1} maximum 10\% of top
 authors will be plotted.}
+
+\item{...}{Other parameters to be passed to \code{\link{plot.default}}.}
 }
 \description{
 \code{plot.authors} plots numbers of plays for every author or only for
@@ -33,4 +35,9 @@ For large corpora, e.g., German Drama Corpus or Russian Drama Corpus,
 there is a problem of overplotting. You can plot only top authors by
 parameters \code{top_n}, \code{top_minplays}, or \code{top_ratio}
 adjustment.
+}
+\examples{
+rus <- get_corpus("rus")
+rus_authors <- authors(rus)
+plot(rus_authors, top_minplays = 4)
 }

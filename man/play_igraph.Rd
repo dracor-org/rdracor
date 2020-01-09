@@ -10,15 +10,7 @@ play_igraph(corpus = NULL, play = NULL)
 
 \method{is}{play_igraph}(x)
 
-\method{plot}{play_igraph}(x, gender_colours = c(MALE = "#26B69E", FEMALE
-  = "#9400E9", UNKNOWN = "#6F747E"), vertex.label = label_play_igraph(x),
-  vertex.label.color = "black", vertex.label.family = "sans",
-  vertex.color = gender_colours[V(x)$gender],
-  vertex.size = log(V(x)$numOfWords, base = 1.4),
-  vertex.shape = c("circle", "square")[as.numeric(V(x)$isGroup) + 1],
-  vertex.frame.color = "white",
-  edge.width = ((E(x)$weight)/max(E(x)$weight) * 3),
-  layout = layout_with_kk(x), ...)
+\method{plot}{play_igraph}(x, ...)
 }
 \arguments{
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
@@ -27,6 +19,8 @@ play_igraph(corpus = NULL, play = NULL)
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_corpus}}). Character vector is not supported.}
+
+\item{x}{An R object.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }

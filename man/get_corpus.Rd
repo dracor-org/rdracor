@@ -21,6 +21,12 @@ get_corpus(corpus = NULL,
 \item{URL}{Request URL.}
 
 \item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
+
+\item{x}{An R object.}
+
+\item{object}{An object of class \code{"corpus"}.}
+
+\item{...}{Other arguments to be passed to \code{\link{summary.default}}.}
 }
 \value{
 \code{corpus} object that inherits data.frame (and can be used as such)

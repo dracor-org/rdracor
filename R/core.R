@@ -65,6 +65,11 @@ dracor_error <- function(resp) {
 #'   \code{expected_type}. See details below.
 #' @param default_type Logical, if \code{TRUE}, default response data type is
 #'   returned. Therefore, a response is not parsed and \code{parse} is ignored.
+#'   Default value is \code{FALSE}.
+#' @param split_text Logical, if \code{TRUE}, plain text lines are read as
+#'   different values in a vector instead of returning one character value.
+#'   Default value is \code{TRUE}.
+#' @param ... Other arguments passed to a parser function.
 #' @import httr
 #' @importFrom jsonlite fromJSON
 #' @import xml2

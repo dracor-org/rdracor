@@ -101,7 +101,7 @@ plot.dracor <- function(x,
     cex.main = 1,
     xlab = "Plays",
     ylab = NA,
-    xlim = c(-20, max(x$plays) * 1.2),
+    xlim = c(0, max(x$plays) * 1.2),
     yaxt = "n",
     col = col,
     lty = lty.lolly,
@@ -112,7 +112,8 @@ plot.dracor <- function(x,
     at = y_in,
     labels = x$title,
     las = 1,
-    cex.axis = cex
+    cex.axis = cex,
+    gap.axis = -1
   )
   segments(0, y_in, x$plays, y_in, col = col)
   text(

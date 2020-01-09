@@ -18,7 +18,14 @@ dracor_api(request, expected_type = c("application/json",
 \code{expected_type}. See details below.}
 
 \item{default_type}{Logical, if \code{TRUE}, default response data type is
-returned. Therefore, a response is not parsed and \code{parse} is ignored.}
+returned. Therefore, a response is not parsed and \code{parse} is ignored.
+Default value is \code{FALSE}.}
+
+\item{split_text}{Logical, if \code{TRUE}, plain text lines are read as
+different values in a vector instead of returning one character value.
+Default value is \code{TRUE}.}
+
+\item{...}{Other arguments passed to a parser function.}
 }
 \description{
 Sending a GET request to DraCor API with a specified expected type and parse

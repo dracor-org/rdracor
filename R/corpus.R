@@ -55,6 +55,7 @@ corpus <- function(corpus_list){
             class = c("corpus", class(cor_df)))
 }
 
+#' @param x An R object.
 #' @method is corpus
 #' @export
 #' @importFrom methods is
@@ -64,7 +65,8 @@ is.corpus <- function(x) {
 }
 
 
-
+#' @param object An object of class \code{"corpus"}.
+#' @param ... Other arguments to be passed to \code{\link{summary.default}}.
 #' @method summary corpus
 #' @export
 #' @describeIn get_corpus Meaningful summary for \code{dracor} object.

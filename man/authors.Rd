@@ -15,6 +15,12 @@ authors(corpus)
 \arguments{
 \item{corpus}{\code{corpus} object or corpus name as character. Vector of corpus
 names is not supported}
+
+\item{x}{an R object}
+
+\item{object}{An object of class \code{"authors"}.}
+
+\item{...}{Other arguments to be passed to \code{\link{summary.default}}.}
 }
 \value{
 \code{authors} object that inherits data.frame (and can be used

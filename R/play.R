@@ -35,12 +35,7 @@ get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
 #' cooccurrence matrix.
 #'
 #' @return List with network metrics for a specific play.
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_play_metrics(corpus = "rus", play = "gogol-zhenitba")
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_tei}},
@@ -67,12 +62,7 @@ get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
 #'
 #' @return Text of a play parsed by
 #'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_play_tei(corpus = "rus", play = "gogol-zhenitba")
 #' # If you want a text in TEI without parsing by xml2::read_xml():
@@ -101,12 +91,7 @@ get_play_tei <- function(corpus = NULL, play = NULL, ...) {
 #' extraction data for a play from \url{Wikidata.org}.
 #'
 #' @return RDF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_play_rdf(corpus = "rus", play = "gogol-zhenitba")
 #' # If you want RDF without parsing by xml2::read_xml():
@@ -133,12 +118,7 @@ get_play_rdf <- function(corpus = NULL, play = NULL, ...) {
 #' a play, given corpus and play names: name, number and size of their lines,
 #' gender, some network metrics etc.
 #'
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_play_cast(corpus = "rus", play = "gogol-zhenitba")
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
@@ -164,12 +144,7 @@ get_play_cast <- function(corpus = NULL, play = NULL, ...) {
 #'  - number of scenes where two characters appeared together. This edges list
 #' can be used to construct a network for a play.
 #'
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_play_networkdata_csv(corpus = "rus", play = "gogol-zhenitba")
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
@@ -200,12 +175,7 @@ get_play_networkdata_csv <-
 #' open source software for network analysis and visualization.
 #'
 #' @return GEXF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_play_networkdata_gexf(corpus = "rus", play = "gogol-zhenitba")
 #' # If you want GEXF without parsing by xml2::read_xml():
@@ -232,14 +202,9 @@ get_play_networkdata_gexf <-
 #' The DraCor API lets you request lines and stage directions for a play, given
 #' corpus and play names.
 #'
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
+#' @inheritParams get_play_metadata
 #' @param gender Character, optional parameter to extract lines for characters
 #' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
 #' get_play_spoken_text("rus", "gogol-zhenitba")
 #' get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE")
@@ -309,7 +274,7 @@ get_play_stage_directions_with_sp <-
 #' @return SPARQL xml parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 #' @param sparql_query Character, SPARQL query.
 #' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' get_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10")
 #' # If you want to avoid parsing by xml2::read_xml():
@@ -332,12 +297,7 @@ get_sparql <- function(sparql_query = NULL, ...) {
 #'
 #' @return \code{play_igraph} Object that inherits \code{igraph} and can be
 #' treated as such.
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
-#' @param ... Additional arguments passed to \code{\link{dracor_api}}.
+#' @inheritParams get_play_metadata
 #' @examples
 #' library(igraph)
 #' zhenitba_igraph <- play_igraph("rus", "gogol-zhenitba")
@@ -368,6 +328,7 @@ play_igraph <- function(corpus = NULL, play = NULL) {
             class = c("play_igraph", "igraph"))
 }
 
+#' @param x An R object.
 #' @method is play_igraph
 #' @export
 #' @describeIn play_igraph Tests that object is \code{play_igraph}.
@@ -399,8 +360,8 @@ is.play_igraph <- function(x) {
 #' @import igraph
 #' @export
 label_play_igraph <- function(graph,
-                             max_graph_size = 30L,
-                             top_nodes = 3L) {
+                              max_graph_size = 30L,
+                              top_nodes = 3L) {
   vertices_labels <- V(graph)$name
   if (vcount(graph) > max_graph_size) {
     vertices_labels[vcount(graph) - rank(V(graph)$numOfWords, ties.method = "max") >= top_nodes] <-
@@ -414,21 +375,20 @@ label_play_igraph <- function(graph,
 #' @describeIn play_igraph Plot \code{play_igraph} using \code{play_igraph}
 #' with slightly modified defaults.
 plot.play_igraph <- function(x,
-                             gender_colours = c(MALE = "#26B69E",
-                                                FEMALE = "#9400E9",
-                                                UNKNOWN = "#6F747E"),
-                             vertex.label = label_play_igraph(x),
-                             vertex.label.color = "black",
-                             vertex.label.family = "sans",
-                             vertex.color = gender_colours[V(x)$gender],
-                             vertex.size = log(V(x)$numOfWords, base = 1.4),
-                             vertex.shape = c("circle", "square")[as.numeric(V(x)$isGroup) +
-                                                                    1],
-                             vertex.frame.color = "white",
-                             edge.width = ((E(x)$weight) / max(E(x)$weight) *
-                                             3),
-                             layout = layout_with_kk(x),
                              ...) {
+  gender_colours = c(MALE = "#26B69E",
+                     FEMALE = "#9400E9",
+                     UNKNOWN = "#6F747E")
+  vertex.label = label_play_igraph(x)
+  vertex.label.color = "black"
+  vertex.label.family = "sans"
+  vertex.color = gender_colours[V(x)$gender]
+  vertex.size = log(V(x)$numOfWords, base = 1.4)
+  vertex.shape = c("circle", "square")[as.numeric(V(x)$isGroup) + 1]
+  vertex.frame.color = "white"
+  edge.width = ((E(x)$weight) / max(E(x)$weight) *
+                  3)
+  layout = layout_with_kk(x)
   plot.igraph(
     x,
     gender_colours = gender_colours,
