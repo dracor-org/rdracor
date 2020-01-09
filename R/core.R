@@ -93,17 +93,15 @@ dracor_api <- function(request,
   if (!parse) {
     return(cont)
   }
-  if (expected_type == "application/json") {
-    return(jsonlite::fromJSON(cont, ...))
-  } else if (expected_type == "application/xml") {
-    return(xml2::read_xml(cont, ...))
-  } else if (expected_type == "text/csv") {
-    return(data.table::fread(cont, ...))
-  } else if (expected_type == "text/plain") {
-    if (split_text) {
+  switch(
+    expected_type,
+    "application/json" = return(jsonlite::fromJSON(cont, ...)),
+    "application/xml" = return(xml2::read_xml(cont, ...)),
+    "text/csv" = return(data.table::fread(cont, ...)),
+    "text/plain" = if (split_text) {
       return(unlist(strsplit(cont, "\n")))
     } else {
       return(cont)
     }
-  }
+  )
 }
