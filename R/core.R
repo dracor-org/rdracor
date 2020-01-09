@@ -29,7 +29,7 @@ dracor_error <- function(resp) {
         resp$status_code
       )
     )
-  } else if (floor(resp$status_code / 100) == 5) {
+  } else if (resp$status_code >= 500) {
     stop(sprintf(
       "Status code - %i: Internal Dracor server problem",
       resp$status_code
