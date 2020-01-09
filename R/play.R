@@ -416,6 +416,7 @@ summary.play_igraph <- function(object, ...) {
   genders <- igraph::V(object)$gender
   density <- igraph::edge_density(object)
   diam <- igraph::diameter(object, directed = FALSE)
+  mean_dist <- igraph::mean_distance(object, directed = FALSE)
   cohesion <- igraph::graph.cohesion(object)
   assort <- igraph::assortativity.degree(object, directed = FALSE)
   global_clustering <- igraph::transitivity(object, "global")
@@ -441,10 +442,12 @@ summary.play_igraph <- function(object, ...) {
     sprintf("      Density: %.2f", density),
     sprintf("       Degree:"),
     sprintf("         - Maximum: %i (%s)", max(degrees), top_nodes),
-    sprintf("     Diameter: %i", diam),
+    sprintf("     Distance: %i"),
+    sprintf("         - Maximum (Diameter): %i", diam),
+    sprintf("         - Average: %i", mean_dist),
     sprintf("   Clustering:"),
     sprintf("          - Global: %.2f", global_clustering),
-    sprintf("   - Average local: %.2f", local_clustering_average),
+    sprintf("          - Average local: %.2f", local_clustering_average),
     sprintf("     Cohesion: %.2f", cohesion),
     sprintf("Assortativity: %.2f", assort),
     sep = "\t\n"

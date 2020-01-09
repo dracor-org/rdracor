@@ -79,7 +79,7 @@ You can plot it: it will use plot method for `igraph` objects with some adjusted
 plot(godunov)
 ```
 
-In addition, you can get a summary for a network:  
+In addition, you can get a summary with network properties and gender distribution:  
 
 ```{r}
 summary(godunov)

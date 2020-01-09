@@ -102,10 +102,12 @@ summary(godunov)
 #>       Density: 0.11  
 #>        Degree:   
 #>          - Maximum: 29 (Борис)   
-#>      Diameter: 7 
+#>      Distance:   
+#>          - Maximum (Diameter): 7 
+#>          - Average: 3.03 
 #>    Clustering:   
 #>           - Global: 0.65 
-#>    - Average local: 0.92 
+#>           - Average local: 0.92  
 #>      Cohesion: 1.00  
 #> Assortativity: -0.06
 ```
