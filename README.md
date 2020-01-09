@@ -84,7 +84,7 @@ graph.cohesion(godunov)
 #> [1] 1
 ```
 
-You can plot it: it will use plot method for `igraph` objects with some adjusted parameters. For example, vertices are coloured based on the gender and shape is based on whether a character is a group:
+You can plot the graph: `plot()` will use plot method for `igraph` objects with some adjusted parameters. For example, vertices are coloured based on the gender and shape is based on whether a character is a group:
 
 ``` r
 plot(godunov)
@@ -92,7 +92,7 @@ plot(godunov)
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-In addition, you can get a summary for a network:
+In addition, you can get a summary with network properties and gender distribution:
 
 ``` r
 summary(godunov)

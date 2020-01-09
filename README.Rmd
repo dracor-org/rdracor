@@ -73,7 +73,7 @@ diameter(godunov, weights = NA)
 graph.cohesion(godunov)
 ```
 
-You can plot it: it will use plot method for `igraph` objects with some adjusted parameters. For example, vertices are coloured based on the gender and shape is based on whether a character is a group:
+You can plot the graph: `plot()` will use plot method for `igraph` objects with some adjusted parameters. For example, vertices are coloured based on the gender and shape is based on whether a character is a group:
 
 ```{r}
 plot(godunov)
