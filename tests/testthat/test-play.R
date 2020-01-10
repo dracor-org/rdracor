@@ -25,44 +25,57 @@ test_that("boris godunov cast has 12 columns and 79 characters", {
 })
 
 test_that("column names for get_play_networkdata_csv() are valid", {
-  expect_equal(names(get_play_networkdata_csv("rus", "pushkin-boris-godunov")),
-               c("Source", "Type", "Target", "Weight"))
+  expect_equal(
+    names(get_play_networkdata_csv("rus", "pushkin-boris-godunov")),
+    c("Source", "Type", "Target", "Weight")
+  )
 })
 
 test_that("get_play_networkdata_gexf() returns valid object", {
-  gexf = get_play_networkdata_gexf("rus", "pushkin-boris-godunov")
-  expect_equal(as.character(xml2::xml_contents(
-    xml2::xml_contents(xml2::xml_children(gexf)[1])[1]
-  )),
-  "dracor.org")
+  gexf <- get_play_networkdata_gexf("rus", "pushkin-boris-godunov")
+  expect_equal(
+    as.character(xml2::xml_contents(
+      xml2::xml_contents(xml2::xml_children(gexf)[1])[1]
+    )),
+    "dracor.org"
+  )
 })
 
 test_that("get_play_spoken_text() returns text", {
-  expect_type(get_play_spoken_text("rus", "pushkin-boris-godunov"),
-              "character")
+  expect_type(
+    get_play_spoken_text("rus", "pushkin-boris-godunov"),
+    "character"
+  )
 })
 
-test_that("get_play_spoken_text() for Boris Godunov, UNKNOWN gender returns more than one value",
-          {
-            expect_gt(length(
-              get_play_spoken_text("rus", "pushkin-boris-godunov", "UNKNOWN")
-            ),
-            1)
-          })
+test_that("get_play_spoken_text() for Boris Godunov, UNKNOWN gender returns more than one value", {
+  expect_gt(
+    length(
+      get_play_spoken_text("rus", "pushkin-boris-godunov", "UNKNOWN")
+    ),
+    1
+  )
+})
 
 test_that("get_play_spoken_text_bych() returns data.frame", {
-  expect_type(get_play_spoken_text_bych("rus", "pushkin-boris-godunov"),
-              "list")
+  expect_type(
+    get_play_spoken_text_bych("rus", "pushkin-boris-godunov"),
+    "list"
+  )
 })
 
 test_that("get_play_stage_directions() returns text", {
-  expect_type(get_play_stage_directions("rus", "pushkin-boris-godunov"),
-              "character")
+  expect_type(
+    get_play_stage_directions("rus", "pushkin-boris-godunov"),
+    "character"
+  )
 })
 
 test_that("get_play_stage_directions_with_sp() returns text", {
-  expect_type(get_play_stage_directions_with_sp("rus", "pushkin-boris-godunov"),
-              "character")
+  expect_type(
+    get_play_stage_directions_with_sp("rus", "pushkin-boris-godunov"),
+    "character"
+  )
 })
 
 test_that("get_sparql() returns xml_document", {

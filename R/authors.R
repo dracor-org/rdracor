@@ -1,17 +1,19 @@
-#helper functions ---
-shortening_names <- function(name)
+# helper functions ---
+shortening_names <- function(name) {
   gsub(",.*", "", name)
+}
 
 
 top_authors <- function(authors, top_n = 5) {
   authors_short <- authors[1:min(nrow(authors), top_n), ]
   paste(authors_short$plays,
-        authors_short$name,
-        sep = " - ",
-        collapse = "\t\n")
+    authors_short$name,
+    sep = " - ",
+    collapse = "\t\n"
+  )
 }
 
-#functions for export
+# functions for export
 
 #' Retrieve authors and number of plays they have for a corpus
 #'
@@ -37,7 +39,7 @@ top_authors <- function(authors, top_n = 5) {
 #' @exportClass authors
 #' @export
 authors <- function(corpus) {
-  plays <- N <- name <- `.` <- NULL #to pass check
+  plays <- N <- name <- `.` <- NULL # to pass check
   if (is.character(corpus)) {
     corpus <- get_corpus(corpus)
   } else if (is.corpus(corpus)) {
@@ -121,20 +123,24 @@ plot.authors <- function(x,
   if (only_surnames) {
     x$name <- shortening_names(x$name)
   }
-  top_authors <- min(ceiling(top_ratio * nrow(x)),
-                     top_n,
-                     nrow(x[x$plays >= top_minplays, ]))
+  top_authors <- min(
+    ceiling(top_ratio * nrow(x)),
+    top_n,
+    nrow(x[x$plays >= top_minplays, ])
+  )
   x <- x[1:top_authors, ]
-  pch = 16
-  col = "black"
-  lty.lolly = 1
-  lty.baseline = 2
-  cex = 0.8
-  left_margin = 14
+  pch <- 16
+  col <- "black"
+  lty.lolly <- 1
+  lty.baseline <- 2
+  cex <- 0.8
+  left_margin <- 14
   y_in <- rev(1:nrow(x))
   old.par <- par(no.readonly = TRUE)
-  par(mar = c(3, left_margin, 4, 2) + 0.1,
-      mgp = c(2, 1, 0))
+  par(
+    mar = c(3, left_margin, 4, 2) + 0.1,
+    mgp = c(2, 1, 0)
+  )
   plot.default(
     x$plays,
     y_in,

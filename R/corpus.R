@@ -30,7 +30,7 @@
 #' @seealso \code{\link{get_dracor}}, \code{\link{authors}}
 #' @importFrom  jsonlite fromJSON
 #' @export
-get_corpus <- function(corpus =  NULL,
+get_corpus <- function(corpus = NULL,
                        URL = paste0("https://dracor.org/api/corpora/", corpus),
                        full_metadata = TRUE) {
   if (is.null(corpus) & URL == "https://dracor.org/api/corpora/") {
@@ -81,17 +81,17 @@ summary.corpus <- function(object, ...) {
   premiere <- suppressWarnings(range(object$premiereYear, na.rm = T))
   printed <- suppressWarnings(range(object$printYear, na.rm = T))
   cat(
-    if(identical(written, c(Inf, -Inf))) {
+    if (identical(written, c(Inf, -Inf))) {
       "No information on written years"
     } else {
       sprintf("Written years (range): %d - %d", written[1], written[2])
-      },
-    if(identical(premiere, c(Inf, -Inf))) {
+    },
+    if (identical(premiere, c(Inf, -Inf))) {
       "No information on premiere years"
     } else {
       sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2])
     },
-    if(identical(printed, c(Inf, -Inf))) {
+    if (identical(printed, c(Inf, -Inf))) {
       "No information on years of the first printing"
     } else {
       sprintf("Years of the first printing (range): %d - %d", printed[1], printed[2])

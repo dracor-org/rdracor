@@ -5,7 +5,7 @@ form_play_request <-
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)
     request <-
-      paste0("https://dracor.org/api/corpora/", corpus , "/play/", play)
+      paste0("https://dracor.org/api/corpora/", corpus, "/play/", play)
     if (!is.null(type)) {
       return(paste(request, type, sep = "/"))
     } else {
@@ -73,10 +73,12 @@ dracor_error <- function(resp) {
 #' @export
 dracor_api <- function(request,
                        expected_type =
-                         c("application/json",
+                         c(
+                           "application/json",
                            "application/xml",
                            "text/csv",
-                           "text/plain"),
+                           "text/plain"
+                         ),
                        parse = TRUE,
                        default_type = FALSE,
                        split_text = TRUE,

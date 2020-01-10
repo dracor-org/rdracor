@@ -19,7 +19,5 @@ test_that("is.corpus() works", {
 })
 
 test_that("summary() work for 'corpus' object if there is no info on years", {
-  expect_true(all(nchar(capture.output(summary(get_corpus("tat"))))>3))
+  expect_true(all(nchar(capture.output(summary(get_corpus("tat")))) > 3))
 })
-
-

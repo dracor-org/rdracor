@@ -29,7 +29,7 @@ get_dracor_api_info <- function() {
 #' \code{\link{is.dracor}}, \code{\link{get_corpus}}
 #' @export
 get_dracor <-
-  function()
+  function() {
     dracor(
       dracor_api(
         "https://dracor.org/api/corpora?include=metrics",
@@ -37,6 +37,7 @@ get_dracor <-
         flatten = TRUE
       )
     )
+  }
 
 #' @exportClass dracor
 dracor <- function(dracor_df) {
@@ -45,8 +46,10 @@ dracor <- function(dracor_df) {
   dracor$updated <-
     as.POSIXct(dracor$updated, format = "%FT%H:%M:%OS", tz = "UTC")
   dracor <- dracor[order(-dracor$plays), ]
-  attributes(dracor) <- c(attributes(dracor),
-                          get_dracor_api_info())
+  attributes(dracor) <- c(
+    attributes(dracor),
+    get_dracor_api_info()
+  )
   class(dracor) <- c("dracor", class(dracor))
   return(dracor)
 }
@@ -73,9 +76,11 @@ summary.dracor <- function(object, ...) {
   last_upd <- which.max(object$updated)
   cat(
     sprintf("There are %d plays in %d corpora", n_plays, n_corpora),
-    sprintf("The last update was %s for %s",
-            object$updated[last_upd],
-            object$title[last_upd]),
+    sprintf(
+      "The last update was %s for %s",
+      object$updated[last_upd],
+      object$title[last_upd]
+    ),
     sep = "\t\n\n"
   )
 }
@@ -87,16 +92,18 @@ summary.dracor <- function(object, ...) {
 #' available for each corpus.
 plot.dracor <- function(x,
                         ...) {
-  pch = 16
-  col = "black"
-  lty.lolly = 1
-  lty.baseline = 2
-  cex = 0.8
-  left_margin = 10.5
+  pch <- 16
+  col <- "black"
+  lty.lolly <- 1
+  lty.baseline <- 2
+  cex <- 0.8
+  left_margin <- 10.5
   y_in <- rev(1:nrow(x))
   old.par <- par(no.readonly = TRUE)
-  par(mar = c(3, left_margin, 4, 2) + 0.1,
-      mgp = c(2, 1, 0))
+  par(
+    mar = c(3, left_margin, 4, 2) + 0.1,
+    mgp = c(2, 1, 0)
+  )
   plot.default(
     x$plays,
     y_in,

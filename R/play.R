@@ -25,7 +25,8 @@
 #' @export
 get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play),
-             expected_type = "application/json", ...)
+    expected_type = "application/json", ...
+  )
 }
 
 #' Retrieve network metrics for a play.
@@ -50,8 +51,9 @@ get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
 #' @export
 get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play, type = "metrics"),
-             expected_type = "application/json",
-             ...)
+    expected_type = "application/json",
+    ...
+  )
 }
 
 #' Retrieve a text for a play in TEI.
@@ -80,8 +82,9 @@ get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
 #' @export
 get_play_tei <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play, type = "tei"),
-             expected_type = "application/xml",
-             ...)
+    expected_type = "application/xml",
+    ...
+  )
 }
 
 #' Retrieve an RDF for a play.
@@ -108,8 +111,9 @@ get_play_tei <- function(corpus = NULL, play = NULL, ...) {
 #' @export
 get_play_rdf <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play, type = "rdf"),
-             expected_type = "application/xml",
-             ...)
+    expected_type = "application/xml",
+    ...
+  )
 }
 
 #' Retrieve data for characters in a play.
@@ -133,8 +137,9 @@ get_play_rdf <- function(corpus = NULL, play = NULL, ...) {
 #' @export
 get_play_cast <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play, type = "cast"),
-             expected_type = "application/json",
-             ...)
+    expected_type = "application/json",
+    ...
+  )
 }
 
 #' Retrieve edges list for a play.
@@ -193,8 +198,9 @@ get_play_networkdata_csv <-
 get_play_networkdata_gexf <-
   function(corpus = NULL, play = NULL, ...) {
     dracor_api(form_play_request(corpus, play, type = "networkdata/gexf"),
-               expected_type = "application/xml",
-               ...)
+      expected_type = "application/xml",
+      ...
+    )
   }
 
 #' Retrieve lines and stage directions for a play
@@ -230,7 +236,8 @@ get_play_spoken_text <-
       request <- paste0(request, "?gender=", toupper(gender))
     }
     dracor_api(request,
-               expected_type = "text/plain", ...)
+      expected_type = "text/plain", ...
+    )
   }
 
 #' @export
@@ -251,8 +258,9 @@ get_play_spoken_text_bych <-
 get_play_stage_directions <-
   function(corpus = NULL, play = NULL, ...) {
     dracor_api(form_play_request(corpus, play, type = "stage-directions"),
-               expected_type = "text/plain",
-               ...)
+      expected_type = "text/plain",
+      ...
+    )
   }
 
 #' @export
@@ -285,8 +293,10 @@ get_sparql <- function(sparql_query = NULL, ...) {
   if (is.null(sparql_query)) {
     stop("SPARQL query must be provided")
   }
-  query <- paste0("https://dracor.org/api/sparql?query=",
-                  URLencode(sparql_query, reserved = TRUE))
+  query <- paste0(
+    "https://dracor.org/api/sparql?query=",
+    URLencode(sparql_query, reserved = TRUE)
+  )
   dracor_api(query, expected_type = "application/xml", ...)
 }
 
@@ -325,9 +335,10 @@ play_igraph <- function(corpus = NULL, play = NULL) {
   graph <-
     graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
   structure(graph,
-            corpus = corpus,
-            play = play,
-            class = c("play_igraph", "igraph"))
+    corpus = corpus,
+    play = play,
+    class = c("play_igraph", "igraph")
+  )
 }
 
 #' Test an object to be a 'play_igraph' object.
@@ -381,19 +392,21 @@ label_play_igraph <- function(graph,
 #' with slightly modified defaults.
 plot.play_igraph <- function(x,
                              ...) {
-  gender_colours = c(MALE = "#26B69E",
-                     FEMALE = "#9400E9",
-                     UNKNOWN = "#6F747E")
-  vertex.label = label_play_igraph(x)
-  vertex.label.color = "black"
-  vertex.label.family = "sans"
-  vertex.color = gender_colours[V(x)$gender]
-  vertex.size = log(V(x)$numOfWords, base = 1.4)
-  vertex.shape = c("circle", "square")[as.numeric(V(x)$isGroup) + 1]
-  vertex.frame.color = "white"
-  edge.width = ((E(x)$weight) / max(E(x)$weight) *
-                  3)
-  layout = layout_with_kk(x)
+  gender_colours <- c(
+    MALE = "#26B69E",
+    FEMALE = "#9400E9",
+    UNKNOWN = "#6F747E"
+  )
+  vertex.label <- label_play_igraph(x)
+  vertex.label.color <- "black"
+  vertex.label.family <- "sans"
+  vertex.color <- gender_colours[V(x)$gender]
+  vertex.size <- log(V(x)$numOfWords, base = 1.4)
+  vertex.shape <- c("circle", "square")[as.numeric(V(x)$isGroup) + 1]
+  vertex.frame.color <- "white"
+  edge.width <- ((E(x)$weight) / max(E(x)$weight) *
+    3)
+  layout <- layout_with_kk(x)
   plot.igraph(
     x,
     gender_colours = gender_colours,
