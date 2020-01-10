@@ -11,7 +11,7 @@ test_that("non-existant corpus returns error", {
 })
 
 test_that("is.corpus() works", {
-  expect_true(is.corpus(get_corpus("rus")))
+  expect_true(is.corpus(get_corpus("cal")))
 })
 
 test_that("is.corpus() works", {
