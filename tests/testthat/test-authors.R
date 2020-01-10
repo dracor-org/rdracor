@@ -19,3 +19,7 @@ test_that("summary for authors object is visible", {
   authors_ru <- authors("rus")
   expect_equal(length(capture.output(summary.authors(authors_ru))), 8L)
 })
+
+test_that("shortening names works", {
+  expect_equal(shortening_names("Толстой, Лев"), "Толстой")
+})

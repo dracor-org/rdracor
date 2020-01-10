@@ -5,7 +5,7 @@ shortening_names <- function(name)
 
 top_authors <- function(authors, top_n = 5) {
   authors_short <- authors[1:min(nrow(authors), top_n), ]
-  paste(authors_short$N,
+  paste(authors_short$plays,
         authors_short$name,
         sep = " - ",
         collapse = "\t\n")
