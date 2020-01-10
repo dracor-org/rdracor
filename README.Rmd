@@ -64,7 +64,8 @@ godunov <- play_igraph(corpus = "rus",
                        play = "pushkin-boris-godunov")
 ```
 
-This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. It means that you can work with it as an `"igraph"` object:
+This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. 
+It means that you can work with it as an `"igraph"` object:
 
 ```{r}
 library(igraph)
