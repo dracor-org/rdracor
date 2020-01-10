@@ -10,7 +10,12 @@ test_that("authors() returns error on dracor object", {
   expect_error(authors(get_dracor()))
 })
 
+test_that("is.authors() works", {
+  authors_ru <- authors("rus")
+  expect_true(is.authors(authors_ru))
+})
+
 test_that("summary for authors object is visible", {
   authors_ru <- authors("rus")
-  expect_equal(length(capture.output(summary(authors_ru))), 8L)
+  expect_equal(length(capture.output(summary.authors(authors_ru))), 8L)
 })

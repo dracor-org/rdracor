@@ -81,9 +81,21 @@ summary.corpus <- function(object, ...) {
   premiere <- range(object$premiereYear, na.rm = T)
   printed <- range(object$printYear, na.rm = T)
   cat(
-    sprintf("Written years (range): %d - %d", written[1], written[2]),
-    sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2]),
-    sprintf("Years of the first printing (range): %d - %d", printed[1], printed[2]),
+    if(written == c(Inf, -Inf)) {
+      "No information on written years"
+    } else {
+      sprintf("Written years (range): %d - %d", written[1], written[2])
+      },
+    if(premiere == c(Inf, -Inf)) {
+      "No information on premiere years"
+    } else {
+      sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2])
+    },
+    if(printed == c(Inf, -Inf)) {
+      "No information on years of the first printing"
+    } else {
+      sprintf("Years of the first printing (range): %d - %d", printed[1], printed[2])
+    },
     sprintf("%d plays in %s", nrow(object), attr(object, "title")),
     sprintf(
       "Corpus id: %s, repository: %s",
