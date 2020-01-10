@@ -25,6 +25,8 @@ get_dracor_api_info <- function() {
 #' corpora
 #' summary(corpora)
 #' plot(corpora)
+#' @seealso
+#' \code{\link{is.dracor}}, \code{\link{get_corpus}}
 #' @export
 get_dracor <-
   function()
@@ -49,9 +51,13 @@ dracor <- function(dracor_df) {
   return(dracor)
 }
 
-#' @method is dracor
+#' Test an object to be a 'dracor' object.
+#'
+#' Test that object is a \code{dracor}.
+#'
+#' @param x An R object.
+#' @seealso \code{\link{get_dracor}}
 #' @export
-#' @describeIn get_dracor Tests that object is \code{dracor}.
 is.dracor <- function(x) {
   inherits(x, "dracor")
 }

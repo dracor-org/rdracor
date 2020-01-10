@@ -2,15 +2,12 @@
 % Please edit documentation in R/corpus.R
 \name{get_corpus}
 \alias{get_corpus}
-\alias{is.corpus}
 \alias{summary.corpus}
 \title{Retrieve metadata for all plays in a corpus.}
 \usage{
 get_corpus(corpus = NULL,
   URL = paste0("https://dracor.org/api/corpora/", corpus),
   full_metadata = TRUE)
-
-\method{is}{corpus}(x)
 
 \method{summary}{corpus}(object, ...)
 }
@@ -21,8 +18,6 @@ get_corpus(corpus = NULL,
 \item{URL}{Request URL.}
 
 \item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
-
-\item{x}{An R object.}
 
 \item{object}{An object of class \code{"corpus"}.}
 
@@ -51,8 +46,6 @@ to extract names for all available corpora.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{is}: Tests that object is \code{corpus}
-
 \item \code{summary}: Meaningful summary for \code{dracor} object.
 }}
 

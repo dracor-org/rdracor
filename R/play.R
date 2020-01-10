@@ -312,6 +312,7 @@ get_sparql <- function(sparql_query = NULL, ...) {
 #'   \code{\link{get_play_spoken_text_bych}},
 #'   \code{\link{get_play_stage_directions}},
 #'   \code{\link{get_play_stage_directions_with_sp}},
+#'   \code{\link{is.play_igraph}}
 #' @import igraph
 #' @exportClass play_igraph
 #' @export
@@ -329,10 +330,12 @@ play_igraph <- function(corpus = NULL, play = NULL) {
             class = c("play_igraph", "igraph"))
 }
 
+#' Test an object to be a 'play_igraph' object.
+#'
+#' Test that object is a \code{play_igraph}.
+#'
 #' @param x An R object.
-#' @method is play_igraph
 #' @export
-#' @describeIn play_igraph Tests that object is \code{play_igraph}.
 is.play_igraph <- function(x) {
   inherits(x, "play_igraph")
 }
@@ -371,6 +374,7 @@ label_play_igraph <- function(graph,
   vertices_labels
 }
 
+#' @param x A \code{play_igraph} object to plot.
 #' @method plot play_igraph
 #' @export
 #' @describeIn play_igraph Plot \code{play_igraph} using \code{play_igraph}

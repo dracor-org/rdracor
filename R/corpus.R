@@ -60,11 +60,13 @@ corpus <- function(corpus_list) {
   )
 }
 
+#' Test an object to be a 'corpus' object.
+#'
+#' Test that object is a \code{corpus}.
+#'
 #' @param x An R object.
-#' @method is corpus
+#' @seealso \code{\link{get_corpus}}
 #' @export
-#' @importFrom methods is
-#' @describeIn get_corpus Tests that object is \code{corpus}
 is.corpus <- function(x) {
   inherits(x, "corpus")
 }

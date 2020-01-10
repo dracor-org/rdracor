@@ -2,14 +2,11 @@
 % Please edit documentation in R/play.R
 \name{play_igraph}
 \alias{play_igraph}
-\alias{is.play_igraph}
 \alias{plot.play_igraph}
 \alias{summary.play_igraph}
 \title{Retrieve an igraph network for a play.}
 \usage{
 play_igraph(corpus = NULL, play = NULL)
-
-\method{is}{play_igraph}(x)
 
 \method{plot}{play_igraph}(x, ...)
 
@@ -23,7 +20,7 @@ play_igraph(corpus = NULL, play = NULL)
 \code{playName} column within an object returned by
 \code{\link{get_corpus}}). Character vector is not supported.}
 
-\item{x}{An R object.}
+\item{x}{A \code{play_igraph} object to plot.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 
@@ -39,8 +36,6 @@ constructed based on characters' cooccurrence matrix.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{is}: Tests that object is \code{play_igraph}.
-
 \item \code{plot}: Plot \code{play_igraph} using \code{play_igraph}
 with slightly modified defaults.
 
@@ -64,4 +59,5 @@ plot(zhenitba_igraph)
   \code{\link{get_play_spoken_text_bych}},
   \code{\link{get_play_stage_directions}},
   \code{\link{get_play_stage_directions_with_sp}},
+  \code{\link{is.play_igraph}}
 }

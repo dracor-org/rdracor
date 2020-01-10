@@ -31,6 +31,8 @@ top_authors <- function(authors, top_n = 5) {
 #' ru <- get_corpus("rus")
 #' ru_authors <- authors(ru)
 #' summary(ru_authors)
+#' @seealso \code{\link{is.authors}}, \code{\link{plot.authors}},
+#' \code{\link{get_dracor}}
 #' @import data.table
 #' @exportClass authors
 #' @export
@@ -54,10 +56,13 @@ authors <- function(corpus) {
   )
 }
 
-#' @param x an R object
-#' @method is authors
+#' Test an object to be an 'authors' object.
+#'
+#' Test that object is an \code{\link{authors}}.
+#'
+#' @param x An R object.
+#' @seealso \code{\link{authors}}
 #' @export
-#' @describeIn authors Tests that object is \code{authors}.
 is.authors <- function(x) {
   inherits(x, "authors")
 }

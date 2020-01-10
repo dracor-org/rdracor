@@ -2,21 +2,16 @@
 % Please edit documentation in R/authors.R
 \name{authors}
 \alias{authors}
-\alias{is.authors}
 \alias{summary.authors}
 \title{Retrieve authors and number of plays they have for a corpus}
 \usage{
 authors(corpus)
-
-\method{is}{authors}(x)
 
 \method{summary}{authors}(object, ...)
 }
 \arguments{
 \item{corpus}{\code{corpus} object or corpus name as character. Vector of corpus
 names is not supported}
-
-\item{x}{an R object}
 
 \item{object}{An object of class \code{"authors"}.}
 
@@ -38,8 +33,6 @@ in \code{authors} can be more than a number of plays in a corpus.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{is}: Tests that object is \code{authors}.
-
 \item \code{summary}: Meaningful summary for \code{authors} object
 }}
 
@@ -47,4 +40,8 @@ in \code{authors} can be more than a number of plays in a corpus.
 ru <- get_corpus("rus")
 ru_authors <- authors(ru)
 summary(ru_authors)
+}
+\seealso{
+\code{\link{is.authors}}, \code{\link{plot.authors}},
+\code{\link{get_dracor}}
 }

@@ -2,25 +2,22 @@
 % Please edit documentation in R/dracor.R
 \name{get_dracor}
 \alias{get_dracor}
-\alias{is.dracor}
 \alias{summary.dracor}
 \alias{plot.dracor}
 \title{Retrieve information on available corpora.}
 \usage{
 get_dracor()
 
-\method{is}{dracor}(x)
-
 \method{summary}{dracor}(object, ...)
 
 \method{plot}{dracor}(x, ...)
 }
 \arguments{
-\item{x}{A \code{dracor} object.}
-
 \item{object}{An object of class \code{"dracor"}.}
 
 \item{...}{Other arguments to be passed.}
+
+\item{x}{A \code{dracor} object.}
 }
 \value{
 \code{dracor} object that inherits data.frame (and can be used
@@ -32,8 +29,6 @@ data.frame (and can be used as such).
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{is}: Tests that object is \code{dracor}.
-
 \item \code{summary}: Meaningful summary for \code{dracor} object.
 
 \item \code{plot}: Plots how many plays are
@@ -45,4 +40,7 @@ corpora <- get_dracor()
 corpora
 summary(corpora)
 plot(corpora)
+}
+\seealso{
+\code{\link{is.dracor}}, \code{\link{get_corpus}}
 }
