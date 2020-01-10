@@ -77,21 +77,21 @@ is.corpus <- function(x) {
 #' @export
 #' @describeIn get_corpus Meaningful summary for \code{dracor} object.
 summary.corpus <- function(object, ...) {
-  written <- range(object$writtenYear, na.rm = T)
-  premiere <- range(object$premiereYear, na.rm = T)
-  printed <- range(object$printYear, na.rm = T)
+  written <- suppressWarnings(range(object$writtenYear, na.rm = T))
+  premiere <- suppressWarnings(range(object$premiereYear, na.rm = T))
+  printed <- suppressWarnings(range(object$printYear, na.rm = T))
   cat(
-    if(written == c(Inf, -Inf)) {
+    if(identical(written, c(Inf, -Inf))) {
       "No information on written years"
     } else {
       sprintf("Written years (range): %d - %d", written[1], written[2])
       },
-    if(premiere == c(Inf, -Inf)) {
+    if(identical(premiere, c(Inf, -Inf))) {
       "No information on premiere years"
     } else {
       sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2])
     },
-    if(printed == c(Inf, -Inf)) {
+    if(identical(printed, c(Inf, -Inf))) {
       "No information on years of the first printing"
     } else {
       sprintf("Years of the first printing (range): %d - %d", printed[1], printed[2])
