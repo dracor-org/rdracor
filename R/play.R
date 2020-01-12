@@ -465,7 +465,7 @@ summary.play_igraph <- function(object, ...) {
     sprintf("   Clustering:"),
     sprintf("          - Global: %.2f", global_clustering),
     sprintf("          - Average local: %.2f", local_clustering_average),
-    sprintf("     Cohesion: %.2f", cohesion),
+    sprintf("     Cohesion: %i", cohesion),
     sprintf("Assortativity: %.2f", assort),
     sep = "\t\n"
   )

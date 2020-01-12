@@ -33,7 +33,7 @@ devtools::install_github("dracor-org/rdracor")
 
 ## General info on corpora
 
-We can extract general information about available corpora:
+Retrieving general information about available corpora:
 
 ```{r example}
 library(rdracor)

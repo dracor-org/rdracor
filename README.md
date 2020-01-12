@@ -19,7 +19,7 @@ devtools::install_github("dracor-org/rdracor")
 General info on corpora
 -----------------------
 
-We can extract general information about available corpora:
+Retrieving general information about available corpora:
 
 ``` r
 library(rdracor)
@@ -30,7 +30,7 @@ corpora <- get_dracor()
 summary(corpora)
 #> There are 953 plays in 10 corpora    
 #> 
-#> The last update was 2020-01-08 17:13:51 for German Drama Corpus
+#> The last update was 2020-01-10 16:14:57 for Shakespeare Drama Corpus
 plot(corpora)
 ```
 
