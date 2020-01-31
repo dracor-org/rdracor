@@ -13,7 +13,7 @@ Installation
 
 ``` r
 #install.packages("devtools") #if you don't have devtools installed
-devtools::install_github("dracor-org/rdracor")
+devtools::install_github("Pozdniakov/rdracor")
 ```
 
 General info on corpora
@@ -28,9 +28,9 @@ library(rdracor)
 ``` r
 corpora <- get_dracor()
 summary(corpora)
-#> There are 953 plays in 10 corpora    
+#> There are 954 plays in 10 corpora    
 #> 
-#> The last update was 2020-01-10 16:14:57 for Shakespeare Drama Corpus
+#> The last update was 2020-01-30 11:11:53 for Russian Drama Corpus
 plot(corpora)
 ```
 
@@ -108,6 +108,6 @@ summary(godunov)
 #>    Clustering:   
 #>           - Global: 0.65 
 #>           - Average local: 0.92  
-#>      Cohesion: 1.00  
+#>      Cohesion: 1 
 #> Assortativity: -0.06
 ```
