@@ -1,25 +1,31 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-rdracor <img src="man/figures/logo.png" align="right" width="120" />
-====================================================================
+
+# rdracor <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor) [![Codecov test coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master) <!-- badges: end -->
 
-**Authors:** Ivan Pozdniakov, Frank Fischer **Licence:** [GPL-3](https://opensource.org/licenses/GPL-3.0)
+[![Travis build
+status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor)
+[![Codecov test
+coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master)
+<!-- badges: end -->
 
-The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API](https://dracor.org/documentation/api). More on DraCor project [here](https://dracor.org).
+**Authors:** Ivan Pozdniakov, Frank Fischer<br /> **Licence:**
+[GPL-3](https://opensource.org/licenses/GPL-3.0)
 
-Installation
-------------
+The goal of **rdracor** is to provide an R interface for the [DraCor
+API](https://dracor.org/documentation/api) (DraCor: Drama Corpora
+Project). Website of the project: [dracor.org](https://dracor.org).
+
+## Installation
 
 ``` r
 #install.packages("devtools") #if you don't have devtools installed
 devtools::install_github("dracor-org/rdracor")
 ```
 
-General info on corpora
------------------------
+## General info on corpora
 
 Retrieving general information about available corpora:
 
@@ -38,8 +44,7 @@ plot(corpora)
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-Plays in the corpus
--------------------
+## Plays in the corpus
 
 ``` r
 ru <- get_corpus(corpus = "rus")
@@ -64,17 +69,19 @@ plot(ru_au, top_minplays = 4)
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-Play network
-------------
+## Play network
 
-You can extract a network (undirected weighted graph) for a specific play:
+You can extract a network (undirected weighted graph) for a specific
+play:
 
 ``` r
 godunov <- play_igraph(corpus = "rus",
                        play = "pushkin-boris-godunov")
 ```
 
-This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. It means that you can work with it as an `"igraph"` object:
+This will create an object of S3 class `"play_igraph"` that inherits
+from `"igraph"`. It means that you can work with it as an `"igraph"`
+object:
 
 ``` r
 library(igraph)
@@ -86,7 +93,10 @@ graph.cohesion(godunov)
 #> [1] 1
 ```
 
-You can plot the graph: `plot()` will use plot method for `igraph` objects with some adjusted parameters. For example, vertices are coloured based on the gender and shape is based on whether a character is a group:
+You can plot the graph: `plot()` will use plot method for `igraph`
+objects with some adjusted parameters. For example, vertices are
+coloured based on the gender and shape is based on whether a character
+is a group:
 
 ``` r
 plot(godunov)
@@ -94,7 +104,8 @@ plot(godunov)
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-In addition, you can get a summary with network properties and gender distribution:
+In addition, you can get a summary with network properties and gender
+distribution:
 
 ``` r
 summary(godunov)
