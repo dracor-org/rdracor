@@ -2,14 +2,10 @@ form_play_request <-
   function(corpus = NULL,
            play = NULL,
            type = NULL) {
-    if (is.null(corpus)) {
-      stop("You need to provide a corpus")
-    }
-    if (is.null(play)) {
-      stop("You need to provide a play")
-    }
+    stopifnot(is.character(corpus) && length(corpus) == 1)
+    stopifnot(is.character(play) && length(play) == 1)
     request <-
-      paste0("https://dracor.org/api/corpora/", corpus , "/play/", play)
+      paste0("https://dracor.org/api/corpora/", corpus, "/play/", play)
     if (!is.null(type)) {
       return(paste(request, type, sep = "/"))
     } else {
@@ -33,7 +29,7 @@ dracor_error <- function(resp) {
         resp$status_code
       )
     )
-  } else if (floor(resp$status_code / 100) == 5) {
+  } else if (resp$status_code >= 500) {
     stop(sprintf(
       "Status code - %i: Internal Dracor server problem",
       resp$status_code
@@ -43,41 +39,71 @@ dracor_error <- function(resp) {
   }
 }
 
+#' Send a GET request to DraCor API and parse the results
+#'
+#' Sending a GET request to DraCor API with a specified expected type and parse
+#' results depending on selected expected type.
+#'
+#' There are four different MIME types (aka internet media type) that can be
+#' retrieved for DraCor API, the specific combination of possible MIME types
+#' depends on API command. When \code{parse = TRUE} is used, the content is
+#' parsed depending on selected MIME type in \code{expected_type}:
+#' \describe{
+#'   \item{\code{application/json}}{\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
+#'   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
+#'   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
+#'   \item{\code{text/plain}}{No need for additional preprocessing}}
+#'
+#' @param request Character, valid GET request.
+#' @param expected_type Character, MIME type: one of \code{"application/json"},
+#'   \code{"application/xml"}, \code{"text/csv"}, \code{"text/plain"}.
+#' @param parse Logical, if \code{TRUE} (default value), then a response is parsed depending on
+#'   \code{expected_type}. See details below.
+#' @param default_type Logical, if \code{TRUE}, default response data type is
+#'   returned. Therefore, a response is not parsed and \code{parse} is ignored.
+#'   Default value is \code{FALSE}.
+#' @param split_text Logical, if \code{TRUE}, plain text lines are read as
+#'   different values in a vector instead of returning one character value.
+#'   Default value is \code{TRUE}.
+#' @param ... Other arguments passed to a parser function.
 #' @import httr
 #' @importFrom jsonlite fromJSON
 #' @import xml2
 #' @import data.table
 #' @export
 dracor_api <- function(request,
-                       expected_format =
-                         c("application/json",
+                       expected_type =
+                         c(
+                           "application/json",
                            "application/xml",
                            "text/csv",
-                           "text/plain"),
-                       default_format = FALSE,
+                           "text/plain"
+                         ),
+                       parse = TRUE,
+                       default_type = FALSE,
                        split_text = TRUE,
                        ...) {
-  expected_format <- match.arg(expected_format)
-  if (default_format) {
+  expected_type <- match.arg(expected_type)
+  if (default_type) {
     resp <- httr::GET(request)
     return(httr::content(resp, as = "text", encoding = "UTF-8"))
   } else {
-    resp <- httr::GET(request, accept(expected_format))
+    resp <- httr::GET(request, httr::accept(expected_type))
   }
   dracor_error(resp)
   cont <- httr::content(resp, as = "text", encoding = "UTF-8")
-  if (expected_format == "application/json") {
-    return(jsonlite::fromJSON(cont, ...))
-  } else if (expected_format == "application/xml") {
-    return(xml2::read_xml(cont, ...))
-  } else if (expected_format == "text/csv") {
-    return(data.table::fread(cont, ...))
-  } else if (expected_format == "text/plain") {
-    if (split_text) {
+  if (!parse) {
+    return(cont)
+  }
+  switch(
+    expected_type,
+    "application/json" = return(jsonlite::fromJSON(cont, ...)),
+    "application/xml" = return(xml2::read_xml(cont, ...)),
+    "text/csv" = return(data.table::fread(cont, ...)),
+    "text/plain" = if (split_text) {
       return(unlist(strsplit(cont, "\n")))
     } else {
       return(cont)
     }
-  }
+  )
 }
-
