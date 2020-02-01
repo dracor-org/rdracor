@@ -294,7 +294,7 @@ get_sparql <- function(sparql_query = NULL, ...) {
     stop("SPARQL query must be provided")
   }
   query <- paste0(
-    "https://dracor.org/api/sparql?query=",
+    "https://dracor.org/fuseki/sparql?query=",
     URLencode(sparql_query, reserved = TRUE)
   )
   dracor_api(query, expected_type = "application/xml", ...)

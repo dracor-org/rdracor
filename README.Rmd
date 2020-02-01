@@ -21,10 +21,10 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master)
 <!-- badges: end -->
 
-**Authors:** Ivan Pozdniakov, Frank Fischer
+**Authors:** Ivan Pozdniakov, Frank Fischer<br />
 **Licence:** [GPL-3](https://opensource.org/licenses/GPL-3.0)
 
-The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API]( https://dracor.org/documentation/api). More on DraCor project [here](https://dracor.org). 
+The goal of **rdracor** is to provide an R interface for the [DraCor API](https://dracor.org/documentation/api) (DraCor: Drama Corpora Project). Website of the project: [dracor.org](https://dracor.org).
 
 ## Installation
 
