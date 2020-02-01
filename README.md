@@ -13,7 +13,7 @@ Installation
 
 ``` r
 #install.packages("devtools") #if you don't have devtools installed
-devtools::install_github("Pozdniakov/rdracor")
+devtools::install_github("dracor-org/rdracor")
 ```
 
 General info on corpora
