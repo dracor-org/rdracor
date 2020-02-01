@@ -6,7 +6,9 @@ rdracor <img src="man/figures/logo.png" align="right" width="120" />
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor) [![Codecov test coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master) <!-- badges: end -->
 
-The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API](https://dracor.org/documentation/api). More on Dracor project [here](https://dracor.org).
+**Authors:** Ivan Pozdniakov, Frank Fischer **Licence:** [GPL-3](https://opensource.org/licenses/GPL-3.0)
+
+The goal of rdracor is to provide an R interface for the [Drama Corpora Project (Dracor) API](https://dracor.org/documentation/api). More on DraCor project [here](https://dracor.org).
 
 Installation
 ------------
