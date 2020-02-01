@@ -463,8 +463,8 @@ summary.play_igraph <- function(object, ...) {
     sprintf("         - Maximum (Diameter): %i", diam),
     sprintf("         - Average: %.2f", mean_dist),
     sprintf("   Clustering:"),
-    sprintf("          - Global: %.2f", global_clustering),
-    sprintf("          - Average local: %.2f", local_clustering_average),
+    sprintf("         - Global: %.2f", global_clustering),
+    sprintf("         - Average local: %.2f", local_clustering_average),
     sprintf("     Cohesion: %i", cohesion),
     sprintf("Assortativity: %.2f", assort),
     sep = "\t\n"
