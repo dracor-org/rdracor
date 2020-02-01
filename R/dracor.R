@@ -75,13 +75,13 @@ summary.dracor <- function(object, ...) {
   n_corpora <- nrow(object)
   last_upd <- which.max(object$updated)
   cat(
-    sprintf("There are %d plays in %d corpora", n_plays, n_corpora),
+    sprintf("DraCor hosts %d corpora comprising %d plays.", n_corpora, n_plays),
     sprintf(
-      "The last update was %s for %s",
-      object$updated[last_upd],
-      object$title[last_upd]
+      "The last updated corpus was %s (%s).",
+      object$title[last_upd],
+      object$updated[last_upd]
     ),
-    sep = "\t\n\n"
+    sep = "\n\n"
   )
 }
 
