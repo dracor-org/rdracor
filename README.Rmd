@@ -88,4 +88,3 @@ In addition, you can get a summary with network properties and gender distributi
 ```{r}
 summary(godunov)
 ```
-
