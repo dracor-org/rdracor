@@ -6,28 +6,6 @@ test_that("get_dracor() returns dracor object", {
   expect_s3_class(get_dracor(), "dracor")
 })
 
-test_that("get_dracor() returns appropiate column names", {
-  expected_names <-
-    c(
-      "repository",
-      "name",
-      "uri",
-      "title",
-      "characters",
-      "female",
-      "text",
-      "male",
-      "updated",
-      "sp",
-      "stage",
-      "plays",
-      "wordcount.text",
-      "wordcount.sp",
-      "wordcount.stage"
-    )
-  expect_equal(names(get_dracor()), expected_names)
-})
-
 test_that("summary for dracor object is visible", {
   corpora <- get_dracor()
   summary_captured <- capture.output(summary(corpora))

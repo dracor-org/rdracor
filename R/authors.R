@@ -1,6 +1,10 @@
 # helper functions ---
 shortening_names <- function(name) {
-  gsub(",.*", "", name)
+  vapply(lapply(strsplit(name, ","),
+                function(x)
+                  c(x[1], gsub(
+                    "[[:lower:]]+", "", x[-1]
+                  ))), paste, "", collapse = ",")
 }
 
 

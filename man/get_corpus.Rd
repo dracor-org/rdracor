@@ -5,9 +5,11 @@
 \alias{summary.corpus}
 \title{Retrieve metadata for all plays in a corpus.}
 \usage{
-get_corpus(corpus = NULL,
+get_corpus(
+  corpus = NULL,
   URL = paste0("https://dracor.org/api/corpora/", corpus),
-  full_metadata = TRUE)
+  full_metadata = TRUE
+)
 
 \method{summary}{corpus}(object, ...)
 }
