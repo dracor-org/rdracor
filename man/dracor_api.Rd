@@ -4,9 +4,14 @@
 \alias{dracor_api}
 \title{Send a GET request to DraCor API and parse the results}
 \usage{
-dracor_api(request, expected_type = c("application/json",
-  "application/xml", "text/csv", "text/plain"), parse = TRUE,
-  default_type = FALSE, split_text = TRUE, ...)
+dracor_api(
+  request,
+  expected_type = c("application/json", "application/xml", "text/csv", "text/plain"),
+  parse = TRUE,
+  default_type = FALSE,
+  split_text = TRUE,
+  ...
+)
 }
 \arguments{
 \item{request}{Character, valid GET request.}

@@ -4,8 +4,14 @@
 \alias{plot.authors}
 \title{Plot number of plays by authors of the corpus}
 \usage{
-\method{plot}{authors}(x, only_surnames = FALSE, top_n = nrow(x),
-  top_minplays = 1, top_ratio = 1, ...)
+\method{plot}{authors}(
+  x,
+  only_surnames = FALSE,
+  top_n = nrow(x),
+  top_minplays = 1,
+  top_ratio = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{authors} object to plot.}

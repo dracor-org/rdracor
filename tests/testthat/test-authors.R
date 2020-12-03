@@ -21,7 +21,7 @@ test_that("summary for authors object is visible", {
 })
 
 test_that("shortening names works", {
-  expect_equal(shortening_names("Толстой, Лев"), "Толстой")
+  expect_equal(shortening_names("Толстой, Лев"), "Толстой, Л")
 })
 
 test_that("top_authors() return valid results for shake", {
