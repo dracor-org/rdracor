@@ -37,7 +37,7 @@ get_corpus <- function(corpus = NULL,
     stop("You must provide corpus id or URL")
   } else {
     corp_list <-
-      dracor_api(request = URL, expected_type = "application/json")
+      dracor_api(request = URL, expected_type = "application/json", flatten = TRUE)
   }
   if (full_metadata) {
     corp_list$dramas <-
