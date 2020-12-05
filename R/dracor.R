@@ -41,7 +41,7 @@ get_dracor <-
 
 #' @exportClass dracor
 dracor <- function(dracor_df) {
-  dracor <- type.convert(dracor_df, as.is = TRUE)
+  dracor <- type.convert(dracor_df, as.is = TRUE, na.strings = c("NA", "-"))
   names(dracor) <- gsub("metrics.", "", names(dracor), fixed = TRUE)
   dracor$updated <-
     as.POSIXct(dracor$updated, format = "%FT%H:%M:%OS", tz = "UTC")

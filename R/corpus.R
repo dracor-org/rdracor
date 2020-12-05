@@ -71,7 +71,7 @@ get_corpus <- function(corpus = NULL,
 #' @importFrom utils type.convert
 #' @exportClass corpus
 corpus <- function(corpus_list) {
-  cor_df <- type.convert(corpus_list$dramas, as.is = TRUE)
+  cor_df <- type.convert(corpus_list$dramas, as.is = TRUE, na.strings = c("NA", "-"))
   structure(
     cor_df,
     name = corpus_list$name,
