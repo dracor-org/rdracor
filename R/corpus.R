@@ -42,7 +42,7 @@ get_corpus <- function(corpus = NULL,
                  expected_type = "application/json",
                  flatten = TRUE)
     written_years_list <-
-      lapply(strsplit(corp_list$dramas$writtenYear, "/"), function(x)
+      lapply(strsplit(as.character(corp_list$dramas$writtenYear), "/"), function(x)
         if (length(x) == 1)
           return(c(NA_character_, x))
         else
