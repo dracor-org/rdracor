@@ -29,6 +29,7 @@
 #' summary(ru)
 #' @seealso \code{\link{get_dracor}}, \code{\link{authors}}
 #' @importFrom  jsonlite fromJSON
+#' @importFrom  data.table setnames
 #' @export
 get_corpus <- function(corpus = NULL,
                        URL = paste0("https://dracor.org/api/corpora/", corpus),
@@ -46,10 +47,12 @@ get_corpus <- function(corpus = NULL,
       merge(corp_list$dramas,
             dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE))
   }
-  setnames(corp_list$dramas,
-           old = c("author.name", "author.key"),
-           new = c("firstAuthorName", "firstAuthorKey"),
-           skip_absent = TRUE)
+  data.table::setnames(
+    corp_list$dramas,
+    old = c("author.name", "author.key"),
+    new = c("firstAuthorName", "firstAuthorKey"),
+    skip_absent = TRUE
+  )
   corpus(corp_list)
 }
 
