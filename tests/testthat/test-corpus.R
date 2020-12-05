@@ -21,3 +21,7 @@ test_that("is.corpus() works", {
 test_that("summary() work for 'corpus' object if there is no info on years", {
   expect_true(all(nchar(capture.output(summary(get_corpus("tat")))) > 3))
 })
+
+test_that("writtenYear with format 'YYYY/YYYY' is processed as integer in column writtenYearFinish",{
+  expect_is(get_corpus("rus")$writtenYearFinish, "integer")
+})

@@ -41,6 +41,14 @@ get_corpus <- function(corpus = NULL,
       dracor_api(request = URL,
                  expected_type = "application/json",
                  flatten = TRUE)
+    written_years_list <- lapply(strsplit(corp_list$dramas$writtenYear, "/"), function(x)
+      if (length(x) == 1)
+        return(c(NA_character_, x))
+      else
+        return(x))
+    corp_list$dramas$writtenYearStart <- vapply(written_years_list, `[[`, "", 1)
+    corp_list$dramas$writtenYearFinish <- vapply(written_years_list, `[[`, "", 2)
+    corp_list$dramas$writtenYear <- NULL
   }
   if (full_metadata) {
     corp_list$dramas <-
