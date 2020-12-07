@@ -112,7 +112,8 @@ get_corpus <- function(corpus = NULL,
     corp_list$dramas <-
       merge(corp_list$dramas,
             dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE),
-            by = "id")
+            by = "id",
+            suffixes = c("", "Meta"))
     data.table::setcolorder(corp_list$dramas,
                             neworder = c(columns_short_order,
                                          columns_extra_order))
