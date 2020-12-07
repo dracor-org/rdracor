@@ -8,8 +8,8 @@ divide_years <- function(corpus, year_column) {
         return(c(NA_character_, x))
       else
         return(x))
-  corpus[, (paste0(year_column, "Start")) := vapply(written_years_list, `[[`, "", 1)]
-  corpus[, (paste0(year_column, "Finish")) := vapply(written_years_list, `[[`, "", 2)]
+  corpus[, (paste0(year_column, "Start")) := as.integer(vapply(written_years_list, `[[`, "", 1))]
+  corpus[, (paste0(year_column, "Finish")) := as.integer(vapply(written_years_list, `[[`, "", 2))]
   corpus[, (year_column) := NULL]
 }
 
