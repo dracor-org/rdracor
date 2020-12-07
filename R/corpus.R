@@ -117,6 +117,9 @@ get_corpus <- function(corpus = NULL,
     data.table::setcolorder(corp_list$dramas,
                             neworder = c(columns_short_order,
                                          columns_extra_order))
+    dublicate_columns <- c("name", "yearPremiered", "yearPrinted", "yearNormalizedMeta","yearWritten",
+                           "playNameMeta")
+    corp_list$dramas[,(dublicate_columns) := NULL]
   }
   setDF(corp_list$dramas)
   corpus(corp_list)
