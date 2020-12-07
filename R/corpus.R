@@ -109,8 +109,8 @@ get_corpus <- function(corpus = NULL,
   }
   if (full_metadata) {
     corp_list$dramas <-
-      data.table::merge(corp_list$dramas,
-                        dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE))
+      merge(corp_list$dramas,
+            dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE))
     data.table::setcolorder(corp_list$dramas,
                             neworder = c(columns_short_order,
                                          columns_extra_order))
