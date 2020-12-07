@@ -1,4 +1,17 @@
-
+divide_years <- function(corpus, year_column) {
+  setDT(corpus)
+  if (!year_column %in% names(corpus))
+    stop (paste("There is no such column as", year_column))
+  written_years_list <-
+    lapply(strsplit(as.character(corpus[[year_column]]), "/"), function(x)
+      if (length(x) == 1)
+        return(c(NA_character_, x))
+      else
+        return(x))
+  corpus[, (paste0(year_column, "Start")) := vapply(written_years_list, `[[`, "", 1)]
+  corpus[, (paste0(year_column, "Finish")) := vapply(written_years_list, `[[`, "", 2)]
+  corpus[, (year_column) := NULL]
+}
 
 #' Retrieve metadata for all plays in a corpus.
 #'
@@ -49,8 +62,10 @@ get_corpus <- function(corpus = NULL,
       "sourceUrl",
       "writtenYearStart",
       "writtenYearFinish",
-      "printYear",
-      "premiereYear",
+      "printYearStart",
+      "printYearFinish",
+      "premiereYearStart",
+      "premiereYearFinish",
       "wikidataId" ,
       "networkSize",
       "networkdataCsvUrl"
@@ -86,17 +101,8 @@ get_corpus <- function(corpus = NULL,
                  expected_type = "application/json",
                  flatten = TRUE)
     setDT(corp_list$dramas)
-    written_years_list <-
-      lapply(strsplit(as.character(corp_list$dramas$writtenYear), "/"), function(x)
-        if (length(x) == 1)
-          return(c(NA_character_, x))
-        else
-          return(x))
-    corp_list$dramas$writtenYearStart <-
-      vapply(written_years_list, `[[`, "", 1)
-    corp_list$dramas$writtenYearFinish <-
-      vapply(written_years_list, `[[`, "", 2)
-    corp_list$dramas$writtenYear <- NULL
+    lapply(c("writtenYear", "printYear", "premiereYear"), function(x)
+        divide_years(corp_list$dramas, x))
     if (!"subtitle" %in% names(corp_list$dramas))
       corp_list$dramas[, subtitle := NA_character_]
     data.table::setnames(
@@ -110,16 +116,25 @@ get_corpus <- function(corpus = NULL,
   }
   if (full_metadata) {
     corp_list$dramas <-
-      merge(corp_list$dramas,
-            dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE),
-            by = "id",
-            suffixes = c("", "Meta"))
+      merge(
+        corp_list$dramas,
+        dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE),
+        by = "id",
+        suffixes = c("", "Meta")
+      )
     data.table::setcolorder(corp_list$dramas,
                             neworder = c(columns_short_order,
                                          columns_extra_order))
-    dublicate_columns <- c("name", "yearPremiered", "yearPrinted", "yearNormalizedMeta","yearWritten",
-                           "playNameMeta")
-    corp_list$dramas[,(dublicate_columns) := NULL]
+    dublicate_columns <-
+      c(
+        "name",
+        "yearPremiered",
+        "yearPrinted",
+        "yearNormalizedMeta",
+        "yearWritten",
+        "playNameMeta"
+      )
+    corp_list$dramas[, (dublicate_columns) := NULL]
   }
   setDF(corp_list$dramas)
   corpus(corp_list)
@@ -129,7 +144,10 @@ get_corpus <- function(corpus = NULL,
 #' @importFrom utils type.convert
 #' @exportClass corpus
 corpus <- function(corpus_list) {
-  cor_df <- type.convert(corpus_list$dramas, as.is = TRUE, na.strings = c("NA", "-"))
+  cor_df <-
+    type.convert(corpus_list$dramas,
+                 as.is = TRUE,
+                 na.strings = c("NA", "-"))
   structure(
     cor_df,
     name = corpus_list$name,
@@ -159,8 +177,13 @@ summary.corpus <- function(object, ...) {
   written <-
     suppressWarnings(range(object$writtenYearStart, object$writtenYearFinish, na.rm = T))
   premiere <-
-    suppressWarnings(range(object$premiereYear, na.rm = T))
-  printed <- suppressWarnings(range(object$printYear, na.rm = T))
+    suppressWarnings(range(
+      object$premiereYearStart,
+      object$premiereYearFinish,
+      na.rm = T
+    ))
+  printed <-
+    suppressWarnings(range(object$printYearStart, object$printYearFinish, na.rm = T))
   cat(
     if (identical(written, c(Inf, -Inf))) {
       "No information on written years"
