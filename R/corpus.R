@@ -29,11 +29,54 @@
 #' summary(ru)
 #' @seealso \code{\link{get_dracor}}, \code{\link{authors}}
 #' @importFrom  jsonlite fromJSON
-#' @importFrom  data.table setnames
+#' @import  data.table
 #' @export
 get_corpus <- function(corpus = NULL,
                        URL = paste0("https://dracor.org/api/corpora/", corpus),
                        full_metadata = TRUE) {
+  columns_short_order <-
+    c(
+      "id",
+      "playName",
+      "yearNormalized",
+      "title",
+      "subtitle",
+      "firstAuthorName",
+      "firstAuthorKey",
+      "authors",
+      "source",
+      "sourceUrl",
+      "writtenYearStart",
+      "writtenYearFinish",
+      "printYear",
+      "premiereYear",
+      "wikidataId" ,
+      "networkSize",
+      "networkdataCsvUrl"
+    )
+  columns_extra_order <- c(
+    "size",
+    "density",
+    "diameter",
+    "averageClustering",
+    "averagePathLength",
+    "averageDegree",
+    "maxDegree",
+    "maxDegreeIds",
+    "numConnectedComponents",
+    "wordCountSp",
+    "wordCountText",
+    "wordCountStage",
+    "numOfSpeakers",
+    "numOfSpeakersFemale",
+    "numOfSpeakersMale",
+    "numOfSpeakersUnknown",
+    "numOfPersonGroups",
+    "numOfSegments",
+    "numOfActs",
+    "wikipediaLinkCount",
+    "genre"
+  )
   if (is.null(corpus) & URL == "https://dracor.org/api/corpora/") {
     stop("You must provide corpus id or URL")
   } else {
@@ -41,6 +84,7 @@ get_corpus <- function(corpus = NULL,
       dracor_api(request = URL,
                  expected_type = "application/json",
                  flatten = TRUE)
+    setDT(corp_list$dramas)
     written_years_list <-
       lapply(strsplit(as.character(corp_list$dramas$writtenYear), "/"), function(x)
         if (length(x) == 1)
@@ -52,17 +96,24 @@ get_corpus <- function(corpus = NULL,
     corp_list$dramas$writtenYearFinish <-
       vapply(written_years_list, `[[`, "", 2)
     corp_list$dramas$writtenYear <- NULL
+    if (!"subtitle" %in% names(corp_list$dramas))
+      corp_list$dramas[, subtitle := NA_character_]
     data.table::setnames(
       corp_list$dramas,
       old = c("name", "author.name", "author.key"),
       new = c("playName", "firstAuthorName", "firstAuthorKey"),
       skip_absent = TRUE
     )
+    data.table::setcolorder(corp_list$dramas,
+                            neworder = columns_short_order)
   }
   if (full_metadata) {
     corp_list$dramas <-
-      merge(corp_list$dramas,
-            dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE))
+      data.table::merge(corp_list$dramas,
+                        dracor_api(request = paste0(URL, "/metadata"), flatten = TRUE))
+    data.table::setcolorder(corp_list$dramas,
+                            neworder = c(columns_short_order,
+                                         columns_extra_order))
   }
   corpus(corp_list)
 }
