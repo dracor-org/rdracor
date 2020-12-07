@@ -34,6 +34,7 @@
 get_corpus <- function(corpus = NULL,
                        URL = paste0("https://dracor.org/api/corpora/", corpus),
                        full_metadata = TRUE) {
+  subtitle <- NULL # to pass check
   columns_short_order <-
     c(
       "id",
