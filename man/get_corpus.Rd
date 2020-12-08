@@ -2,6 +2,7 @@
 % Please edit documentation in R/corpus.R
 \name{get_corpus}
 \alias{get_corpus}
+\alias{get_corpus_all}
 \alias{summary.corpus}
 \title{Retrieve metadata for all plays in a corpus.}
 \usage{
@@ -10,6 +11,8 @@ get_corpus(
   URL = paste0("https://dracor.org/api/corpora/", corpus),
   full_metadata = TRUE
 )
+
+get_corpus_all(full_metadata = TRUE)
 
 \method{summary}{corpus}(object, ...)
 }
@@ -52,9 +55,11 @@ to extract names for all available corpora.
 }}
 
 \examples{
+\donttest{
 ru <- get_corpus("rus")
 head(ru)
 summary(ru)
+}
 }
 \seealso{
 \code{\link{get_dracor}}, \code{\link{authors}}

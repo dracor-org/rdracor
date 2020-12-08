@@ -37,9 +37,11 @@ divide_years <- function(corpus, year_column) {
 #' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
 #' @return \code{corpus} object that inherits data.frame (and can be used as such)
 #' @examples
+#' \donttest{
 #' ru <- get_corpus("rus")
 #' head(ru)
 #' summary(ru)
+#' }
 #' @seealso \code{\link{get_dracor}}, \code{\link{authors}}
 #' @importFrom  jsonlite fromJSON
 #' @import  data.table
@@ -140,12 +142,15 @@ get_corpus <- function(corpus = NULL,
   corpus(corp_list)
 }
 
+#' Returns metadata for all plays in all available
+#' corpora as a long data.frame.
 #' @import data.table
 #' @export
-#' @rdname get_corpus Returns metadata for all plays in all available
-#' corpora as a long data.frame.
-#' @examples
+#' @rdname get_corpus
+#' @example
+#' \donttest{
 #' get_corpus_all()
+#' }
 get_corpus_all <- function(full_metadata = TRUE) {
   dracor <- get_dracor()
   corpus_list <-
