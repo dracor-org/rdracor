@@ -60,6 +60,9 @@ ru <- get_corpus("rus")
 head(ru)
 summary(ru)
 }
+\donttest{
+get_corpus_all()
+}
 }
 \seealso{
 \code{\link{get_dracor}}, \code{\link{authors}}

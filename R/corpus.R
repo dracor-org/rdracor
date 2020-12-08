@@ -144,10 +144,11 @@ get_corpus <- function(corpus = NULL,
 
 #' Returns metadata for all plays in all available
 #' corpora as a long data.frame.
+#'
 #' @import data.table
 #' @export
 #' @rdname get_corpus
-#' @example
+#' @examples
 #' \donttest{
 #' get_corpus_all()
 #' }
