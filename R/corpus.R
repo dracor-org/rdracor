@@ -8,8 +8,8 @@ divide_years <- function(corpus, year_column) {
         return(c(NA_character_, x))
       else
         return(x))
-  corpus[, (paste0(year_column, "Start")) := as.integer(vapply(written_years_list, `[[`, "", 1))]
-  corpus[, (paste0(year_column, "Finish")) := as.integer(vapply(written_years_list, `[[`, "", 2))]
+  corpus[, (paste0(year_column, "Start")) := suppressWarnings(as.integer(vapply(written_years_list, `[[`, "", 1)))]
+  corpus[, (paste0(year_column, "Finish")) := suppressWarnings(as.integer(vapply(written_years_list, `[[`, "", 2)))]
   corpus[, (year_column) := NULL]
 }
 
@@ -138,6 +138,22 @@ get_corpus <- function(corpus = NULL,
   }
   setDF(corp_list$dramas)
   corpus(corp_list)
+}
+
+#' @import data.table
+#' @export
+#' @rdname get_corpus Returns metadata for all plays in all available
+#' corpora as a long data.frame.
+#' @examples
+#' get_corpus_all()
+get_corpus_all <- function(full_metadata = TRUE) {
+  dracor <- get_dracor()
+  corpus_list <-
+    sapply(dracor$name,
+           get_corpus,
+           full_metadata = full_metadata,
+           simplify = FALSE)
+  return(data.table::rbindlist(corpus_list, idcol = "corpus"))
 }
 
 #' @importFrom graphics abline axis par plot.default segments text
