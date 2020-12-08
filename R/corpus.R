@@ -152,6 +152,27 @@ get_corpus <- function(corpus = NULL,
 #' @rdname get_corpus
 #' @examples
 #' \donttest{
+#' get_corpus_vec(c("ita", "span", "greek"))
+#' }
+
+get_corpus_vec <- function(corpus, full_metadata = TRUE) {
+  corpus_list <- lapply(corpus, get_corpus)
+  cor_df <- type.convert(data.table::rbindlist(corpus_list),
+                         as.is = TRUE,
+                         na.strings = c("NA", "-"))
+  structure(cor_df,
+            name = vapply(corpus_list, attr, "", "name"),
+            title = vapply(corpus_list, attr, "", "title"),
+            repository = vapply(corpus_list, attr, "", "repository"),
+            plays = vapply(corpus_list, attr, 0, "plays"),
+            class = c("corpus", class(cor_df)))
+}
+
+#' @import data.table
+#' @export
+#' @rdname get_corpus
+#' @examples
+#' \donttest{
 #' get_corpus_all()
 #' }
 get_corpus_all <- function(full_metadata = TRUE) {
@@ -176,6 +197,7 @@ corpus <- function(corpus_list) {
     name = corpus_list$name,
     title = corpus_list$title,
     repository = corpus_list$repository,
+    plays = nrow(cor_df),
     class = c("corpus", class(cor_df))
   )
 }
@@ -226,14 +248,17 @@ summary.corpus <- function(object, ...) {
               printed[2])
     },
     if (length(attr(object, "name")) == 1) {
-    sprintf("%d plays in %s", nrow(object), attr(object, "title")),
+    cat(sprintf("%d plays in %s", attr(object, "plays"), attr(object, "title")),
     sprintf(
       "Corpus id: %s, repository: %s",
       attr(object, "name"),
       attr(object, "repository")
     ),
-    sep = "\t\n"} else {
-
-    }
-  )
+    sep = "\t\n")} else {
+    cat(sprintf("%d plays in %s corpora:", sum(attr(object, "plays")), length(attr(object, "name"))),
+        "Corpora id:",
+        paste(sprintf("%s (%i plays)", attr(object, "name"), attr(object, "plays")), collapse = ","),
+      sep = "\t\n")
+    },
+    sep = "\t\n")
 }
