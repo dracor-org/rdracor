@@ -22,6 +22,9 @@ divide_years <- function(corpus, year_column) {
 #'
 #' \code{get_corpus} returns a \code{corpus} object that inherits
 #' data.frame (and can be used as such).
+#
+#' \code{get_corpus_all} returns metadata for all plays in all available
+#' corpora as a long data.frame.
 #'
 #' \code{corpus} constructs \code{corpus} object, \code{is.corpus} tests that
 #' object is \code{corpus}, \code{summary.corpus} returns informative summary
@@ -49,9 +52,10 @@ divide_years <- function(corpus, year_column) {
 get_corpus <- function(corpus = NULL,
                        URL = paste0("https://dracor.org/api/corpora/", corpus),
                        full_metadata = TRUE) {
-  subtitle <- NULL # to pass check
+  subtitle <- corpus <- NULL # to pass check
   columns_short_order <-
     c(
+      "corpus",
       "id",
       "playName",
       "yearNormalized",
@@ -103,6 +107,7 @@ get_corpus <- function(corpus = NULL,
                  expected_type = "application/json",
                  flatten = TRUE)
     setDT(corp_list$dramas)
+    corp_list$dramas[, corpus := corp_list$name]
     lapply(c("writtenYear", "printYear", "premiereYear"), function(x)
         divide_years(corp_list$dramas, x))
     if (!"subtitle" %in% names(corp_list$dramas))
@@ -142,9 +147,6 @@ get_corpus <- function(corpus = NULL,
   corpus(corp_list)
 }
 
-#' Returns metadata for all plays in all available
-#' corpora as a long data.frame.
-#'
 #' @import data.table
 #' @export
 #' @rdname get_corpus
@@ -155,11 +157,10 @@ get_corpus <- function(corpus = NULL,
 get_corpus_all <- function(full_metadata = TRUE) {
   dracor <- get_dracor()
   corpus_list <-
-    sapply(dracor$name,
+    lapply(dracor$name,
            get_corpus,
-           full_metadata = full_metadata,
-           simplify = FALSE)
-  return(data.table::rbindlist(corpus_list, idcol = "corpus"))
+           full_metadata = full_metadata)
+  return(data.table::rbindlist(corpus_list))
 }
 
 #' @importFrom graphics abline axis par plot.default segments text

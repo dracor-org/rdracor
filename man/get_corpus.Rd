@@ -40,6 +40,8 @@ method and \code{\link{authors}} function.
 \details{
 \code{get_corpus} returns a \code{corpus} object that inherits
 data.frame (and can be used as such).
+\code{get_corpus_all} returns metadata for all plays in all available
+corpora as a long data.frame.
 
 \code{corpus} constructs \code{corpus} object, \code{is.corpus} tests that
 object is \code{corpus}, \code{summary.corpus} returns informative summary
