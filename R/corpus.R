@@ -52,7 +52,7 @@ divide_years <- function(corpus, year_column) {
 get_corpus <- function(corpus = NULL,
                        URL = paste0("https://dracor.org/api/corpora/", corpus),
                        full_metadata = TRUE) {
-  subtitle <- corpus <- NULL # to pass check
+  subtitle <- NULL # to pass check
   columns_short_order <-
     c(
       "corpus",
@@ -225,12 +225,15 @@ summary.corpus <- function(object, ...) {
               printed[1],
               printed[2])
     },
+    if (length(attr(object, "name")) == 1) {
     sprintf("%d plays in %s", nrow(object), attr(object, "title")),
     sprintf(
       "Corpus id: %s, repository: %s",
       attr(object, "name"),
       attr(object, "repository")
     ),
-    sep = "\t\n"
+    sep = "\t\n"} else {
+
+    }
   )
 }
