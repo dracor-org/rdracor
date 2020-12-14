@@ -14,11 +14,11 @@ play_igraph(corpus = NULL, play = NULL)
 }
 \arguments{
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor}}).}
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
-\code{\link{get_corpus}}). Character vector is not supported.}
+\code{\link{get_dracor}}). Character vector is not supported.}
 
 \item{x}{A \code{play_igraph} object to plot.}
 

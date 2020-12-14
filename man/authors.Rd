@@ -10,7 +10,7 @@ authors(corpus)
 \method{summary}{authors}(object, ...)
 }
 \arguments{
-\item{corpus}{\code{corpus} object or corpus name as character. Vector of corpus
+\item{corpus}{\code{dracor} object or corpus name as character. Vector of corpus
 names is not supported}
 
 \item{object}{An object of class \code{"authors"}.}
@@ -37,7 +37,7 @@ in \code{authors} can be more than a number of plays in a corpus.
 }}
 
 \examples{
-ru <- get_corpus("rus")
+ru <- get_dracor("rus")
 ru_authors <- authors(ru)
 summary(ru_authors)
 }

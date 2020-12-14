@@ -2,45 +2,76 @@
 % Please edit documentation in R/dracor.R
 \name{get_dracor}
 \alias{get_dracor}
+\alias{get_dracor_vec}
+\alias{get_dracor_all}
 \alias{summary.dracor}
-\alias{plot.dracor}
-\title{Retrieve information on available corpora.}
+\title{Retrieve metadata for all plays in a corpus.}
 \usage{
-get_dracor()
+get_dracor(
+  corpus = NULL,
+  URL = paste0("https://dracor.org/api/corpora/", corpus),
+  full_metadata = TRUE
+)
+
+get_dracor_vec(corpus, full_metadata = TRUE)
+
+get_dracor_all(full_metadata = TRUE)
 
 \method{summary}{dracor}(object, ...)
-
-\method{plot}{dracor}(x, ...)
 }
 \arguments{
+\item{corpus}{Name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+
+\item{URL}{Request URL.}
+
+\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
+
 \item{object}{An object of class \code{"dracor"}.}
 
-\item{...}{Other arguments to be passed.}
-
-\item{x}{A \code{dracor} object.}
+\item{...}{Other arguments to be passed to \code{\link{summary.default}}.}
 }
 \value{
-\code{dracor} object that inherits data.frame (and can be used
-  as such).
+\code{dracor} object that inherits data.frame (and can be used as such)
 }
 \description{
+The DraCor API lets you request data for plays for a specific corpus.
+\code{get_dracor} returns \code{dracor_meta} object that inherits
+data.frame (and can be used as such) but specified \code{\link{summary}}
+method and \code{\link{authors}} function.
+}
+\details{
 \code{get_dracor} returns a \code{dracor} object that inherits
 data.frame (and can be used as such).
+\code{get_dracor_all} returns metadata for all plays in all available
+corpora as a long data.frame.
+
+\code{dracor} constructs \code{dracor} object, \code{is.dracor} tests that
+object is \code{dracor}, \code{summary.dracor} returns informative summary
+for a dracor.
+
+You need to provide a valid name for the dracor, e.g. \code{"rus"},
+\code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor_meta}}
+to extract names for all available corpora.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{summary}: Meaningful summary for \code{dracor} object.
-
-\item \code{plot}: Plots how many plays are
-available for each corpus.
+\item \code{summary}: Meaningful summary for \code{dracor_meta} object.
 }}
 
 \examples{
-corpora <- get_dracor()
-corpora
-summary(corpora)
-plot(corpora)
+\donttest{
+ru <- get_dracor("rus")
+head(ru)
+summary(ru)
+}
+\donttest{
+get_dracor_vec(c("ita", "span", "greek"))
+}
+\donttest{
+get_dracor_all()
+}
 }
 \seealso{
-\code{\link{is.dracor}}, \code{\link{get_corpus}}
+\code{\link{get_dracor_meta}}, \code{\link{authors}}
 }

@@ -31,33 +31,33 @@ top_authors <- function(authors, top_n = 5) {
 #'
 #' @return \code{authors} object that inherits data.frame (and can be used
 #'   as such).
-#' @param corpus \code{corpus} object or corpus name as character. Vector of corpus
+#' @param corpus \code{dracor} object or corpus name as character. Vector of corpus
 #'   names is not supported
 #' @examples
-#' ru <- get_corpus("rus")
+#' ru <- get_dracor("rus")
 #' ru_authors <- authors(ru)
 #' summary(ru_authors)
 #' @seealso \code{\link{is.authors}}, \code{\link{plot.authors}},
-#' \code{\link{get_dracor_meta}}
+#' \code{\link{get_dracor}}
 #' @import data.table
 #' @exportClass authors
 #' @export
 authors <- function(corpus) {
   plays <- N <- name <- `.` <- NULL # to pass check
   if (is.character(corpus)) {
-    corpus <- get_corpus(corpus)
-  } else if (is.corpus(corpus)) {
-    invisible()
+    dracor <- get_dracor(corpus)
+  } else if (is.dracor(corpus)) {
+    dracor <- corpus
   } else {
-    stop("corpus parameter is neither valid corpus name nor corpus object")
+    stop("the corpus parameter is neither valid corpus name nor dracor object")
   }
   authors_dt <-
-    data.table::rbindlist(corpus$authors)[, .(plays = .N), by = .(key, name)][order(-plays)]
+    data.table::rbindlist(dracor$authors)[, .(plays = .N), by = .(key, name)][order(-plays)]
   structure(
     authors_dt,
-    name = attr(corpus, "name"),
-    title = attr(corpus, "title"),
-    repository = attr(corpus, "repository"),
+    name = attr(dracor, "name"),
+    title = attr(dracor, "title"),
+    repository = attr(dracor, "repository"),
     class = c("authors", "data.frame")
   )
 }
@@ -113,7 +113,7 @@ summary.authors <- function(object, ...) {
 #'   authors will be plotted.
 #' @param ... Other parameters to be passed to \code{\link{plot.default}}.
 #' @examples
-#' rus <- get_corpus("rus")
+#' rus <- get_dracor("rus")
 #' rus_authors <- authors(rus)
 #' plot(rus_authors, top_minplays = 4)
 #' @method plot authors

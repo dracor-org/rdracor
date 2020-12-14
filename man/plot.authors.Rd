@@ -43,7 +43,7 @@ parameters \code{top_n}, \code{top_minplays}, or \code{top_ratio}
 adjustment.
 }
 \examples{
-rus <- get_corpus("rus")
+rus <- get_dracor("rus")
 rus_authors <- authors(rus)
 plot(rus_authors, top_minplays = 4)
 }

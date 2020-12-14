@@ -26,7 +26,7 @@ get_dracor_api_info <- function() {
 #' summary(corpora)
 #' plot(corpora)
 #' @seealso
-#' \code{\link{is.dracor_meta}}, \code{\link{get_corpus}}
+#' \code{\link{is.dracor_meta}}, \code{\link{get_dracor}}
 #' @export
 get_dracor_meta <-
   function() {

@@ -8,7 +8,7 @@
 #'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
 #' @param play Character, name of the play (you can find all play names in
 #'   \code{playName} column within an object returned by
-#'   \code{\link{get_corpus}}). Character vector is not supported.
+#'   \code{\link{get_dracor}}). Character vector is not supported.
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
 #' get_play_metadata(corpus = "rus", play = "gogol-zhenitba")

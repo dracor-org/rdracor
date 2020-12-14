@@ -3,11 +3,11 @@ test_that("authors() works with corpus name", {
 })
 
 test_that("authors() works with corpus object", {
-  expect_s3_class(authors(get_corpus("shake")), "authors")
+  expect_s3_class(authors(get_dracor("shake")), "authors")
 })
 
-test_that("authors() returns error on dracor object", {
-  expect_error(authors(get_dracor()))
+test_that("authors() returns error on dracor_meta object", {
+  expect_error(authors(get_dracor_meta()))
 })
 
 test_that("is.authors() works", {
