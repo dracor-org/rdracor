@@ -130,8 +130,9 @@ get_corpus <- function(corpus = NULL,
 #' \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor_meta}}
 #' to extract names for all available corpora. If you
 #'
-#' @param corpus Name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
+#' @param corpus Character vector with names of the corpora (you can find all corpora names in
+#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}})
+#'   or \code{"all"} (default value). if \code{corpus = "all}, then all available corpora are downloaded
 #' @param URL Request URL.
 #' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
 #' @return \code{dracor} object that inherits data.frame (and can be used as such)
