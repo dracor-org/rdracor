@@ -16,7 +16,7 @@ divide_years <- function(corpus, year_column) {
 #' Retrieve metadata for all plays in a corpus.
 #'
 #' The DraCor API lets you request data for plays for a specific corpus.
-#' \code{get_corpus} returns \code{dracor} object that inherits
+#' \code{get_corpus} returns \code{dracor_meta} object that inherits
 #' data.frame (and can be used as such) but specified \code{\link{summary}}
 #' method and \code{\link{authors}} function.
 #'
@@ -31,11 +31,11 @@ divide_years <- function(corpus, year_column) {
 #' for a corpus.
 #'
 #' You need to provide a valid name for the corpus, e.g. \code{"rus"},
-#' \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor}}
+#' \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor_meta}}
 #' to extract names for all available corpora.
 #'
 #' @param corpus Name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
+#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
 #' @param URL Request URL.
 #' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
 #' @return \code{corpus} object that inherits data.frame (and can be used as such)
@@ -45,7 +45,7 @@ divide_years <- function(corpus, year_column) {
 #' head(ru)
 #' summary(ru)
 #' }
-#' @seealso \code{\link{get_dracor}}, \code{\link{authors}}
+#' @seealso \code{\link{get_dracor_meta}}, \code{\link{authors}}
 #' @importFrom  jsonlite fromJSON
 #' @import  data.table
 #' @export
@@ -176,9 +176,9 @@ get_corpus_vec <- function(corpus, full_metadata = TRUE) {
 #' get_corpus_all()
 #' }
 get_corpus_all <- function(full_metadata = TRUE) {
-  dracor <- get_dracor()
+  dracor_meta <- get_dracor_meta()
   corpus_list <-
-    lapply(dracor$name,
+    lapply(dracor_meta$name,
            get_corpus,
            full_metadata = full_metadata)
   return(data.table::rbindlist(corpus_list))
@@ -217,7 +217,7 @@ is.corpus <- function(x) {
 #' @param ... Other arguments to be passed to \code{\link{summary.default}}.
 #' @method summary corpus
 #' @export
-#' @describeIn get_corpus Meaningful summary for \code{dracor} object.
+#' @describeIn get_corpus Meaningful summary for \code{dracor_meta} object.
 summary.corpus <- function(object, ...) {
   written <-
     suppressWarnings(range(object$writtenYearStart, object$writtenYearFinish, na.rm = T))

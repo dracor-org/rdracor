@@ -38,7 +38,7 @@ top_authors <- function(authors, top_n = 5) {
 #' ru_authors <- authors(ru)
 #' summary(ru_authors)
 #' @seealso \code{\link{is.authors}}, \code{\link{plot.authors}},
-#' \code{\link{get_dracor}}
+#' \code{\link{get_dracor_meta}}
 #' @import data.table
 #' @exportClass authors
 #' @export

@@ -5,7 +5,7 @@
 #'
 #' @return List with a play metadata
 #' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor}}).
+#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
 #' @param play Character, name of the play (you can find all play names in
 #'   \code{playName} column within an object returned by
 #'   \code{\link{get_corpus}}). Character vector is not supported.

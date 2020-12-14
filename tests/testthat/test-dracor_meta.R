@@ -3,12 +3,12 @@ test_that("API info is 1 x 4", {
 })
 
 test_that("get_dracor() returns dracor object", {
-  expect_s3_class(get_dracor(), "dracor")
+  expect_s3_class(get_dracor_meta(), "dracor_meta")
 })
 
 test_that("summary for dracor object is visible", {
-  corpora <- get_dracor()
-  summary_captured <- capture.output(summary(corpora))
+  corpora <- get_dracor_meta()
+  summary_captured <- capture.output(summary(corpora_meta))
   summary_length <- nchar(summary_captured)
   len_checks <-
     c(summary_length[1] > 0, summary_length[2] == 0, summary_length[3] > 0)

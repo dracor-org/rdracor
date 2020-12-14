@@ -15,22 +15,22 @@ get_dracor_api_info <- function() {
 
 #' Retrieve information on available corpora.
 #'
-#' \code{get_dracor} returns a \code{dracor} object that inherits
+#' \code{get_dracor_meta} returns a \code{dracor} object that inherits
 #' data.frame (and can be used as such).
 #'
 #' @return \code{dracor} object that inherits data.frame (and can be used
 #'   as such).
 #' @examples
-#' corpora <- get_dracor()
+#' corpora <- get_dracor_meta()
 #' corpora
 #' summary(corpora)
 #' plot(corpora)
 #' @seealso
-#' \code{\link{is.dracor}}, \code{\link{get_corpus}}
+#' \code{\link{is.dracor_meta}}, \code{\link{get_corpus}}
 #' @export
-get_dracor <-
+get_dracor_meta <-
   function() {
-    dracor(
+    dracor_meta(
       dracor_api(
         "https://dracor.org/api/corpora?include=metrics",
         expected_type = "application/json",
@@ -39,43 +39,49 @@ get_dracor <-
     )
   }
 
-#' @exportClass dracor
-dracor <- function(dracor_df) {
-  dracor <- type.convert(dracor_df, as.is = TRUE, na.strings = c("NA", "-"))
-  names(dracor) <- gsub("metrics.", "", names(dracor), fixed = TRUE)
-  dracor$updated <-
-    as.POSIXct(dracor$updated, format = "%FT%H:%M:%OS", tz = "UTC")
-  dracor <- dracor[order(-dracor$plays), ]
-  attributes(dracor) <- c(
-    attributes(dracor),
-    get_dracor_api_info()
-  )
-  class(dracor) <- c("dracor", class(dracor))
-  return(dracor)
+#' @exportClass dracor_meta
+dracor_meta <- function(dracor_df) {
+  dracor_meta <-
+    type.convert(dracor_df,
+                 as.is = TRUE,
+                 na.strings = c("NA", "-"))
+  names(dracor_meta) <-
+    gsub("metrics.", "", names(dracor_meta), fixed = TRUE)
+  dracor_meta$updated <-
+    as.POSIXct(dracor_meta$updated, format = "%FT%H:%M:%OS", tz = "UTC")
+  dracor_meta <- dracor_meta[order(-dracor_meta$plays),]
+  attributes(dracor_meta) <- c(attributes(dracor_meta),
+                               get_dracor_api_info())
+  class(dracor_meta) <- c("dracor_meta", class(dracor_meta))
+  return(dracor_meta)
 }
 
-#' Test an object to be a 'dracor' object.
+#' Test an object to be a 'dracor_meta' object.
 #'
-#' Test that object is a \code{dracor}.
+#' Test that object is a \code{dracor_meta}.
 #'
 #' @param x An R object.
-#' @seealso \code{\link{get_dracor}}
+#' @seealso \code{\link{get_dracor_meta}}
 #' @export
-is.dracor <- function(x) {
-  inherits(x, "dracor")
+is.dracor_meta <- function(x) {
+  inherits(x, "dracor_meta")
 }
 
-#' @param object An object of class \code{"dracor"}.
+#' @param object An object of class \code{"dracor_meta"}.
 #' @param ... Other arguments to be passed.
-#' @method summary dracor
+#' @method summary dracor_meta
 #' @export
-#' @describeIn get_dracor Meaningful summary for \code{dracor} object.
-summary.dracor <- function(object, ...) {
+#' @describeIn get_dracor_meta Meaningful summary for \code{dracor_meta} object.
+summary.dracor_meta <- function(object, ...) {
   n_plays <- sum(object$plays)
   n_corpora <- nrow(object)
   last_upd <- which.max(object$updated)
   cat(
-    sprintf("DraCor hosts %d corpora comprising %d plays.", n_corpora, n_plays),
+    sprintf(
+      "DraCor hosts %d corpora comprising %d plays.",
+      n_corpora,
+      n_plays
+    ),
     sprintf(
       "The last updated corpus was %s (%s).",
       object$title[last_upd],
@@ -85,13 +91,13 @@ summary.dracor <- function(object, ...) {
   )
 }
 
-#' @param x A \code{dracor} object.
-#' @method plot dracor
+#' @param x A \code{dracor_meta} object.
+#' @method plot dracor_meta
 #' @export
-#' @describeIn get_dracor Plots how many plays are
+#' @describeIn get_dracor_meta Plots how many plays are
 #' available for each corpus.
-plot.dracor <- function(x,
-                        ...) {
+plot.dracor_meta <- function(x,
+                             ...) {
   pch <- 16
   col <- "black"
   lty.lolly <- 1
@@ -100,10 +106,8 @@ plot.dracor <- function(x,
   left_margin <- 10.5
   y_in <- rev(1:nrow(x))
   old.par <- par(no.readonly = TRUE)
-  par(
-    mar = c(3, left_margin, 4, 2) + 0.1,
-    mgp = c(2, 1, 0)
-  )
+  par(mar = c(3, left_margin, 4, 2) + 0.1,
+      mgp = c(2, 1, 0))
   plot.default(
     x$plays,
     y_in,
