@@ -108,6 +108,7 @@ get_corpus <- function(corpus = NULL,
     dracor_list$dramas[, (dublicate_columns) := NULL]
   }
   setDF(dracor_list$dramas)
+  dracor_list$plays <- nrow(dracor_list$dramas)
   return(dracor_list)
 }
 
