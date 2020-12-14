@@ -2,20 +2,14 @@
 % Please edit documentation in R/dracor.R
 \name{get_dracor}
 \alias{get_dracor}
-\alias{get_dracor_vec}
-\alias{get_dracor_all}
 \alias{summary.dracor}
 \title{Retrieve metadata for all plays in a corpus.}
 \usage{
 get_dracor(
-  corpus = NULL,
+  corpus = "all",
   URL = paste0("https://dracor.org/api/corpora/", corpus),
   full_metadata = TRUE
 )
-
-get_dracor_vec(corpus, full_metadata = TRUE)
-
-get_dracor_all(full_metadata = TRUE)
 
 \method{summary}{dracor}(object, ...)
 }
@@ -64,12 +58,9 @@ to extract names for all available corpora.
 ru <- get_dracor("rus")
 head(ru)
 summary(ru)
-}
-\donttest{
-get_dracor_vec(c("ita", "span", "greek"))
-}
-\donttest{
-get_dracor_all()
+get_dracor("tat")
+get_dracor(c("ita", "span", "greek"))
+get_dracor()
 }
 }
 \seealso{
