@@ -21,8 +21,8 @@ Project). Website of the project: [dracor.org](https://dracor.org).
 ## Installation
 
 ``` r
-#install.packages("devtools") #if you don't have devtools installed
-devtools::install_github("dracor-org/rdracor")
+#install.packages("remotes") #if you don't have remotes installed
+remotes::install_github("dracor-org/rdracor")
 ```
 
 ## General info on corpora
@@ -34,11 +34,11 @@ library(rdracor)
 ```
 
 ``` r
-corpora <- get_dracor()
+corpora <- get_dracor_meta()
 summary(corpora)
-#> DraCor hosts 11 corpora comprising 1129 plays.
+#> DraCor hosts 11 corpora comprising 1130 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2020-11-07 19:57:41).
+#> The last updated corpus was German Drama Corpus (2020-12-14 17:52:20).
 plot(corpora)
 ```
 
@@ -47,13 +47,13 @@ plot(corpora)
 ## Plays in the corpus
 
 ``` r
-ru <- get_corpus(corpus = "rus")
+ru <- get_dracor(corpus = "rus")
 summary(ru)
-#> No information on written years  
-#> Premiere years (range): 1750 - 1992  
-#> Years of the first printing (range): 1747 - 1986 
 #> 211 plays in Russian Drama Corpus    
 #> Corpus id: rus, repository: https://github.com/dracor-org/rusdracor
+#> Written years (range): 1747 - 1940   
+#> Premiere years (range): 1750 - 1992  
+#> Years of the first printing (range): 1747 - 1986
 ru_au <- authors(ru)
 summary(ru_au)
 #> There are 58 authors in Russian Drama Corpus 
@@ -68,6 +68,19 @@ plot(ru_au, top_minplays = 4)
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+You can get all corpora at once:
+
+``` r
+all <- get_dracor()
+summary(all)
+#> 1132 plays in 11 corpora:    
+#> Corpora id:  
+#> ger (511 plays),rus (211 plays),ita (139 plays),swe (70 plays),cal (54 plays),greek (39 plays),shake (37 plays),rom (36 plays),span (25 plays),als (7 plays),tat (3 plays)
+#> Written years (range): 43 - 1947 
+#> Premiere years (range): -472 - 1992  
+#> Years of the first printing (range): 1493 - 1986
+```
 
 ## Play network
 
@@ -102,7 +115,7 @@ is a group:
 plot(godunov)
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 In addition, you can get a summary with network properties and gender
 distribution:

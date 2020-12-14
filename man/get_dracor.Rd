@@ -3,7 +3,7 @@
 \name{get_dracor}
 \alias{get_dracor}
 \alias{summary.dracor}
-\title{Retrieve metadata for all plays in a corpus.}
+\title{Retrieve metadata for all plays in selected corpora.}
 \usage{
 get_dracor(
   corpus = "all",
@@ -14,37 +14,36 @@ get_dracor(
 \method{summary}{dracor}(object, ...)
 }
 \arguments{
-\item{corpus}{Name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\item{corpus}{Character vector with names of the corpora (you can find all corpora names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}})
+or \code{"all"} (default value). if \code{"all"}, then all available corpora are downloaded}
 
 \item{URL}{Request URL.}
 
 \item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
 
-\item{object}{An object of class \code{"dracor"}.}
+\item{object}{An object of class \code{dracor}.}
 
 \item{...}{Other arguments to be passed to \code{\link{summary.default}}.}
 }
 \value{
-\code{dracor} object that inherits data.frame (and can be used as such)
+\code{dracor} object that inherits data.frame (and can be used as such).
 }
 \description{
-The DraCor API lets you request data for plays for a specific corpus.
-\code{get_dracor} returns \code{dracor_meta} object that inherits
+The DraCor API lets you request data for plays for specific or all corpora.
+\code{get_dracor} returns \code{dracor} object that inherits
 data.frame (and can be used as such) but specified \code{\link{summary}}
 method and \code{\link{authors}} function.
 }
 \details{
 \code{get_dracor} returns a \code{dracor} object that inherits
 data.frame (and can be used as such).
-\code{get_dracor_all} returns metadata for all plays in all available
-corpora as a long data.frame.
 
 \code{dracor} constructs \code{dracor} object, \code{is.dracor} tests that
 object is \code{dracor}, \code{summary.dracor} returns informative summary
 for a dracor.
 
-You need to provide a valid name for the dracor, e.g. \code{"rus"},
+You need to provide a vector with valid names of the corpora, e.g. \code{"rus"},
 \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor_meta}}
 to extract names for all available corpora.
 }
@@ -58,7 +57,6 @@ to extract names for all available corpora.
 ru <- get_dracor("rus")
 head(ru)
 summary(ru)
-get_dracor("tat")
 get_dracor(c("ita", "span", "greek"))
 get_dracor()
 }
