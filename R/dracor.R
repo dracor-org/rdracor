@@ -60,8 +60,8 @@ get_corpus <- function(corpus = NULL,
     "numOfPersonGroups",
     "numOfSegments",
     "numOfActs",
-    "wikipediaLinkCount",
-    "genre"
+    "wikipediaLinkCount"#,
+    #"genre"
   )
   if (is.null(corpus) & URL == "https://dracor.org/api/corpora/") {
     stop("You must provide dracor id or URL")
