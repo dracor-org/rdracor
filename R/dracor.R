@@ -41,6 +41,7 @@ get_corpus <- function(corpus = NULL,
       "networkdataCsvUrl"
     )
   columns_extra_order <- c(
+    "normalizedGenre",
     "size",
     "density",
     "diameter",
@@ -60,8 +61,7 @@ get_corpus <- function(corpus = NULL,
     "numOfPersonGroups",
     "numOfSegments",
     "numOfActs",
-    "wikipediaLinkCount"#,
-    #"genre"
+    "wikipediaLinkCount"
   )
   if (is.null(corpus) & URL == "https://dracor.org/api/corpora/") {
     stop("You must provide dracor id or URL")
