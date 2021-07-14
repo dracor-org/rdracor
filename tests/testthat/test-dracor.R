@@ -1,16 +1,46 @@
-test_that("API info is 1 x 4", {
-  expect_equal(dim(get_dracor_api_info()), c(1, 4))
+test_that("Russian corpus downloaded", {
+  expect_equal(class(get_dracor("rus")), c("dracor", "data.frame"))
 })
 
-test_that("get_dracor() returns dracor object", {
-  expect_s3_class(get_dracor(), "dracor")
+test_that("Russian corpus downloaded", {
+  expect_s3_class(get_dracor("rus"), c("dracor", "data.frame"))
 })
 
-test_that("summary for dracor object is visible", {
-  corpora <- get_dracor()
-  summary_captured <- capture.output(summary(corpora))
-  summary_length <- nchar(summary_captured)
-  len_checks <-
-    c(summary_length[1] > 0, summary_length[2] == 0, summary_length[3] > 0)
-  expect_true(all(len_checks))
+test_that("non-existant corpus returns error", {
+  expect_error(get_dracor("non-existant"))
 })
+
+test_that("several corpora are downloaded via get_dracor() if character vector
+          is provided",
+          {
+            expect_s3_class(get_dracor("tat", "span"), c("dracor", "data.frame"))
+          })
+
+test_that(
+  "all corpora are loaded via get_dracor() if corpus is equal 'all' and
+          unique corpus names is at least 11",
+  {
+    length(unique(get_dracor()$name)) >= 11
+  }
+)
+
+test_that("is.dracor() works", {
+  expect_true(is.dracor(get_dracor("cal")))
+})
+
+test_that("is.dracor() works", {
+  expect_false(is.dracor(3))
+})
+
+test_that("summary() work for 'dracor' object if there is no info on years", {
+  expect_true(all(nchar(capture.output(
+    summary(get_dracor("tat"))
+  )) > 3))
+})
+
+test_that(
+  "writtenYear with format 'YYYY/YYYY' is processed as integer in column writtenYearFinish",
+  {
+    expect_is(get_dracor("rus")$writtenYearFinish, "integer")
+  }
+)

@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{authors}(
   x,
-  only_surnames = FALSE,
+  abbreviate_names = FALSE,
   top_n = nrow(x),
   top_minplays = 1,
   top_ratio = 1,
@@ -16,8 +16,8 @@
 \arguments{
 \item{x}{\code{authors} object to plot.}
 
-\item{only_surnames}{Logical, if \code{TRUE}, then only authors' surnames
-are shown, defaults to \code{FALSE}.}
+\item{abbreviate_names}{Logical, if \code{TRUE}, then authors' names
+are shown abbreviated, defaults to \code{FALSE}.}
 
 \item{top_n}{Integer, number of top authors to show on plot.}
 
@@ -43,7 +43,7 @@ parameters \code{top_n}, \code{top_minplays}, or \code{top_ratio}
 adjustment.
 }
 \examples{
-rus <- get_corpus("rus")
+rus <- get_dracor("rus")
 rus_authors <- authors(rus)
 plot(rus_authors, top_minplays = 4)
 }

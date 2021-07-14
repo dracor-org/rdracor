@@ -1,7 +1,7 @@
 
 
 test_that("length of the list returned by get_play_metadata is 19", {
-  expect_equal(length(get_play_metadata("rus", "pushkin-boris-godunov")), 19)
+  expect_equal(length(get_play_metadata("rus", "pushkin-boris-godunov")), 20)
 })
 
 test_that("length of the list returned by get_play_metrics is 14", {

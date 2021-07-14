@@ -30,8 +30,8 @@ The goal of **rdracor** is to provide an R interface for the [DraCor API](https:
 
 
 ``` r
-#install.packages("devtools") #if you don't have devtools installed
-devtools::install_github("dracor-org/rdracor")
+#install.packages("remotes") #if you don't have remotes installed
+remotes::install_github("dracor-org/rdracor")
 ```
 
 ## General info on corpora
@@ -43,7 +43,7 @@ library(rdracor)
 ```
 
 ```{r}
-corpora <- get_dracor()
+corpora <- get_dracor_meta()
 summary(corpora)
 plot(corpora)
 ```
@@ -51,11 +51,18 @@ plot(corpora)
 ## Plays in the corpus
 
 ```{r}
-ru <- get_corpus(corpus = "rus")
+ru <- get_dracor(corpus = "rus")
 summary(ru)
 ru_au <- authors(ru)
 summary(ru_au)
 plot(ru_au, top_minplays = 4)
+```
+
+You can get all corpora at once:
+
+```{r}
+all <- get_dracor()
+summary(all)
 ```
 
 ## Play network
@@ -88,4 +95,3 @@ In addition, you can get a summary with network properties and gender distributi
 ```{r}
 summary(godunov)
 ```
-
