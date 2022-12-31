@@ -1,7 +1,7 @@
 Package: rdracor
 Type: Package
 Title: Access To The DraCor API
-Version: 0.6.0
+Version: 0.6.1
 Author: Ivan Pozdniakov <bucherr@yandex.ru>
 Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
 Description: Wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
@@ -23,5 +23,5 @@ RoxygenNote: 7.2.1
 Suggests: 
     testthat (>= 2.1.0),
     covr
-URL: https://github.com/Pozdniakov/rdracor
-BugReports: https://github.com/Pozdniakov/rdracor/issues
+URL: https://github.com/dracor-org/rdracor
+BugReports: https://github.com/dracor-org/rdracor/issues
