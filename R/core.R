@@ -65,9 +65,12 @@ dracor_error <- function(resp) {
 #' @param split_text Logical, if \code{TRUE}, plain text lines are read as
 #'   different values in a vector instead of returning one character value.
 #'   Default value is \code{TRUE}.
+#' @param as_tibble Logical, if \code{TRUE}, data.frame will be returned as a
+#'   tidyverse tibble (\code{tbl_df}). Default value is \code{TRUE}.
 #' @param ... Other arguments passed to a parser function.
 #' @import httr
 #' @importFrom jsonlite fromJSON
+#' @importFrom tibble as_tibble
 #' @import xml2
 #' @import data.table
 #' @export
@@ -82,6 +85,7 @@ dracor_api <- function(request,
                        parse = TRUE,
                        default_type = FALSE,
                        split_text = TRUE,
+                       as_tibble = TRUE,
                        ...) {
   expected_type <- match.arg(expected_type)
   if (default_type) {
@@ -97,9 +101,14 @@ dracor_api <- function(request,
   }
   switch(
     expected_type,
-    "application/json" = return(jsonlite::fromJSON(cont, ...)),
+    "application/json" = if (as_tibble) {
+      return(tibble::as_tibble(jsonlite::fromJSON(cont, ...)))
+      } else {
+      return(jsonlite::fromJSON(cont, ...))},
     "application/xml" = return(xml2::read_xml(cont, ...)),
-    "text/csv" = return(data.table::fread(cont, ...)),
+    "text/csv" = if (as_tibble) {
+      return(tibble::as_tibble(data.table::fread(cont, ...)))
+      } else {return(data.table::fread(cont, ...))},
     "text/plain" = if (split_text) {
       return(unlist(strsplit(cont, "\n")))
     } else {

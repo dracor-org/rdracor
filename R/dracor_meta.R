@@ -8,12 +8,13 @@
 #' @examples
 #' get_dracor_api_info()
 #' @importFrom jsonlite fromJSON
+#' @importFrom tibble as_tibble
 #' @export
 get_dracor_api_info <- function() {
-  as.data.frame(dracor_api("https://dracor.org/api/info", expected_type = "application/json"))
+  tibble::as_tibble(dracor_api("https://dracor.org/api/info", expected_type = "application/json"))
 }
 
-#' Retrieve information on available corpora.
+#' Retrieve information on available corpora
 #'
 #' \code{get_dracor_meta} returns a \code{dracor} object that inherits
 #' data.frame (and can be used as such).
@@ -26,7 +27,7 @@ get_dracor_api_info <- function() {
 #' summary(corpora)
 #' plot(corpora)
 #' @seealso
-#' \code{\link{is.dracor_meta}}, \code{\link{get_dracor}}
+#' \code{\link{get_dracor}}
 #' @export
 get_dracor_meta <-
   function() {
@@ -39,7 +40,11 @@ get_dracor_meta <-
     )
   }
 
-#' @exportClass dracor_meta
+
+get_available_corpus_names <- function() {
+  get_dracor_meta()$name
+}
+
 dracor_meta <- function(dracor_df) {
   dracor_meta <-
     type.convert(dracor_df,
@@ -56,13 +61,6 @@ dracor_meta <- function(dracor_df) {
   return(dracor_meta)
 }
 
-#' Test an object to be a 'dracor_meta' object.
-#'
-#' Test that object is a \code{dracor_meta}.
-#'
-#' @param x An R object.
-#' @seealso \code{\link{get_dracor_meta}}
-#' @export
 is.dracor_meta <- function(x) {
   inherits(x, "dracor_meta")
 }

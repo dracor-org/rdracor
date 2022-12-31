@@ -53,9 +53,6 @@ plot(corpora)
 ```{r}
 ru <- get_dracor(corpus = "rus")
 summary(ru)
-ru_au <- authors(ru)
-summary(ru_au)
-plot(ru_au, top_minplays = 4)
 ```
 
 You can get all corpora at once:
