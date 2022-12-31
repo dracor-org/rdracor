@@ -1,14 +1,14 @@
-#' Retrieve metadata for a play.
+#' Retrieve metadata for a play
 #'
 #' The DraCor API lets you request metadata for a specific play, given corpus
 #' and play names.
 #'
-#' @return List with a play metadata
+#' @return List with a play metadata.
 #' @param corpus Character, name of the corpus (you can find all corpus names in
 #'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
 #' @param play Character, name of the play (you can find all play names in
 #'   \code{playName} column within an object returned by
-#'   \code{\link{get_dracor}}). Character vector is not supported.
+#'   \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
 #' get_play_metadata(corpus = "rus", play = "gogol-zhenitba")
@@ -25,11 +25,11 @@
 #' @export
 get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play),
-    expected_type = "application/json", ...
+    expected_type = "application/json", as_tibble = FALSE, ...
   )
 }
 
-#' Retrieve network metrics for a play.
+#' Retrieve network metrics for a play
 #'
 #' The DraCor API lets you request network metrics for a specific play, given
 #' corpus and play names. Play network is constructed based on characters'
@@ -52,6 +52,7 @@ get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
 get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
   dracor_api(form_play_request(corpus, play, type = "metrics"),
     expected_type = "application/json",
+    as_tibble = FALSE,
     ...
   )
 }
@@ -211,9 +212,12 @@ get_play_networkdata_gexf <-
 #' @inheritParams get_play_metadata
 #' @param gender Character, optional parameter to extract lines for characters
 #' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
+#' @param split_text If \code{TRUE} returns text as a character vector of lines.
+#' Otherwise, returns text as one character value. \code{TRUE} by default.
 #' @examples
 #' get_play_spoken_text("rus", "gogol-zhenitba")
 #' get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE")
+#' get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE", split = FALSE)
 #' get_play_spoken_text_bych("rus", "gogol-zhenitba")
 #' get_play_stage_directions("rus", "gogol-zhenitba")
 #' get_play_stage_directions_with_sp("rus", "gogol-zhenitba")
@@ -227,6 +231,7 @@ get_play_spoken_text <-
   function(corpus = NULL,
            play = NULL,
            gender = NULL,
+           split_text = TRUE,
            ...) {
     request <- form_play_request(corpus, play, type = "spoken-text")
     if (!is.null(gender)) {
@@ -244,7 +249,7 @@ get_play_spoken_text <-
 #' @describeIn get_play_spoken_text Retrieve lines grouped by characters in a
 #' play, given corpus and play names.
 get_play_spoken_text_bych <-
-  function(corpus = NULL, play = NULL, ...) {
+  function(corpus = NULL, play = NULL, split_text = TRUE, ...) {
     dracor_api(
       form_play_request(corpus, play, type = "spoken-text-by-character"),
       expected_type = "application/json",
@@ -256,7 +261,7 @@ get_play_spoken_text_bych <-
 #' @describeIn get_play_spoken_text Retrieve all stage directions of a play,
 #' given corpus and play names.
 get_play_stage_directions <-
-  function(corpus = NULL, play = NULL, ...) {
+  function(corpus = NULL, play = NULL, split_text = TRUE, ...) {
     dracor_api(form_play_request(corpus, play, type = "stage-directions"),
       expected_type = "text/plain",
       ...
@@ -267,7 +272,7 @@ get_play_stage_directions <-
 #' @describeIn get_play_spoken_text Retrieve all stage directions of a play
 #' including speakers (if applicable), given corpus and play names.
 get_play_stage_directions_with_sp <-
-  function(corpus = NULL, play = NULL, ...) {
+  function(corpus = NULL, play = NULL, split_text = TRUE, ...) {
     dracor_api(
       form_play_request(corpus, play, type = "stage-directions-with-speakers"),
       expected_type = "text/plain",
@@ -324,16 +329,16 @@ get_sparql <- function(sparql_query = NULL, ...) {
 #'   \code{\link{get_play_stage_directions_with_sp}},
 #'   \code{\link{is.play_igraph}}
 #' @import igraph
-#' @exportClass play_igraph
+#' @import data.table
 #' @export
 play_igraph <- function(corpus = NULL, play = NULL) {
   nodes <- get_play_cast(corpus = corpus, play = play)
   nodes <- nodes[, c("id", names(nodes)[names(nodes) != "id"])]
   edges <- get_play_networkdata_csv(corpus = corpus, play = play)
-  setnames(edges, tolower(names(edges)))
+  data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
-    graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+    igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
   structure(graph,
     corpus = corpus,
     play = play,
@@ -377,9 +382,10 @@ is.play_igraph <- function(x) {
 label_play_igraph <- function(graph,
                               max_graph_size = 30L,
                               top_nodes = 3L) {
-  vertices_labels <- V(graph)$name
-  if (vcount(graph) > max_graph_size) {
-    vertices_labels[vcount(graph) - rank(V(graph)$numOfWords, ties.method = "max") >= top_nodes] <-
+  vertices_labels <- igraph::V(graph)$name
+  if (igraph::vcount(graph) > max_graph_size) {
+    vertices_labels[igraph::vcount(graph) - rank(igraph::V(graph)$numOfWords,
+                                                         ties.method = "max") >= top_nodes] <-
       NA
   }
   vertices_labels
@@ -400,14 +406,14 @@ plot.play_igraph <- function(x,
   vertex.label <- label_play_igraph(x)
   vertex.label.color <- "black"
   vertex.label.family <- "sans"
-  vertex.color <- gender_colours[V(x)$gender]
-  vertex.size <- log(V(x)$numOfWords, base = 1.4)
-  vertex.shape <- c("circle", "square")[as.numeric(V(x)$isGroup) + 1]
+  vertex.color <- gender_colours[igraph::V(x)$gender]
+  vertex.size <- log(igraph::V(x)$numOfWords, base = 1.4)
+  vertex.shape <- c("circle", "square")[as.numeric(igraph::V(x)$isGroup) + 1]
   vertex.frame.color <- "white"
-  edge.width <- ((E(x)$weight) / max(E(x)$weight) *
+  edge.width <- ((igraph::E(x)$weight) / max(igraph::E(x)$weight) *
     3)
-  layout <- layout_with_kk(x)
-  plot.igraph(
+  layout <- igraph::layout_with_kk(x)
+  igraph::plot.igraph(
     x,
     gender_colours = gender_colours,
     vertex.label = vertex.label,

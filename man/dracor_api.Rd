@@ -10,6 +10,7 @@ dracor_api(
   parse = TRUE,
   default_type = FALSE,
   split_text = TRUE,
+  as_tibble = TRUE,
   ...
 )
 }
@@ -29,6 +30,9 @@ Default value is \code{FALSE}.}
 \item{split_text}{Logical, if \code{TRUE}, plain text lines are read as
 different values in a vector instead of returning one character value.
 Default value is \code{TRUE}.}
+
+\item{as_tibble}{Logical, if \code{TRUE}, data.frame will be returned as a
+tidyverse tibble (\code{tbl_df}). Default value is \code{TRUE}.}
 
 \item{...}{Other arguments passed to a parser function.}
 }

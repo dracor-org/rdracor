@@ -1,11 +1,9 @@
-
-
-test_that("length of the list returned by get_play_metadata is 19", {
-  expect_equal(length(get_play_metadata("rus", "pushkin-boris-godunov")), 20)
+test_that("get_play_metadata returns list", {
+  expect_type(get_play_metadata("rus", "pushkin-boris-godunov"), "list")
 })
 
-test_that("length of the list returned by get_play_metrics is 14", {
-  expect_equal(length(get_play_metrics("rus", "pushkin-boris-godunov")), 14)
+test_that("get_play_metrics returns list", {
+  expect_type(get_play_metrics("rus", "pushkin-boris-godunov"), "list")
 })
 
 test_that("tei text is not empty", {
@@ -20,8 +18,8 @@ test_that("rdf text is not empty", {
   expect_gt(nchar(text), 0)
 })
 
-test_that("boris godunov cast has 12 columns and 79 characters", {
-  expect_equal(dim(get_play_cast("rus", "pushkin-boris-godunov")), c(79, 12))
+test_that("boris godunov cast has 79 characters", {
+  expect_equal(nrow(get_play_cast("rus", "pushkin-boris-godunov")), 79)
 })
 
 test_that("column names for get_play_networkdata_csv() are valid", {

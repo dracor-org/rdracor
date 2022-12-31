@@ -4,7 +4,7 @@
 \alias{get_dracor_meta}
 \alias{summary.dracor_meta}
 \alias{plot.dracor_meta}
-\title{Retrieve information on available corpora.}
+\title{Retrieve information on available corpora}
 \usage{
 get_dracor_meta()
 
@@ -27,14 +27,14 @@ get_dracor_meta()
 \code{get_dracor_meta} returns a \code{dracor} object that inherits
 data.frame (and can be used as such).
 }
-\section{Methods (by generic)}{
+\section{Functions}{
 \itemize{
-\item \code{summary}: Meaningful summary for \code{dracor_meta} object.
+\item \code{summary(dracor_meta)}: Meaningful summary for \code{dracor_meta} object.
 
-\item \code{plot}: Plots how many plays are
+\item \code{plot(dracor_meta)}: Plots how many plays are
 available for each corpus.
-}}
 
+}}
 \examples{
 corpora <- get_dracor_meta()
 corpora
@@ -42,5 +42,5 @@ summary(corpora)
 plot(corpora)
 }
 \seealso{
-\code{\link{is.dracor_meta}}, \code{\link{get_dracor}}
+\code{\link{get_dracor}}
 }

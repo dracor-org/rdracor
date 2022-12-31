@@ -12,7 +12,7 @@ get_play_cast(corpus = NULL, play = NULL, ...)
 
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector is not supported.}
+\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }

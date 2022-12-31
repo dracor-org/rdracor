@@ -2,7 +2,7 @@
 % Please edit documentation in R/play.R
 \name{get_play_metadata}
 \alias{get_play_metadata}
-\title{Retrieve metadata for a play.}
+\title{Retrieve metadata for a play}
 \usage{
 get_play_metadata(corpus = NULL, play = NULL, ...)
 }
@@ -12,12 +12,12 @@ get_play_metadata(corpus = NULL, play = NULL, ...)
 
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector is not supported.}
+\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-List with a play metadata
+List with a play metadata.
 }
 \description{
 The DraCor API lets you request metadata for a specific play, given corpus

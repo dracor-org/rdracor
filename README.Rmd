@@ -17,8 +17,8 @@ knitr::opts_chunk$set(
 # rdracor <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor)
-[![Codecov test coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master)
+[![Travis build status](https://travis-ci.org/dracor-org/rdracor.svg?branch=master)](https://travis-ci.org/dracor-org/rdracor)
+[![Codecov test coverage](https://codecov.io/gh/dracor-org/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/dracor-org/rdracor?branch=master)
 <!-- badges: end -->
 
 **Authors:** Ivan Pozdniakov, Frank Fischer<br />
@@ -53,9 +53,6 @@ plot(corpora)
 ```{r}
 ru <- get_dracor(corpus = "rus")
 summary(ru)
-ru_au <- authors(ru)
-summary(ru_au)
-plot(ru_au, top_minplays = 4)
 ```
 
 You can get all corpora at once:
@@ -95,3 +92,27 @@ In addition, you can get a summary with network properties and gender distributi
 ```{r}
 summary(godunov)
 ```
+
+## Text of the play
+
+You can get text of a play in different forms:
+
+- as a raw TEI (optionally parsed with {xml2})
+
+```{r}
+get_play_tei(corpus = "rus", play = "pushkin-boris-godunov")
+```
+
+- as a character vector:
+
+```{r}
+text_godunov <- get_play_spoken_text(corpus = "rus", play = "pushkin-boris-godunov")
+head(text_godunov)
+```
+
+- as a data frame:
+
+```{r}
+get_play_text_df(corpus = "rus", play = "pushkin-boris-godunov")
+```
+

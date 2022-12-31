@@ -18,7 +18,7 @@ play_igraph(corpus = NULL, play = NULL)
 
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector is not supported.}
+\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
 
 \item{x}{A \code{play_igraph} object to plot.}
 
@@ -36,13 +36,13 @@ constructed based on characters' cooccurrence matrix.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{plot}: Plot \code{play_igraph} using \code{play_igraph}
+\item \code{plot(play_igraph)}: Plot \code{play_igraph} using \code{play_igraph}
 with slightly modified defaults.
 
-\item \code{summary}: Meaningful summary for \code{"play_igraph"} object:
+\item \code{summary(play_igraph)}: Meaningful summary for \code{"play_igraph"} object:
 network properties, gender distribution
-}}
 
+}}
 \examples{
 library(igraph)
 zhenitba_igraph <- play_igraph("rus", "gogol-zhenitba")

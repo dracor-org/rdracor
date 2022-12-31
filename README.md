@@ -6,9 +6,9 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.org/Pozdniakov/rdracor.svg?branch=master)](https://travis-ci.org/Pozdniakov/rdracor)
+status](https://travis-ci.org/dracor-org/rdracor.svg?branch=master)](https://travis-ci.org/dracor-org/rdracor)
 [![Codecov test
-coverage](https://codecov.io/gh/Pozdniakov/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/Pozdniakov/rdracor?branch=master)
+coverage](https://codecov.io/gh/dracor-org/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/dracor-org/rdracor?branch=master)
 <!-- badges: end -->
 
 **Authors:** Ivan Pozdniakov, Frank Fischer<br /> **Licence:**
@@ -22,7 +22,7 @@ Project). Website of the project: [dracor.org](https://dracor.org).
 
 ``` r
 #install.packages("remotes") #if you don't have remotes installed
-remotes::install_github("Pozdniakov/rdracor")
+remotes::install_github("dracor-org/rdracor")
 ```
 
 ## General info on corpora
@@ -36,9 +36,9 @@ library(rdracor)
 ``` r
 corpora <- get_dracor_meta()
 summary(corpora)
-#> DraCor hosts 11 corpora comprising 1130 plays.
+#> DraCor hosts 15 corpora comprising 3034 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2020-12-14 17:52:20).
+#> The last updated corpus was German Drama Corpus (2022-12-22 21:23:40).
 plot(corpora)
 ```
 
@@ -49,37 +49,25 @@ plot(corpora)
 ``` r
 ru <- get_dracor(corpus = "rus")
 summary(ru)
-#> 211 plays in Russian Drama Corpus    
-#> Corpus id: rus, repository: https://github.com/dracor-org/rusdracor
+#> 212 plays in Russian Drama Corpus    
+#> Corpus id: rus, repository: https://github.com/dracor-org/rusdracor  
+#> Description: Edited by Frank Fischer and Daniil Skorinkin. Features more than 200 Russian plays from the 1740s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/rusdracor).
 #> Written years (range): 1747 - 1940   
 #> Premiere years (range): 1750 - 1992  
 #> Years of the first printing (range): 1747 - 1986
-ru_au <- authors(ru)
-summary(ru_au)
-#> There are 58 authors in Russian Drama Corpus 
-#> 
-#> Top authors of the Corpus:   
-#> 33 - Островский, Александр Николаевич    
-#> 14 - Сумароков, Александр Петрович   
-#> 14 - Чехов, Антон Павлович   
-#> 10 - Булгаков, Михаил Афанасьевич    
-#> 9 - Тургенев, Иван Сергеевич
-plot(ru_au, top_minplays = 4)
 ```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 You can get all corpora at once:
 
 ``` r
 all <- get_dracor()
 summary(all)
-#> 1132 plays in 11 corpora:    
+#> 3034 plays in 15 corpora:    
 #> Corpora id:  
-#> ger (511 plays),rus (211 plays),ita (139 plays),swe (70 plays),cal (54 plays),greek (39 plays),shake (37 plays),rom (36 plays),span (25 plays),als (7 plays),tat (3 plays)
-#> Written years (range): 43 - 1947 
+#> fre (1560 plays), ger (597 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
+#> Written years (range): 43 - 1970 
 #> Premiere years (range): -472 - 1992  
-#> Years of the first printing (range): 1493 - 1986
+#> Years of the first printing (range): 1170 - 2017
 ```
 
 ## Play network
@@ -130,10 +118,59 @@ summary(godunov)
 #>          - Maximum: 29 (Борис)   
 #>      Distance:   
 #>          - Maximum (Diameter): 7 
-#>          - Average: 3.03 
+#>          - Average: 3.45 
 #>    Clustering:   
 #>          - Global: 0.65  
 #>          - Average local: 0.92   
 #>      Cohesion: 1 
 #> Assortativity: -0.06
+```
+
+## Text of the play
+
+You can get text of a play in different forms:
+
+- as a raw TEI (optionally parsed with {xml2})
+
+``` r
+get_play_tei(corpus = "rus", play = "pushkin-boris-godunov")
+#> {xml_document}
+#> <TEI id="rus000042" lang="rus" xmlns="http://www.tei-c.org/ns/1.0">
+#> [1] <teiHeader>\n  <fileDesc>\n    <titleStmt>\n      <title type="main">Бори ...
+#> [2] <standOff>\n  <listEvent>\n    <event type="print" when="1831">\n      <l ...
+#> [3] <text>\n  <front>\n    <docTitle>\n      <titlePart type="main">Борис Год ...
+```
+
+- as a character vector:
+
+``` r
+text_godunov <- get_play_spoken_text(corpus = "rus", play = "pushkin-boris-godunov")
+head(text_godunov)
+#> [1] "Наряжены мы вместе город ведать,"    
+#> [2] "Но, кажется, нам не за кем смотреть:"
+#> [3] "Москва пуста; вослед за патриархом"  
+#> [4] "К монастырю пошел и весь народ."     
+#> [5] "Как думаешь, чем кончится тревога?"  
+#> [6] "Чем кончится? Узнать немудрено:"
+```
+
+- as a data frame:
+
+``` r
+get_play_text_df(corpus = "rus", play = "pushkin-boris-godunov")
+#> # A tibble: 1,993 × 10
+#>    text        type  type_…¹ who   scene scene…² subdi…³ line_id subdi…⁴ scene…⁵
+#>    <chr>       <chr> <chr>   <chr> <chr> <chr>   <chr>     <int>   <int>   <int>
+#>  1 (1598 года… stage ""      <NA>  КРЕМ… scene 1 stage 1       1       1       1
+#>  2 Князья Шуй… stage ""      <NA>  КРЕМ… scene 1 stage 2       2       2       1
+#>  3 Наряжены м… l     ""      voro… КРЕМ… scene 1 sp 1 |…       3       3       1
+#>  4 Но, кажетс… l     ""      voro… КРЕМ… scene 1 sp 1 |…       4       4       1
+#>  5 Москва пус… l     ""      voro… КРЕМ… scene 1 sp 1 |…       5       5       1
+#>  6 К монастыр… l     ""      voro… КРЕМ… scene 1 sp 1 |…       6       6       1
+#>  7 Как думаеш… l     ""      voro… КРЕМ… scene 1 sp 1 |…       7       7       1
+#>  8 Чем кончит… l     ""      shuj… КРЕМ… scene 1 sp 2 |…       8       8       1
+#>  9 Народ еще … l     ""      shuj… КРЕМ… scene 1 sp 2 |…       9       9       1
+#> 10 Борис еще … l     ""      shuj… КРЕМ… scene 1 sp 2 |…      10      10       1
+#> # … with 1,983 more rows, and abbreviated variable names ¹​type_attributes,
+#> #   ²​scene_path, ³​subdiv_path, ⁴​subdiv_id, ⁵​scene_id
 ```
