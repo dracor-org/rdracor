@@ -67,8 +67,7 @@ summary(all)
 You can extract a network (undirected weighted graph) for a specific play:
 
 ```{r}
-godunov <- play_igraph(corpus = "rus",
-                       play = "pushkin-boris-godunov")
+godunov <- play_igraph(play = "pushkin-boris-godunov", corpus = "rus")
 ```
 
 This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. 
@@ -100,19 +99,19 @@ You can get text of a play in different forms:
 - as a raw TEI (optionally parsed with {xml2})
 
 ```{r}
-get_play_tei(corpus = "rus", play = "pushkin-boris-godunov")
+get_play_tei(play = "pushkin-boris-godunov", corpus = "rus")
 ```
 
 - as a character vector:
 
 ```{r}
-text_godunov <- get_play_spoken_text(corpus = "rus", play = "pushkin-boris-godunov")
+text_godunov <- get_play_spoken_text(play = "pushkin-boris-godunov", corpus = "rus")
 head(text_godunov)
 ```
 
 - as a data frame:
 
 ```{r}
-get_play_text_df(corpus = "rus", play = "pushkin-boris-godunov")
+get_play_text_df(play = "pushkin-boris-godunov", corpus = "rus")
 ```
 

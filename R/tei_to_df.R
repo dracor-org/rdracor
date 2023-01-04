@@ -118,8 +118,8 @@ line_table <- function(tei_line,
 #' You can use this function if you have already downloaded TEI using
 #' \code{\link{get_play_tei}}.
 #' @examples
-#' get_play_text_df(corpus = "rus", play = "gogol-zhenitba")
-#' zhenitba <- get_play_tei(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_text_df(play = "gogol-zhenitba", corpus = "rus")
+#' zhenitba <- get_play_tei(play = "gogol-zhenitba", corpus = "rus")
 #' tei_to_df(zhenitba)
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
@@ -232,7 +232,7 @@ tei_to_df <- function(tei) {
 #' @export
 #' @describeIn tei_to_df Retrieve all stage directions of a play,
 #' given corpus and play names.
-get_play_text_df <- function(corpus, play) {
-  get_play_tei(corpus = corpus, play = play) %>%
+get_play_text_df <- function(play, corpus) {
+  get_play_tei(play = play, corpus = corpus) %>%
     tei_to_df()
 }

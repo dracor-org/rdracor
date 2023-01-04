@@ -4,14 +4,14 @@
 #' and play names.
 #'
 #' @return List with a play metadata.
-#' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
 #' @param play Character, name of the play (you can find all play names in
 #'   \code{playName} column within an object returned by
 #'   \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.
+#' @param corpus Character, name of the corpus (you can find all corpus names in
+#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
-#' get_play_metadata(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
 #' @seealso \code{\link{get_play_metrics}}, \code{\link{get_play_tei}},
 #'   \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
 #'   \code{\link{get_play_networkdata_csv}},
@@ -23,8 +23,8 @@
 #'   \code{\link{play_igraph}}
 #'
 #' @export
-get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
-  dracor_api(form_play_request(corpus, play),
+get_play_metadata <- function(play = NULL, corpus = NULL, ...) {
+  dracor_api(form_play_request(play = play, corpus = corpus),
     expected_type = "application/json", as_tibble = FALSE, ...
   )
 }
@@ -49,8 +49,8 @@ get_play_metadata <- function(corpus = NULL, play = NULL, ...) {
 #'   \code{\link{get_play_stage_directions_with_sp}},
 #'   \code{\link{play_igraph}}
 #' @export
-get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
-  dracor_api(form_play_request(corpus, play, type = "metrics"),
+get_play_metrics <- function(play = NULL, corpus = NULL, ...) {
+  dracor_api(form_play_request(play = play, corpus = corpus, type = "metrics"),
     expected_type = "application/json",
     as_tibble = FALSE,
     ...
@@ -67,9 +67,9 @@ get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
 #'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 #' @inheritParams get_play_metadata
 #' @examples
-#' get_play_tei(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_tei(play = "gogol-zhenitba", corpus = "rus")
 #' # If you want a text in TEI without parsing by xml2::read_xml():
-#' get_play_tei(corpus = "rus", play = "gogol-zhenitba", parse = FALSE)
+#' get_play_tei(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
 #'   \code{\link{get_play_networkdata_csv}},
@@ -81,8 +81,8 @@ get_play_metrics <- function(corpus = NULL, play = NULL, ...) {
 #'   \code{\link{play_igraph}}
 #' @importFrom xml2 read_xml
 #' @export
-get_play_tei <- function(corpus = NULL, play = NULL, ...) {
-  dracor_api(form_play_request(corpus, play, type = "tei"),
+get_play_tei <- function(play = NULL, corpus = NULL,  ...) {
+  dracor_api(form_play_request(play = play, corpus = corpus, type = "tei"),
     expected_type = "application/xml",
     ...
   )
@@ -97,9 +97,9 @@ get_play_tei <- function(corpus = NULL, play = NULL, ...) {
 #' @return RDF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 #' @inheritParams get_play_metadata
 #' @examples
-#' get_play_rdf(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_rdf(play = "gogol-zhenitba", corpus = "rus")
 #' # If you want RDF without parsing by xml2::read_xml():
-#' get_play_rdf(corpus = "rus", play = "gogol-zhenitba", parse = FALSE)
+#' get_play_rdf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_tei}}, \code{\link{get_play_cast}},
 #'   \code{\link{get_play_networkdata_csv}},
@@ -110,8 +110,8 @@ get_play_tei <- function(corpus = NULL, play = NULL, ...) {
 #'   \code{\link{get_play_stage_directions_with_sp}},
 #'   \code{\link{play_igraph}}
 #' @export
-get_play_rdf <- function(corpus = NULL, play = NULL, ...) {
-  dracor_api(form_play_request(corpus, play, type = "rdf"),
+get_play_rdf <- function(play = NULL, corpus = NULL, ...) {
+  dracor_api(form_play_request(play = play, corpus = corpus, type = "rdf"),
     expected_type = "application/xml",
     ...
   )
@@ -125,7 +125,7 @@ get_play_rdf <- function(corpus = NULL, play = NULL, ...) {
 #'
 #' @inheritParams get_play_metadata
 #' @examples
-#' get_play_cast(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_cast(play = "gogol-zhenitba", corpus = "rus")
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_tei}}, \code{\link{get_play_rdf}},
 #'   \code{\link{get_play_networkdata_csv}},
@@ -136,8 +136,8 @@ get_play_rdf <- function(corpus = NULL, play = NULL, ...) {
 #'   \code{\link{get_play_stage_directions_with_sp}},
 #'   \code{\link{play_igraph}}
 #' @export
-get_play_cast <- function(corpus = NULL, play = NULL, ...) {
-  dracor_api(form_play_request(corpus, play, type = "cast"),
+get_play_cast <- function(play = NULL, corpus = NULL, ...) {
+  dracor_api(form_play_request(play = play, corpus = corpus, type = "cast"),
     expected_type = "application/json",
     ...
   )
@@ -152,7 +152,7 @@ get_play_cast <- function(corpus = NULL, play = NULL, ...) {
 #'
 #' @inheritParams get_play_metadata
 #' @examples
-#' get_play_networkdata_csv(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_networkdata_csv(play = "gogol-zhenitba", corpus = "rus")
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_tei}}, \code{\link{get_play_rdf}},
 #'   \code{\link{get_play_cast}},
@@ -164,9 +164,9 @@ get_play_cast <- function(corpus = NULL, play = NULL, ...) {
 #'   \code{\link{play_igraph}}
 #' @export
 get_play_networkdata_csv <-
-  function(corpus = NULL, play = NULL, ...) {
+  function(play = NULL, corpus = NULL, ...) {
     dracor_api(
-      form_play_request(corpus, play, type = "networkdata/csv"),
+      form_play_request(play = play, corpus = corpus, type = "networkdata/csv"),
       expected_type = "text/csv",
       data.table = FALSE,
       encoding = "UTF-8",
@@ -183,9 +183,9 @@ get_play_networkdata_csv <-
 #' @return GEXF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 #' @inheritParams get_play_metadata
 #' @examples
-#' get_play_networkdata_gexf(corpus = "rus", play = "gogol-zhenitba")
+#' get_play_networkdata_gexf(play = "gogol-zhenitba", corpus = "rus")
 #' # If you want GEXF without parsing by xml2::read_xml():
-#' get_play_networkdata_gexf(corpus = "rus", play = "gogol-zhenitba", parse = FALSE)
+#' get_play_networkdata_gexf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_tei}}, \code{\link{get_play_rdf}},
 #'   \code{\link{get_play_cast}},
@@ -197,8 +197,8 @@ get_play_networkdata_csv <-
 #'   \code{\link{play_igraph}}
 #' @export
 get_play_networkdata_gexf <-
-  function(corpus = NULL, play = NULL, ...) {
-    dracor_api(form_play_request(corpus, play, type = "networkdata/gexf"),
+  function(play = NULL, corpus = NULL, ...) {
+    dracor_api(form_play_request(play = play, corpus = corpus, type = "networkdata/gexf"),
       expected_type = "application/xml",
       ...
     )
@@ -215,12 +215,12 @@ get_play_networkdata_gexf <-
 #' @param split_text If \code{TRUE} returns text as a character vector of lines.
 #' Otherwise, returns text as one character value. \code{TRUE} by default.
 #' @examples
-#' get_play_spoken_text("rus", "gogol-zhenitba")
-#' get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE")
-#' get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE", split = FALSE)
-#' get_play_spoken_text_bych("rus", "gogol-zhenitba")
-#' get_play_stage_directions("rus", "gogol-zhenitba")
-#' get_play_stage_directions_with_sp("rus", "gogol-zhenitba")
+#' get_play_spoken_text(play = "gogol-zhenitba", corpus = "rus")
+#' get_play_spoken_text(play = "gogol-zhenitba", corpus = "rus", "FEMALE")
+#' get_play_spoken_text(play = "gogol-zhenitba", corpus = "rus", "FEMALE", split = FALSE)
+#' get_play_spoken_text_bych(play = "gogol-zhenitba", corpus = "rus")
+#' get_play_stage_directions(play = "gogol-zhenitba", corpus = "rus")
+#' get_play_stage_directions_with_sp(play = "gogol-zhenitba", corpus = "rus")
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
 #'   \code{\link{get_play_tei}}, \code{\link{get_play_rdf}},
 #'   \code{\link{get_play_cast}},
@@ -228,12 +228,12 @@ get_play_networkdata_gexf <-
 #'   \code{\link{play_igraph}}
 #' @export
 get_play_spoken_text <-
-  function(corpus = NULL,
-           play = NULL,
+  function(play = NULL,
+           corpus = NULL,
            gender = NULL,
            split_text = TRUE,
            ...) {
-    request <- form_play_request(corpus, play, type = "spoken-text")
+    request <- form_play_request(play = play, corpus = corpus, type = "spoken-text")
     if (!is.null(gender)) {
       if (!(toupper(gender) %in% c("MALE", "FEMALE", "UNKNOWN"))) {
         stop("gender must be one of 'MALE', 'FEMALE','UNKNOWN'")
@@ -249,9 +249,9 @@ get_play_spoken_text <-
 #' @describeIn get_play_spoken_text Retrieve lines grouped by characters in a
 #' play, given corpus and play names.
 get_play_spoken_text_bych <-
-  function(corpus = NULL, play = NULL, split_text = TRUE, ...) {
+  function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
     dracor_api(
-      form_play_request(corpus, play, type = "spoken-text-by-character"),
+      form_play_request(play = play, corpus = corpus, type = "spoken-text-by-character"),
       expected_type = "application/json",
       ...
     )
@@ -261,8 +261,8 @@ get_play_spoken_text_bych <-
 #' @describeIn get_play_spoken_text Retrieve all stage directions of a play,
 #' given corpus and play names.
 get_play_stage_directions <-
-  function(corpus = NULL, play = NULL, split_text = TRUE, ...) {
-    dracor_api(form_play_request(corpus, play, type = "stage-directions"),
+  function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
+    dracor_api(form_play_request(play = play, corpus = corpus, type = "stage-directions"),
       expected_type = "text/plain",
       ...
     )
@@ -272,9 +272,9 @@ get_play_stage_directions <-
 #' @describeIn get_play_spoken_text Retrieve all stage directions of a play
 #' including speakers (if applicable), given corpus and play names.
 get_play_stage_directions_with_sp <-
-  function(corpus = NULL, play = NULL, split_text = TRUE, ...) {
+  function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
     dracor_api(
-      form_play_request(corpus, play, type = "stage-directions-with-speakers"),
+      form_play_request(play = play, corpus = corpus, type = "stage-directions-with-speakers"),
       expected_type = "text/plain",
       ...
     )
@@ -315,7 +315,7 @@ get_sparql <- function(sparql_query = NULL, ...) {
 #' @inheritParams get_play_metadata
 #' @examples
 #' library(igraph)
-#' zhenitba_igraph <- play_igraph("rus", "gogol-zhenitba")
+#' zhenitba_igraph <- play_igraph(play = "gogol-zhenitba", corpus = "rus")
 #' igraph::diameter(zhenitba_igraph)
 #' plot(zhenitba_igraph)
 #' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
@@ -331,17 +331,17 @@ get_sparql <- function(sparql_query = NULL, ...) {
 #' @import igraph
 #' @import data.table
 #' @export
-play_igraph <- function(corpus = NULL, play = NULL) {
-  nodes <- get_play_cast(corpus = corpus, play = play)
+play_igraph <- function(play = NULL, corpus = NULL) {
+  nodes <- get_play_cast(play = play, corpus = corpus)
   nodes <- nodes[, c("id", names(nodes)[names(nodes) != "id"])]
-  edges <- get_play_networkdata_csv(corpus = corpus, play = play)
+  edges <- get_play_networkdata_csv(play = play, corpus = corpus)
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
     igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
   structure(graph,
-    corpus = corpus,
     play = play,
+    corpus = corpus,
     class = c("play_igraph", "igraph")
   )
 }
@@ -374,7 +374,7 @@ is.play_igraph <- function(x) {
 #'   highest number of words will be selected.
 #' @examples
 #' library(igraph)
-#' zhenitba_igraph <- play_igraph("rus", "gogol-zhenitba")
+#' zhenitba_igraph <- play_igraph(play = "gogol-zhenitba", corpus = "rus")
 #' label_play_igraph(zhenitba_igraph, max_graph_size = 10, top_nodes = 4)
 #' @seealso \code{\link{play_igraph}}
 #' @import igraph

@@ -4,15 +4,15 @@
 \alias{get_play_networkdata_csv}
 \title{Retrieve edges list for a play.}
 \usage{
-get_play_networkdata_csv(corpus = NULL, play = NULL, ...)
+get_play_networkdata_csv(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -23,7 +23,7 @@ and play names. Each row represents cooccurrences of two characters in a play
 can be used to construct a network for a play.
 }
 \examples{
-get_play_networkdata_csv(corpus = "rus", play = "gogol-zhenitba")
+get_play_networkdata_csv(play = "gogol-zhenitba", corpus = "rus")
 }
 \seealso{
 \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},

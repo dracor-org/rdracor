@@ -4,15 +4,15 @@
 \alias{get_play_networkdata_gexf}
 \title{Retrieve network for a play in GEXF.}
 \usage{
-get_play_networkdata_gexf(corpus = NULL, play = NULL, ...)
+get_play_networkdata_gexf(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -25,9 +25,9 @@ Format), given corpus and play names. GEXF is a format used in Gephi - an
 open source software for network analysis and visualization.
 }
 \examples{
-get_play_networkdata_gexf(corpus = "rus", play = "gogol-zhenitba")
+get_play_networkdata_gexf(play = "gogol-zhenitba", corpus = "rus")
 # If you want GEXF without parsing by xml2::read_xml():
-get_play_networkdata_gexf(corpus = "rus", play = "gogol-zhenitba", parse = FALSE)
+get_play_networkdata_gexf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
 }
 \seealso{
 \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},

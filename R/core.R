@@ -1,6 +1,6 @@
 form_play_request <-
-  function(corpus = NULL,
-           play = NULL,
+  function(play = NULL,
+           corpus = NULL,
            type = NULL) {
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)

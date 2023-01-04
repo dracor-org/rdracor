@@ -6,19 +6,19 @@
 \alias{summary.play_igraph}
 \title{Retrieve an igraph network for a play.}
 \usage{
-play_igraph(corpus = NULL, play = NULL)
+play_igraph(play = NULL, corpus = NULL)
 
 \method{plot}{play_igraph}(x, ...)
 
 \method{summary}{play_igraph}(object, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{x}{A \code{play_igraph} object to plot.}
 
@@ -45,7 +45,7 @@ network properties, gender distribution
 }}
 \examples{
 library(igraph)
-zhenitba_igraph <- play_igraph("rus", "gogol-zhenitba")
+zhenitba_igraph <- play_igraph(play = "gogol-zhenitba", corpus = "rus")
 igraph::diameter(zhenitba_igraph)
 plot(zhenitba_igraph)
 }

@@ -4,15 +4,15 @@
 \alias{get_play_rdf}
 \title{Retrieve an RDF for a play.}
 \usage{
-get_play_rdf(corpus = NULL, play = NULL, ...)
+get_play_rdf(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -25,9 +25,9 @@ for a play, given corpus and play names. RDF for plays can be useful for
 extraction data for a play from \url{Wikidata.org}.
 }
 \examples{
-get_play_rdf(corpus = "rus", play = "gogol-zhenitba")
+get_play_rdf(play = "gogol-zhenitba", corpus = "rus")
 # If you want RDF without parsing by xml2::read_xml():
-get_play_rdf(corpus = "rus", play = "gogol-zhenitba", parse = FALSE)
+get_play_rdf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
 }
 \seealso{
 \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},

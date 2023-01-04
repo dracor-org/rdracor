@@ -8,31 +8,31 @@
 \title{Retrieve lines and stage directions for a play}
 \usage{
 get_play_spoken_text(
-  corpus = NULL,
   play = NULL,
+  corpus = NULL,
   gender = NULL,
   split_text = TRUE,
   ...
 )
 
-get_play_spoken_text_bych(corpus = NULL, play = NULL, split_text = TRUE, ...)
+get_play_spoken_text_bych(play = NULL, corpus = NULL, split_text = TRUE, ...)
 
-get_play_stage_directions(corpus = NULL, play = NULL, split_text = TRUE, ...)
+get_play_stage_directions(play = NULL, corpus = NULL, split_text = TRUE, ...)
 
 get_play_stage_directions_with_sp(
-  corpus = NULL,
   play = NULL,
+  corpus = NULL,
   split_text = TRUE,
   ...
 )
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{gender}{Character, optional parameter to extract lines for characters
 of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.}
@@ -59,12 +59,12 @@ including speakers (if applicable), given corpus and play names.
 
 }}
 \examples{
-get_play_spoken_text("rus", "gogol-zhenitba")
-get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE")
-get_play_spoken_text("rus", "gogol-zhenitba", "FEMALE", split = FALSE)
-get_play_spoken_text_bych("rus", "gogol-zhenitba")
-get_play_stage_directions("rus", "gogol-zhenitba")
-get_play_stage_directions_with_sp("rus", "gogol-zhenitba")
+get_play_spoken_text(play = "gogol-zhenitba", corpus = "rus")
+get_play_spoken_text(play = "gogol-zhenitba", corpus = "rus", "FEMALE")
+get_play_spoken_text(play = "gogol-zhenitba", corpus = "rus", "FEMALE", split = FALSE)
+get_play_spoken_text_bych(play = "gogol-zhenitba", corpus = "rus")
+get_play_stage_directions(play = "gogol-zhenitba", corpus = "rus")
+get_play_stage_directions_with_sp(play = "gogol-zhenitba", corpus = "rus")
 }
 \seealso{
 \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},

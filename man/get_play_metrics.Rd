@@ -4,15 +4,15 @@
 \alias{get_play_metrics}
 \title{Retrieve network metrics for a play}
 \usage{
-get_play_metrics(corpus = NULL, play = NULL, ...)
+get_play_metrics(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }

@@ -7,19 +7,19 @@
 \usage{
 tei_to_df(tei)
 
-get_play_text_df(corpus, play)
+get_play_text_df(play, corpus)
 }
 \arguments{
 \item{tei}{A TEI object stored as an object of class \code{xml_document}.
 You can use this function if you have already downloaded TEI using
 \code{\link{get_play_tei}}.}
 
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 }
 \value{
 Text of a play as a data frame in
@@ -43,8 +43,8 @@ given corpus and play names.
 
 }}
 \examples{
-get_play_text_df(corpus = "rus", play = "gogol-zhenitba")
-zhenitba <- get_play_tei(corpus = "rus", play = "gogol-zhenitba")
+get_play_text_df(play = "gogol-zhenitba", corpus = "rus")
+zhenitba <- get_play_tei(play = "gogol-zhenitba", corpus = "rus")
 tei_to_df(zhenitba)
 }
 \seealso{

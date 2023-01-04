@@ -4,15 +4,15 @@
 \alias{get_play_metadata}
 \title{Retrieve metadata for a play}
 \usage{
-get_play_metadata(corpus = NULL, play = NULL, ...)
+get_play_metadata(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
-
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
 \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -24,7 +24,7 @@ The DraCor API lets you request metadata for a specific play, given corpus
 and play names.
 }
 \examples{
-get_play_metadata(corpus = "rus", play = "gogol-zhenitba")
+get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
 }
 \seealso{
 \code{\link{get_play_metrics}}, \code{\link{get_play_tei}},

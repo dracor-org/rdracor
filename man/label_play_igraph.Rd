@@ -30,7 +30,7 @@ if it is true, returns names for top \code{top_nodes} and NA for the rest.
 }
 \examples{
 library(igraph)
-zhenitba_igraph <- play_igraph("rus", "gogol-zhenitba")
+zhenitba_igraph <- play_igraph(play = "gogol-zhenitba", corpus = "rus")
 label_play_igraph(zhenitba_igraph, max_graph_size = 10, top_nodes = 4)
 }
 \seealso{
