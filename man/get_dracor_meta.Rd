@@ -24,7 +24,7 @@ get_dracor_meta()
   as such).
 }
 \description{
-\code{get_dracor_meta} returns a \code{dracor} object that inherits
+\code{get_dracor_meta} returns a \code{dracor_meta} object that inherits
 data.frame (and can be used as such).
 }
 \section{Functions}{
@@ -36,10 +36,10 @@ available for each corpus.
 
 }}
 \examples{
-corpora <- get_dracor_meta()
-corpora
-summary(corpora)
-plot(corpora)
+corpora_meta <- get_dracor_meta()
+corpora_meta
+summary(corpora_meta)
+plot(corpora_meta)
 }
 \seealso{
 \code{\link{get_dracor}}

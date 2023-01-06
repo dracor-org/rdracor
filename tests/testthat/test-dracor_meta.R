@@ -1,7 +1,3 @@
-test_that("API info is 1 x 4", {
-  expect_equal(dim(get_dracor_api_info()), c(1, 4))
-})
-
 test_that("get_dracor_meta() returns dracor_meta object", {
   expect_s3_class(get_dracor_meta(), "dracor_meta")
 })

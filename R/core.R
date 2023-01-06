@@ -116,3 +116,47 @@ dracor_api <- function(request,
     }
   )
 }
+
+#' Submit SPARQL queries to DraCor API.
+#'
+#' The DraCor API lets you submit SPARQL queries.
+#'
+#' @return SPARQL xml parsed.
+#' @param sparql_query Character, SPARQL query.
+#' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
+#' @param parse Logical, if \code{TRUE} the result is parsed by
+#' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
+#' returned. Default value is \code{TRUE}.
+#' @inheritParams get_play_metadata
+#' @examples
+#' dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10")
+#' # If you want to avoid parsing by xml2::read_xml():
+#' dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE)
+#' @importFrom utils URLencode
+#' @export
+dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
+  if (is.null(sparql_query)) {
+    stop("SPARQL query must be provided")
+  }
+  query <- paste0(
+    "https://dracor.org/fuseki/sparql?query=",
+    URLencode(sparql_query, reserved = TRUE)
+  )
+  dracor_api(query, expected_type = "application/xml", parse = parse, ...)
+}
+
+#' Retrieve Dracor API info.
+#'
+#' \code{dracor_api_info} returns information about DraCor API: name of
+#' the API, status, existdb version, and API version.
+#'
+#' No parameters are expected.
+#'
+#' @examples
+#' dracor_api_info()
+#' @importFrom jsonlite fromJSON
+#' @importFrom tibble as_tibble
+#' @export
+dracor_api_info <- function() {
+  tibble::as_tibble(dracor_api("https://dracor.org/api/info", expected_type = "application/json"))
+}

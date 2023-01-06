@@ -27,13 +27,5 @@ and play names.
 get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
 }
 \seealso{
-\code{\link{get_play_metrics}}, \code{\link{get_play_tei}},
-  \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
-  \code{\link{get_play_networkdata_csv}},
-  \code{\link{get_play_networkdata_gexf}},
-  \code{\link{get_play_spoken_text}},
-  \code{\link{get_play_spoken_text_bych}},
-  \code{\link{get_play_stage_directions}},
-  \code{\link{get_play_stage_directions_with_sp}},
-  \code{\link{play_igraph}}
+\code{\link{get_net_edges}}
 }

@@ -1,31 +1,15 @@
-#' Retrieve Dracor API info.
-#'
-#' \code{get_dracor_api_info} returns information about DraCor API: name of
-#' the API, status, existdb version, and API version.
-#'
-#' No parameters are expected.
-#'
-#' @examples
-#' get_dracor_api_info()
-#' @importFrom jsonlite fromJSON
-#' @importFrom tibble as_tibble
-#' @export
-get_dracor_api_info <- function() {
-  tibble::as_tibble(dracor_api("https://dracor.org/api/info", expected_type = "application/json"))
-}
-
 #' Retrieve information on available corpora
 #'
-#' \code{get_dracor_meta} returns a \code{dracor} object that inherits
+#' \code{get_dracor_meta} returns a \code{dracor_meta} object that inherits
 #' data.frame (and can be used as such).
 #'
 #' @return \code{dracor} object that inherits data.frame (and can be used
 #'   as such).
 #' @examples
-#' corpora <- get_dracor_meta()
-#' corpora
-#' summary(corpora)
-#' plot(corpora)
+#' corpora_meta <- get_dracor_meta()
+#' corpora_meta
+#' summary(corpora_meta)
+#' plot(corpora_meta)
 #' @seealso
 #' \code{\link{get_dracor}}
 #' @export
@@ -56,7 +40,7 @@ dracor_meta <- function(dracor_df) {
     as.POSIXct(dracor_meta$updated, format = "%FT%H:%M:%OS", tz = "UTC")
   dracor_meta <- dracor_meta[order(-dracor_meta$plays),]
   attributes(dracor_meta) <- c(attributes(dracor_meta),
-                               get_dracor_api_info())
+                               dracor_api_info())
   class(dracor_meta) <- c("dracor_meta", class(dracor_meta))
   return(dracor_meta)
 }

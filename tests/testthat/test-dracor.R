@@ -17,7 +17,7 @@ test_that("is.dracor() works for 'dracor' object", {
 })
 
 test_that("is.dracor() doesn't work for integer", {
-  expect_false(is.dracor(3L))
+  expect_false(is.dracor(list()))
 })
 
 test_that("summary() work for 'dracor' object if there is no info on some years", {

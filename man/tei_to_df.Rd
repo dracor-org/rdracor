@@ -2,17 +2,17 @@
 % Please edit documentation in R/tei_to_df.R
 \name{tei_to_df}
 \alias{tei_to_df}
-\alias{get_play_text_df}
+\alias{get_text_df}
 \title{Retrieve a text for a play as a data frame}
 \usage{
 tei_to_df(tei)
 
-get_play_text_df(play, corpus)
+get_text_df(play, corpus)
 }
 \arguments{
 \item{tei}{A TEI object stored as an object of class \code{xml_document}.
 You can use this function if you have already downloaded TEI using
-\code{\link{get_play_tei}}.}
+\code{\link{get_text_tei}}.}
 
 \item{play}{Character, name of the play (you can find all play names in
 \code{playName} column within an object returned by
@@ -32,29 +32,21 @@ Column \code{text} contains text of the line, other columns contain metadata
 for the line.
 }
 \description{
-The function \code{get_play_text_df} returns you a data frame with text of
+The function \code{get_text_df} returns you a data frame with text of
 the selected play. \code{tei_to_df} allows to convert an existing TEI object
 to a data frame.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_play_text_df()}: Retrieve all stage directions of a play,
+\item \code{get_text_df()}: Retrieve all stage directions of a play,
 given corpus and play names.
 
 }}
 \examples{
-get_play_text_df(play = "gogol-zhenitba", corpus = "rus")
-zhenitba <- get_play_tei(play = "gogol-zhenitba", corpus = "rus")
+get_text_df(play = "gogol-zhenitba", corpus = "rus")
+zhenitba <- get_text_tei(play = "gogol-zhenitba", corpus = "rus")
 tei_to_df(zhenitba)
 }
 \seealso{
-\code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
-  \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
-  \code{\link{get_play_networkdata_csv}},
-  \code{\link{get_play_networkdata_gexf}},
-  \code{\link{get_play_spoken_text}},
-  \code{\link{get_play_spoken_text_bych}},
-  \code{\link{get_play_stage_directions}},
-  \code{\link{get_play_stage_directions_with_sp}},
-  \code{\link{play_igraph}}
+\code{\link{get_play_metadata}}
 }
