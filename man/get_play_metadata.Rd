@@ -27,5 +27,5 @@ and play names.
 get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
 }
 \seealso{
-\code{\link{get_net_edges}}
+\code{\link{get_net_coocur_edges}}
 }

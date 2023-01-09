@@ -12,7 +12,7 @@
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
 #' get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
-#' @seealso \code{\link{get_net_edges}}
+#' @seealso \code{\link{get_net_coocur_edges}}
 #'
 #' @export
 get_play_metadata <- function(play = NULL, corpus = NULL, ...) {
