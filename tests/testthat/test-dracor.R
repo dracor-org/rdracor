@@ -23,7 +23,7 @@ test_that("is.dracor() doesn't work for integer", {
 test_that("summary() work for 'dracor' object if there is no info on some years", {
   expect_true(all(nchar(capture.output(
     summary(get_dracor("tat"))
-  )) > 3))
+  )) > 3L))
 })
 
 test_that(
@@ -32,3 +32,8 @@ test_that(
     expect_is(get_dracor("rus")$writtenYearFinish, "integer")
   }
 )
+
+test_that("get_character_plays() for Maria Stuart returns at least 2 plays",
+          {
+expect_gte(nrow(get_character_plays(char_wiki_id = "Q131412")), 2L)
+          })

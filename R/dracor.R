@@ -275,3 +275,23 @@ get_dracor <- function(corpus = "all",
     dracor()
 }
 
+#' Retrieve plays having a character identified by Wikidata ID
+#'
+#' The DraCor API lets you request plays that include a character that can by
+#' found in Wikidata by it's id.
+#'
+#' @return Data frame, in which one row represents one play. Information on
+#' author(s) name, character name, play name, URL and ID is represented in
+#' separate columns
+#' @param char_wiki_id Character value with Wikidata ID for a character.
+#' Wikidata ID can be found on \url{Wikidata.org}. Character vector (longer than
+#' 1) is not supported.
+#' @examples
+#' get_character_plays(char_wiki_id = "Q131412")
+#' @seealso \code{\link{get_dracor}}
+#' @export
+
+get_character_plays <- function(char_wiki_id) {
+  dracor_api(paste0("https://dracor.org/api/character/", char_wiki_id))
+}
+
