@@ -231,11 +231,11 @@ label_coocur_igraph <- function(graph,
 }
 
 #' @param x A \code{coocur_igraph} object to plot.
+#' @param layout Function, an algorithm used for graph layout. See
+#' \link[igraph]{igraph.plotting}.
 #' @param vertex.label A character vector of character names. By default,
 #' function \code{\link{label_coocur_igraph}} is used to avoid overplotting on
 #' large graphs.
-#' @param layout Function, an algorithm used for graph layout. See
-#' \link[igraph]{igraph.plotting}.
 #' @param gender_colors Named vector with 3 values with colors for
 #' MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
 #' colors. If you set parameter \code{vertex.color} (see
@@ -303,7 +303,7 @@ plot.coocur_igraph <- function(x,
     if (is.null(gender_colors)) {
       vertex.color <- NULL
     } else {
-      vertex.color = gender_colors[igraph::V(x)$gender]
+      vertex.color = gender_colors[igraph::vertex_attr(x, "gender")]
     }
   }
   if (!exists("vertex.size")) {
@@ -326,7 +326,7 @@ plot.coocur_igraph <- function(x,
         isFALSE(vertex_label_adjust)
     )
     if (vertex_label_adjust) {
-      vertex.label.dist <- vertex.size / 10 + .8
+      vertex.label.dist <- vertex.size / 10 + .75
     } else {
       vertex.label.dist <- 0
     }
@@ -370,7 +370,7 @@ plot.coocur_igraph <- function(x,
 #' @describeIn get_coocur_igraph Meaningful summary for \code{"coocur_igraph"} object:
 #'   network properties, gender distribution
 summary.coocur_igraph <- function(object, ...) {
-  genders <- igraph::V(object)$gender
+  genders <- igraph::vertex_attr(object, "gender")
   density <- igraph::edge_density(object)
   diam <- igraph::diameter(object, directed = FALSE)
   mean_dist <- igraph::mean_distance(object, directed = FALSE)
@@ -412,6 +412,269 @@ summary.coocur_igraph <- function(object, ...) {
     sprintf("     Cohesion: %i", cohesion),
     sprintf("Assortativity: %.2f", assort),
     sep = "\t\n"
+  )
+}
+
+#' Retrieve an igraph relations network for a play.
+#'
+#' Returns a play network, given corpus and play names. The network represent
+#' kinship and other relationships data, following the encoding scheme proposed
+#' in \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
+#'
+#' @return \code{relations_igraph} Object that inherits \code{igraph} and can be
+#' treated as such.
+#' @inheritParams get_play_metadata
+#' @examples
+#' zhen_rel <- get_relations_igraph(play = "gogol-zhenitba", corpus = "rus")
+#' plot(zhen_rel)
+#' @seealso \code{\link{get_play_metadata}}
+#' @import igraph
+#' @import data.table
+#' @importFrom Rdpack reprompt
+#' @references
+#'   \insertAllCited{}
+#' @export
+
+get_relations_igraph <- function(play = play, corpus = corpus) {
+  relations <-
+    get_net_relations_edges(play = play,
+                        corpus = corpus,
+                        as_tibble = FALSE)
+  nodes <-
+    get_play_cast(play = play,
+                  corpus = corpus,
+                  as_tibble = FALSE)
+  data.table::setnames(relations, c("source", "type", "target", "relation"))
+  graph <- igraph::graph.data.frame(relations[, c("source", "target", "type", "relation")],
+                                    directed = TRUE,
+                                    vertices = nodes)
+  meta <- get_play_metadata(play = play, corpus = corpus)
+  structure(
+    graph,
+    play = play,
+    corpus = corpus,
+    id = meta$id,
+    wikidataId = meta$wikidataId,
+    genre = meta$genre,
+    num_of_segments = nrow(meta$segments),
+    authors = paste0(meta$authors$name, collapse = "\n"),
+    title = meta$title,
+    year = meta$yearNormalized,
+    character_ids = nodes$id,
+    node_with_relations = unique(c(relations$source, relations$target)),
+    class = c("relations_igraph", "igraph")
+  )
+}
+
+#' Test an object to be a 'relations_igraph' object.
+#'
+#' Test that object is a \code{relations_igraph}.
+#'
+#' @param x An R object.
+#' @export
+is.relations_igraph <- function(x) {
+  inherits(x, "relations_igraph")
+}
+
+#' @param object An object of class \code{"relations_igraph"}.
+#' @method summary relations_igraph
+#' @export
+#' @describeIn get_relations_igraph Meaningful summary for
+#' \code{"relations_igraph"} object: relationships and their type.
+summary.relations_igraph <- function(object, ...) {
+  genders <- igraph::vertex_attr(object, "gender")
+  edges_df <- as_data_frame(object)
+  n <- nrow(edges_df)
+  edges_df$arrow <-
+    ifelse(edges_df$type == "Directed", "--->", "<-->")
+  edges_text <-
+    paste(edges_df$from,
+          edges_df$arrow,
+          edges_df$to,
+          ":",
+          edges_df$relation)
+  cat(
+    sprintf(
+      "%s: %s - relations network summary",
+      attr(object, "corpus"),
+      attr(object, "play")
+    ),
+    sprintf(
+      "%s: %s (%i)",
+      attr(object, "authors"),
+      attr(object, "title"),
+      attr(object, "year")
+    ),
+    sprintf(""),
+    sprintf(
+      "Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",
+      length(genders),
+      sum(genders == "FEMALE"),
+      sum(genders == "MALE"),
+      sum(genders == "UNKNOWN")
+    ),
+    sprintf("Relations: %i", n),
+    if (n > 6) {
+      sprintf(paste(c(head(edges_text, 6), "...and %i more"),
+                    collapse = "\n"), n - 6)
+    } else {
+      sprintf(paste(edges_text, collapse = "\n"))
+    },
+    sep = "\t\n"
+  )
+}
+
+#' @param x A \code{relations_igraph} object to plot.
+#' @param layout Function, an algorithm used for graph layout. See
+#' \link[igraph]{igraph.plotting}.
+#' @param gender_colors Named vector with 3 values with colors for
+#' MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
+#' colors. If you set parameter \code{vertex.color} (see
+#' \link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.
+#' @param show_others Character value. What to do with verteces without
+#' relations?
+#' \itemize{
+#'    \item \code{"vertex"}: plot only vertices without labels.
+#'    \item \code{"vertex_label"}: plot both vertices and labels.
+#'    \item \code{"none"}: do not plot vertices without relations.
+#' }
+#' The default is \code{"vertex"}.
+#' @param vertex_size Numeric vector with two values. The first number is for
+#' nodes with relations, the second number is for all other nodes.
+#' @param vertex_label_size Numeric vector with two values. The first number
+#' defines label sizes for nodes with relations, the second number for nodes
+#' without relations.
+#' @param vertex_label_adjust Logical value. If \code{TRUE}, labels positions
+#' are moved to the top of the respectives nodes. If \code{FALSE}, labels
+#' are placed in the nodes centers. \code{TRUE} by default. If you set parameter
+#' \code{vertex.label.dist}(see \link[igraph]{igraph.plotting}) by yourself,
+#' \code{vertex_label_adjust} is ignored.
+#' @param vertex.label.color See \link[igraph]{igraph.plotting}.
+#' @param vertex.label.family See \link[igraph]{igraph.plotting}.
+#' @param vertex.label.font See \link[igraph]{igraph.plotting}.
+#' @param vertex.frame.color See \link[igraph]{igraph.plotting}.
+#' @param edge.arrow.size See \link[igraph]{igraph.plotting}.
+#' @param edge.arrow.width See \link[igraph]{igraph.plotting}.
+#' @param edge.curved See \link[igraph]{igraph.plotting}.
+#' @param edge.label.family See \link[igraph]{igraph.plotting}.
+#' @param edge.label.font See \link[igraph]{igraph.plotting}.
+#' @param edge.label.cex See \link[igraph]{igraph.plotting}.
+#' @param ... Other arguments to be passed to \link[igraph]{plot.igraph}
+#' @method plot relations_igraph
+#' @export
+#' @describeIn get_relations_igraph Plot \code{relations_igraph} using
+#' \code{plot.igraph} with slightly modified defaults.
+plot.relations_igraph <- function(x,
+                                  layout = igraph::layout_randomly,
+                                  gender_colors = c(MALE = "#0073C2",
+                                                    FEMALE = "#EFC000",
+                                                    UNKNOWN = "#99979D"),
+                                  show_others = c("vertex", "vertex_label", "none"),
+                                  vertex_size = c(20, 6),
+                                  vertex_label_size = c(1, .5),
+                                  vertex_label_adjust = TRUE,
+                                  vertex.label.color = "#03070f",
+                                  vertex.label.family = "sans",
+                                  vertex.label.font = 2L,
+                                  vertex.frame.color = "white",
+                                  edge.arrow.size = .5,
+                                  edge.arrow.width = 1.5,
+                                  edge.curved = .15,
+                                  edge.label.family = "sans",
+                                  edge.label.font = 4L,
+                                  edge.label.cex = .75,
+                                  ...) {
+
+  nodes_with_relations <- attr(x, "node_with_relations")
+  character_ids <- attr(x, "character_ids")
+  show_others <- match.arg(show_others)
+
+  if (show_others == "vertex") {
+    vertex.label.cex <- ifelse(character_ids %in% nodes_with_relations,
+                               vertex_label_size[1],
+                               0.01)
+    vertex.size <- ifelse(character_ids %in% nodes_with_relations,
+                          vertex_size[1],
+                          vertex_size[2])
+  } else if (show_others == "vertex_label") {
+    vertex.label.cex <- ifelse(
+      character_ids %in% nodes_with_relations,
+      vertex_label_size[1],
+      vertex_label_size[2]
+    )
+    vertex.size <- ifelse(character_ids %in% nodes_with_relations,
+                          vertex_size[1],
+                          vertex_size[2])
+  } else {
+    vertex.label.cex <- ifelse(character_ids %in% nodes_with_relations,
+                               vertex_label_size[1],
+                               0.01)
+    vertex.size <- ifelse(character_ids %in% nodes_with_relations,
+                          vertex_size[1],
+                          0)
+  }
+
+  edge.arrow.mode <- ifelse(E(x)$type == "Undirected", "-", ">")
+
+  if (!exists("vertex.color")) {
+    stopifnot(
+      "gender_colors must be named vector with 3 values or NULL" =
+        names(gender_colors) == c("MALE", "FEMALE", "UNKNOWN") |
+        is.null(gender_colors)
+    )
+    if (is.null(gender_colors)) {
+      vertex.color <- NULL
+    } else {
+      vertex.color = gender_colors[igraph::vertex_attr(x, "gender")]
+    }
+  }
+  if (!exists("vertex.label.dist")) {
+    stopifnot(
+      "vertex_label_adjust must be TRUE or FALSE" =
+        isTRUE(vertex_label_adjust) |
+        isFALSE(vertex_label_adjust)
+    )
+    if (vertex_label_adjust) {
+      vertex.label.dist <- vertex.size / 10 + .75
+    } else {
+      vertex.label.dist <- 0
+    }
+  }
+
+  vertex.shape <-
+    c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
+
+  E(x)$color <- data.table::fcase(
+    E(x)$relation == "parent_of", "#6f42c1",
+    E(x)$relation == "lover_of", "#f93e3e",
+    E(x)$relation == "related_with", "#fca130",
+    E(x)$relation == "associated_with", "#61affe",
+    E(x)$relation == "siblings", "#49cc90",
+    E(x)$relation == "spouses", "#e83e8c",
+    E(x)$relation == "friends", "#1F2448"
+  )
+  igraph::plot.igraph(
+    x,
+    layout = layout,
+    vertex.size = vertex.size,
+    vertex.shape = vertex.shape,
+    vertex.color = vertex.color,
+    vertex.label.color = vertex.label.color,
+    vertex.label.family = vertex.label.family,
+    vertex.label.cex =  vertex.label.cex,
+    vertex.label.font = vertex.label.font,
+    vertex.frame.color = vertex.frame.color,
+    edge.arrow.mode = edge.arrow.mode,
+    vertex.label.dist = vertex.label.dist,
+    edge.color = edge_attr(x, "color"),
+    edge.curved = edge.curved,
+    edge.arrow.size = edge.arrow.size,
+    edge.arrow.width = edge.arrow.width,
+    edge.label = edge_attr(x, "relation"),
+    edge.label.color = edge_attr(x, "color"),
+    edge.label.font = edge.label.font,
+    edge.label.font = edge.label.font,
+    edge.label.cex = edge.label.cex
   )
 }
 
