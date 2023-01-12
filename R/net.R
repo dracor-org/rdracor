@@ -136,7 +136,10 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #' Retrieve an igraph co-occurrence network for a play.
 #'
 #' Returns a play network, given corpus and play names. Play network is
-#' constructed based on characters' co-occurrence matrix.
+#' constructed based on characters' co-occurrence matrix. Each node (vertex) is
+#' a character (circle) or a group of characters (square), edges width is
+#' proportional to number of common play segments where two characters occur
+#' together.
 #'
 #' @return \code{coocur_igraph} Object that inherits \code{igraph} and can be
 #' treated as such.
@@ -165,7 +168,7 @@ get_coocur_igraph <- function(play = NULL, corpus = NULL) {
     wikidataId = meta$wikidataId,
     genre = meta$genre,
     num_of_segments = nrow(meta$segments),
-    authors = paste0(meta$authors$name, collapse = "\n"),
+    authors = paste0(meta$authors$name, collapse = ", "),
     title = meta$title,
     year = meta$yearNormalized,
     class = c("coocur_igraph", "igraph")
@@ -253,6 +256,11 @@ label_coocur_igraph <- function(graph,
 #' If you specify edges size by yourself using parameter
 #' \code{"edge.width"}(see \link[igraph]{igraph.plotting}),
 #' \code{edge_size_scale} is ignored.
+#' @param vertex_label_adjust Logical value. If \code{TRUE}, labels positions
+#' are moved to the top of the respectives nodes. If \code{FALSE}, labels
+#' are placed in the nodes centers. \code{TRUE} by default. If you set parameter
+#' \code{vertex.label.dist}(see \link[igraph]{igraph.plotting}) by yourself,
+#' \code{vertex_label_adjust} is ignored.
 #' @param vertex.label.color See \link[igraph]{igraph.plotting}.
 #' @param vertex.label.family See \link[igraph]{igraph.plotting}.
 #' @param vertex.label.font See \link[igraph]{igraph.plotting}.
@@ -280,6 +288,7 @@ plot.coocur_igraph <- function(x,
                                ),
                                vertex_size_scale = c(5, 20),
                                edge_size_scale = c(.5, 4),
+                               vertex_label_adjust = TRUE,
                                vertex.label.color = "#03070f",
                                vertex.label.family = "sans",
                                vertex.label.font = 2L,
@@ -309,6 +318,20 @@ plot.coocur_igraph <- function(x,
       vertex_size_scale[2] + vertex_size_scale[1]
   }
 
+  if (!exists("vertex.label.dist"))
+  {
+    stopifnot(
+      "vertex_label_adjust must be TRUE or FALSE" =
+        isTRUE(vertex_label_adjust) |
+        isFALSE(vertex_label_adjust)
+    )
+    if (vertex_label_adjust) {
+      vertex.label.dist <- vertex.size / 10 + .8
+    } else {
+      vertex.label.dist <- 0
+    }
+  }
+
   vertex.shape <-
     c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
 
@@ -333,6 +356,7 @@ plot.coocur_igraph <- function(x,
     vertex.label.color = vertex.label.color,
     vertex.label.family = vertex.label.family,
     vertex.label.font = vertex.label.font,
+    vertex.label.dist = vertex.label.dist,
     edge.width = edge.width,
     layout = layout,
     ...
@@ -360,10 +384,14 @@ summary.coocur_igraph <- function(object, ...) {
     paste(names(degrees)[degrees == max(degrees)], collapse = ", ")
   cat(
     sprintf(
-      "%s: %s - network summary",
+      "%s: %s - coocurence network summary",
       attr(object, "corpus"),
       attr(object, "play")
     ),
+    sprintf("%s: %s (%i)",
+            attr(object, "authors"),
+            attr(object, "title"),
+            attr(object, "year")),
     sprintf(""),
     sprintf(
       "         Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",

@@ -35,5 +35,5 @@ test_that("label_coocur_igraph() do not return NA after max_graph_size adjustmen
 
 test_that("summary.coocur_igraph() prints appropriate number of rows", {
   henryiv <- get_coocur_igraph("henry-iv-part-i", "shake")
-  expect_equal(length(capture.output(summary(henryiv))), 14L)
+  expect_equal(length(capture.output(summary(henryiv))), 15L)
 })

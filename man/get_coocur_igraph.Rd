@@ -17,6 +17,7 @@ get_coocur_igraph(play = NULL, corpus = NULL)
     "weightedDegree", "closeness", "betweenness", "eigenvector"),
   vertex_size_scale = c(5, 20),
   edge_size_scale = c(0.5, 4),
+  vertex_label_adjust = TRUE,
   vertex.label.color = "#03070f",
   vertex.label.family = "sans",
   vertex.label.font = 2L,
@@ -67,6 +68,12 @@ If you specify edges size by yourself using parameter
 \code{"edge.width"}(see \link[igraph]{igraph.plotting}),
 \code{edge_size_scale} is ignored.}
 
+\item{vertex_label_adjust}{Logical value. If \code{TRUE}, labels positions
+are moved to the top of the respectives nodes. If \code{FALSE}, labels
+are placed in the nodes centers. \code{TRUE} by default. If you set parameter
+\code{vertex.label.dist}(see \link[igraph]{igraph.plotting}) by yourself,
+\code{vertex_label_adjust} is ignored.}
+
 \item{vertex.label.color}{See \link[igraph]{igraph.plotting}.}
 
 \item{vertex.label.family}{See \link[igraph]{igraph.plotting}.}
@@ -85,7 +92,10 @@ treated as such.
 }
 \description{
 Returns a play network, given corpus and play names. Play network is
-constructed based on characters' co-occurrence matrix.
+constructed based on characters' co-occurrence matrix. Each node (vertex) is
+a character (circle) or a group of characters (square), edges width is
+proportional to number of common play segments where two characters occur
+together.
 }
 \section{Functions}{
 \itemize{
