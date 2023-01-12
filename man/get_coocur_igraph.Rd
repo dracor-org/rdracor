@@ -8,7 +8,21 @@
 \usage{
 get_coocur_igraph(play = NULL, corpus = NULL)
 
-\method{plot}{coocur_igraph}(x, vertex.label = label_coocur_igraph(x), ...)
+\method{plot}{coocur_igraph}(
+  x,
+  layout = igraph::layout_with_kk,
+  vertex.label = label_coocur_igraph(x),
+  gender_colors = c(MALE = "#0073C2", FEMALE = "#EFC000", UNKNOWN = "#99979D"),
+  vertex_size_metric = c("numOfWords", "numOfScenes", "numOfSpeechActs", "degree",
+    "weightedDegree", "closeness", "betweenness", "eigenvector"),
+  vertex_size_scale = c(5, 20),
+  edge_size_scale = c(0.5, 4),
+  vertex.label.color = "#03070f",
+  vertex.label.family = "sans",
+  vertex.label.font = 2L,
+  vertex.frame.color = "white",
+  ...
+)
 
 \method{summary}{coocur_igraph}(object, ...)
 }
@@ -22,9 +36,46 @@ get_coocur_igraph(play = NULL, corpus = NULL)
 
 \item{x}{A \code{coocur_igraph} object to plot.}
 
-\item{vertex.label}{A character vector of character names.}
+\item{layout}{Function, an algorithm used for graph layout. See
+\link[igraph]{igraph.plotting}.}
 
-\item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
+\item{vertex.label}{A character vector of character names. By default,
+function \code{\link{label_coocur_igraph}} is used to avoid overplotting on
+large graphs.}
+
+\item{gender_colors}{Named vector with 3 values with colors for
+MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
+colors. If you set parameter \code{vertex.color} (see
+\link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.}
+
+\item{vertex_size_metric}{Character value, one of \code{"numOfWords"},
+\code{"numOfScenes"}, \code{"numOfSpeechActs"}, \code{"degree"},
+\code{"weightedDegree"}, \code{"closeness"}, \code{"betweenness"},
+\code{"eigenvector"}. You can specify vertex size by yourself using
+parameter \code{"vertex.size"}(see \link[igraph]{igraph.plotting}), in this
+case parameter \code{vertex_size_metric} is ignored.}
+
+\item{vertex_size_scale}{Numeric vector with two values. The first number is
+for mean size of node(vertex), the second one is for node size variance. If
+you specify vertex size by yourself using parameter
+\code{"vertex.size"}(see \link[igraph]{igraph.plotting}),
+\code{vertex_size_scale} is ignored.}
+
+\item{edge_size_scale}{Numeric vector with two values. The first number
+defines average size of edges, the second number defines edges size variance.
+If you specify edges size by yourself using parameter
+\code{"edge.width"}(see \link[igraph]{igraph.plotting}),
+\code{edge_size_scale} is ignored.}
+
+\item{vertex.label.color}{See \link[igraph]{igraph.plotting}.}
+
+\item{vertex.label.family}{See \link[igraph]{igraph.plotting}.}
+
+\item{vertex.label.font}{See \link[igraph]{igraph.plotting}.}
+
+\item{vertex.frame.color}{See \link[igraph]{igraph.plotting}.}
+
+\item{...}{Other arguments to be passed to \link[igraph]{plot.igraph}}
 
 \item{object}{An object of class \code{"coocur_igraph"}.}
 }

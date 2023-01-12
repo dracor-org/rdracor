@@ -156,9 +156,18 @@ get_coocur_igraph <- function(play = NULL, corpus = NULL) {
   edges <- edges[, c("source", "target", "weight")]
   graph <-
     igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+  meta <- get_play_metadata(play = play, corpus = corpus)
+
   structure(graph,
     play = play,
     corpus = corpus,
+    id = meta$id,
+    wikidataId = meta$wikidataId,
+    genre = meta$genre,
+    num_of_segments = nrow(meta$segments),
+    authors = paste0(meta$authors$name, collapse = "\n"),
+    title = meta$title,
+    year = meta$yearNormalized,
     class = c("coocur_igraph", "igraph")
   )
 }
@@ -189,8 +198,9 @@ is.coocur_igraph <- function(x) {
 #' @param max_graph_size Integer, maximum network size for plotting all labels.
 #' @param top_nodes Integer, number of labels to be plotted. Characters with the
 #'   highest number of words will be selected.
+#' @param label_size_metric Character, a metric that is used to rank characters
+#' in a play.
 #' @examples
-#' library(igraph)
 #' zhenitba_igraph <- get_coocur_igraph(play = "gogol-zhenitba", corpus = "rus")
 #' label_coocur_igraph(zhenitba_igraph, max_graph_size = 10, top_nodes = 4)
 #' @seealso \code{\link{get_coocur_igraph}}
@@ -198,50 +208,131 @@ is.coocur_igraph <- function(x) {
 #' @export
 label_coocur_igraph <- function(graph,
                               max_graph_size = 30L,
-                              top_nodes = 3L) {
-  vertices_labels <- igraph::V(graph)$name
+                              top_nodes = 3L,
+                              label_size_metric = c("betweenness",
+                                            "numOfWords",
+                                            "numOfScenes",
+                                            "numOfSpeechActs",
+                                            "degree",
+                                            "weightedDegree",
+                                            "closeness",
+                                            "eigenvector")) {
+  label_size_metric <- match.arg(label_size_metric)
+  vertices_labels <- igraph::vertex_attr(graph, "name")
   if (igraph::vcount(graph) > max_graph_size) {
-    vertices_labels[igraph::vcount(graph) - rank(igraph::V(graph)$numOfWords,
-                                                         ties.method = "max") >= top_nodes] <-
-      NA
+    vertices_labels[igraph::vcount(graph) - rank(igraph::vertex_attr(graph, label_size_metric),
+                    ties.method = "max") >= top_nodes] <-
+      NA_character_
   }
   vertices_labels
 }
 
 #' @param x A \code{coocur_igraph} object to plot.
-#' @param vertex.label A character vector of character names.
+#' @param vertex.label A character vector of character names. By default,
+#' function \code{\link{label_coocur_igraph}} is used to avoid overplotting on
+#' large graphs.
+#' @param layout Function, an algorithm used for graph layout. See
+#' \link[igraph]{igraph.plotting}.
+#' @param gender_colors Named vector with 3 values with colors for
+#' MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
+#' colors. If you set parameter \code{vertex.color} (see
+#' \link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.
+#' @param vertex_size_metric Character value, one of \code{"numOfWords"},
+#' \code{"numOfScenes"}, \code{"numOfSpeechActs"}, \code{"degree"},
+#' \code{"weightedDegree"}, \code{"closeness"}, \code{"betweenness"},
+#' \code{"eigenvector"}. You can specify vertex size by yourself using
+#' parameter \code{"vertex.size"}(see \link[igraph]{igraph.plotting}), in this
+#' case parameter \code{vertex_size_metric} is ignored.
+#' @param vertex_size_scale Numeric vector with two values. The first number is
+#' for mean size of node(vertex), the second one is for node size variance. If
+#' you specify vertex size by yourself using parameter
+#' \code{"vertex.size"}(see \link[igraph]{igraph.plotting}),
+#' \code{vertex_size_scale} is ignored.
+#' @param edge_size_scale Numeric vector with two values. The first number
+#' defines average size of edges, the second number defines edges size variance.
+#' If you specify edges size by yourself using parameter
+#' \code{"edge.width"}(see \link[igraph]{igraph.plotting}),
+#' \code{edge_size_scale} is ignored.
+#' @param vertex.label.color See \link[igraph]{igraph.plotting}.
+#' @param vertex.label.family See \link[igraph]{igraph.plotting}.
+#' @param vertex.label.font See \link[igraph]{igraph.plotting}.
+#' @param vertex.frame.color See \link[igraph]{igraph.plotting}.
+#' @param ... Other arguments to be passed to \link[igraph]{plot.igraph}
 #' @method plot coocur_igraph
 #' @export
 #' @describeIn get_coocur_igraph Plot \code{coocur_igraph} using \code{plot.igraph}
 #' with slightly modified defaults.
 plot.coocur_igraph <- function(x,
+                               layout = igraph::layout_with_kk,
                                vertex.label = label_coocur_igraph(x),
-                             ...) {
-  gender_colours <- c(
-    MALE = "#26B69E",
-    FEMALE = "#9400E9",
-    UNKNOWN = "#6F747E"
-  )
-  vertex.label <- vertex.label
-  vertex.label.color <- "black"
-  vertex.label.family <- "sans"
-  vertex.color <- gender_colours[igraph::V(x)$gender]
-  vertex.size <- log(igraph::V(x)$numOfWords, base = 1.4)
-  vertex.shape <- c("circle", "square")[as.numeric(igraph::V(x)$isGroup) + 1]
-  vertex.frame.color <- "white"
-  edge.width <- ((igraph::E(x)$weight) / max(igraph::E(x)$weight) *
-    3)
-  layout <- igraph::layout_with_kk(x)
+                               gender_colors = c(MALE = "#0073C2",
+                                                 FEMALE = "#EFC000",
+                                                 UNKNOWN = "#99979D"),
+                               vertex_size_metric = c(
+                                 "numOfWords",
+                                 "numOfScenes",
+                                 "numOfSpeechActs",
+                                 "degree",
+                                 "weightedDegree",
+                                 "closeness",
+                                 "betweenness",
+                                 "eigenvector"
+                               ),
+                               vertex_size_scale = c(5, 20),
+                               edge_size_scale = c(.5, 4),
+                               vertex.label.color = "#03070f",
+                               vertex.label.family = "sans",
+                               vertex.label.font = 2L,
+                               vertex.frame.color = "white",
+                               ...) {
+  if (!exists("vertex.color")) {
+    stopifnot(
+      "gender_colors must be named vector with 3 values or NULL" =
+        names(gender_colors) == c("MALE", "FEMALE", "UNKNOWN") |
+        is.null(gender_colors)
+    )
+    if (is.null(gender_colors)) {
+      vertex.color <- NULL
+    } else {
+      vertex.color = gender_colors[igraph::V(x)$gender]
+    }
+  }
+  if (!exists("vertex.size")) {
+    vertex_size_metric <- match.arg(vertex_size_metric)
+    stopifnot(
+      "vertex_size_scale must be numeric vector with 2 values" =
+        length(vertex_size_scale) == 2 &
+        is.numeric(vertex_size_scale)
+    )
+    v_s <- igraph::vertex_attr(x, vertex_size_metric)
+    vertex.size <- (v_s - min(v_s)) / max(v_s) *
+      vertex_size_scale[2] + vertex_size_scale[1]
+  }
+
+  vertex.shape <-
+    c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
+
+  if (!exists("edge.width") & !is.null(edge_size_scale)) {
+    stopifnot(
+      "edge_size_scale must be numeric vector with 2 values" =
+        length(edge_size_scale) == 2 &
+        is.numeric(edge_size_scale)
+    )
+    w <- igraph::edge_attr(x, "weight")
+    edge.width <-
+      (w - min(w)) / max(w) * edge_size_scale[2] + edge_size_scale[1]
+  }
+
   igraph::plot.igraph(
     x,
-    gender_colours = gender_colours,
-    vertex.label = vertex.label,
-    vertex.label.color = vertex.label.color,
-    vertex.label.family = vertex.label.family,
     vertex.color = vertex.color,
     vertex.size = vertex.size,
     vertex.shape = vertex.shape,
     vertex.frame.color = vertex.frame.color,
+    vertex.label = vertex.label,
+    vertex.label.color = vertex.label.color,
+    vertex.label.family = vertex.label.family,
+    vertex.label.font = vertex.label.font,
     edge.width = edge.width,
     layout = layout,
     ...

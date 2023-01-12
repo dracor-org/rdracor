@@ -118,9 +118,11 @@ line_table <- function(tei_line,
 #' You can use this function if you have already downloaded TEI using
 #' \code{\link{get_text_tei}}.
 #' @examples
+#' \dontrun{
 #' get_text_df(play = "gogol-zhenitba", corpus = "rus")
 #' zhenitba <- get_text_tei(play = "gogol-zhenitba", corpus = "rus")
 #' tei_to_df(zhenitba)
+#' }
 #' @seealso \code{\link{get_play_metadata}}
 #' @importFrom purrr flatten_chr
 #' @importFrom tibble as_tibble

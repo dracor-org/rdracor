@@ -43,9 +43,11 @@ given corpus and play names.
 
 }}
 \examples{
+\dontrun{
 get_text_df(play = "gogol-zhenitba", corpus = "rus")
 zhenitba <- get_text_tei(play = "gogol-zhenitba", corpus = "rus")
 tei_to_df(zhenitba)
+}
 }
 \seealso{
 \code{\link{get_play_metadata}}

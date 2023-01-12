@@ -4,7 +4,13 @@
 \alias{label_coocur_igraph}
 \title{Extract labels for plotting 'coocur_igraph' object.}
 \usage{
-label_coocur_igraph(graph, max_graph_size = 30L, top_nodes = 3L)
+label_coocur_igraph(
+  graph,
+  max_graph_size = 30L,
+  top_nodes = 3L,
+  label_size_metric = c("betweenness", "numOfWords", "numOfScenes", "numOfSpeechActs",
+    "degree", "weightedDegree", "closeness", "eigenvector")
+)
 }
 \arguments{
 \item{graph}{\code{coocur_igraph} object to plot.}
@@ -13,6 +19,9 @@ label_coocur_igraph(graph, max_graph_size = 30L, top_nodes = 3L)
 
 \item{top_nodes}{Integer, number of labels to be plotted. Characters with the
 highest number of words will be selected.}
+
+\item{label_size_metric}{Character, a metric that is used to rank characters
+in a play.}
 }
 \value{
 Character vector of character names.
@@ -29,7 +38,6 @@ extra labels if there are too many of them. This function can be used to set
 if it is true, returns names for top \code{top_nodes} and NA for the rest.
 }
 \examples{
-library(igraph)
 zhenitba_igraph <- get_coocur_igraph(play = "gogol-zhenitba", corpus = "rus")
 label_coocur_igraph(zhenitba_igraph, max_graph_size = 10, top_nodes = 4)
 }
