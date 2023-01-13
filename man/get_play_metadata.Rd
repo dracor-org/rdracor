@@ -4,7 +4,7 @@
 \alias{get_play_metadata}
 \title{Retrieve metadata for a play}
 \usage{
-get_play_metadata(play = NULL, corpus = NULL, ...)
+get_play_metadata(play = NULL, corpus = NULL, full_metadata = TRUE, ...)
 }
 \arguments{
 \item{play}{Character, name of the play (you can find all play names in
@@ -13,6 +13,8 @@ get_play_metadata(play = NULL, corpus = NULL, ...)
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
 \code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+
+\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
