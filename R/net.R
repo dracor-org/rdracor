@@ -12,9 +12,9 @@
 #' @export
 get_net_coocur_metrics <- function(play = NULL, corpus = NULL, ...) {
   dracor_api(form_play_request(play = play, corpus = corpus, type = "metrics"),
-             expected_type = "application/json",
-             as_tibble = FALSE,
-             ...
+    expected_type = "application/json",
+    as_tibble = FALSE,
+    ...
   )
 }
 
@@ -88,9 +88,9 @@ get_net_coocur_gexf <-
 get_net_coocur_graphml <-
   function(play = NULL, corpus = NULL, parse = TRUE, ...) {
     dracor_api(form_play_request(play = play, corpus = corpus, type = "networkdata/graphml"),
-               expected_type = "application/xml",
-               parse = parse,
-               ...
+      expected_type = "application/xml",
+      parse = parse,
+      ...
     )
   }
 
@@ -103,8 +103,9 @@ get_net_coocur_graphml <-
 #'   \insertAllCited{}
 get_net_relations_edges <- function(play = NULL, corpus = NULL, ...) {
   dracor_api(form_play_request(play = play, corpus = corpus, type = "relations/csv"),
-             expected_type = "text/csv",
-             ...)
+    expected_type = "text/csv",
+    ...
+  )
 }
 
 #' @export
@@ -116,8 +117,9 @@ get_net_relations_edges <- function(play = NULL, corpus = NULL, ...) {
 #'   \insertAllCited{}
 get_net_relations_gexf <- function(play = NULL, corpus = NULL, ...) {
   dracor_api(form_play_request(play = play, corpus = corpus, type = "relations/gexf"),
-             expected_type = "application/xml",
-             ...)
+    expected_type = "application/xml",
+    ...
+  )
 }
 
 #' @export
@@ -129,8 +131,9 @@ get_net_relations_gexf <- function(play = NULL, corpus = NULL, ...) {
 #'   \insertAllCited{}
 get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
   dracor_api(form_play_request(play = play, corpus = corpus, type = "relations/graphml"),
-             expected_type = "application/xml",
-             ...)
+    expected_type = "application/xml",
+    ...
+  )
 }
 
 #' Retrieve an igraph co-occurrence network for a play.
@@ -210,21 +213,24 @@ is.coocur_igraph <- function(x) {
 #' @import igraph
 #' @export
 label_coocur_igraph <- function(graph,
-                              max_graph_size = 30L,
-                              top_nodes = 3L,
-                              label_size_metric = c("betweenness",
-                                            "numOfWords",
-                                            "numOfScenes",
-                                            "numOfSpeechActs",
-                                            "degree",
-                                            "weightedDegree",
-                                            "closeness",
-                                            "eigenvector")) {
+                                max_graph_size = 30L,
+                                top_nodes = 3L,
+                                label_size_metric = c(
+                                  "betweenness",
+                                  "numOfWords",
+                                  "numOfScenes",
+                                  "numOfSpeechActs",
+                                  "degree",
+                                  "weightedDegree",
+                                  "closeness",
+                                  "eigenvector"
+                                )) {
   label_size_metric <- match.arg(label_size_metric)
   vertices_labels <- igraph::vertex_attr(graph, "name")
   if (igraph::vcount(graph) > max_graph_size) {
     vertices_labels[igraph::vcount(graph) - rank(igraph::vertex_attr(graph, label_size_metric),
-                    ties.method = "max") >= top_nodes] <-
+      ties.method = "max"
+    ) >= top_nodes] <-
       NA_character_
   }
   vertices_labels
@@ -273,9 +279,11 @@ label_coocur_igraph <- function(graph,
 plot.coocur_igraph <- function(x,
                                layout = igraph::layout_with_kk,
                                vertex.label = label_coocur_igraph(x),
-                               gender_colors = c(MALE = "#0073C2",
-                                                 FEMALE = "#EFC000",
-                                                 UNKNOWN = "#99979D"),
+                               gender_colors = c(
+                                 MALE = "#0073C2",
+                                 FEMALE = "#EFC000",
+                                 UNKNOWN = "#99979D"
+                               ),
                                vertex_size_metric = c(
                                  "numOfWords",
                                  "numOfScenes",
@@ -298,12 +306,12 @@ plot.coocur_igraph <- function(x,
     stopifnot(
       "gender_colors must be named vector with 3 values or NULL" =
         names(gender_colors) == c("MALE", "FEMALE", "UNKNOWN") |
-        is.null(gender_colors)
+          is.null(gender_colors)
     )
     if (is.null(gender_colors)) {
       vertex.color <- NULL
     } else {
-      vertex.color = gender_colors[igraph::vertex_attr(x, "gender")]
+      vertex.color <- gender_colors[igraph::vertex_attr(x, "gender")]
     }
   }
   if (!exists("vertex.size")) {
@@ -311,19 +319,18 @@ plot.coocur_igraph <- function(x,
     stopifnot(
       "vertex_size_scale must be numeric vector with 2 values" =
         length(vertex_size_scale) == 2 &
-        is.numeric(vertex_size_scale)
+          is.numeric(vertex_size_scale)
     )
     v_s <- igraph::vertex_attr(x, vertex_size_metric)
     vertex.size <- (v_s - min(v_s)) / max(v_s) *
       vertex_size_scale[2] + vertex_size_scale[1]
   }
 
-  if (!exists("vertex.label.dist"))
-  {
+  if (!exists("vertex.label.dist")) {
     stopifnot(
       "vertex_label_adjust must be TRUE or FALSE" =
         isTRUE(vertex_label_adjust) |
-        isFALSE(vertex_label_adjust)
+          isFALSE(vertex_label_adjust)
     )
     if (vertex_label_adjust) {
       vertex.label.dist <- vertex.size / 10 + .75
@@ -339,7 +346,7 @@ plot.coocur_igraph <- function(x,
     stopifnot(
       "edge_size_scale must be numeric vector with 2 values" =
         length(edge_size_scale) == 2 &
-        is.numeric(edge_size_scale)
+          is.numeric(edge_size_scale)
     )
     w <- igraph::edge_attr(x, "weight")
     edge.width <-
@@ -388,10 +395,12 @@ summary.coocur_igraph <- function(object, ...) {
       attr(object, "corpus"),
       attr(object, "play")
     ),
-    sprintf("%s: %s (%i)",
-            attr(object, "authors"),
-            attr(object, "title"),
-            attr(object, "year")),
+    sprintf(
+      "%s: %s (%i)",
+      attr(object, "authors"),
+      attr(object, "title"),
+      attr(object, "year")
+    ),
     sprintf(""),
     sprintf(
       "         Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",
@@ -437,17 +446,22 @@ summary.coocur_igraph <- function(object, ...) {
 
 get_relations_igraph <- function(play = play, corpus = corpus) {
   relations <-
-    get_net_relations_edges(play = play,
-                        corpus = corpus,
-                        as_tibble = FALSE)
+    get_net_relations_edges(
+      play = play,
+      corpus = corpus,
+      as_tibble = FALSE
+    )
   nodes <-
-    get_play_cast(play = play,
-                  corpus = corpus,
-                  as_tibble = FALSE)
+    get_play_cast(
+      play = play,
+      corpus = corpus,
+      as_tibble = FALSE
+    )
   data.table::setnames(relations, c("source", "type", "target", "relation"))
   graph <- igraph::graph.data.frame(relations[, c("source", "target", "type", "relation")],
-                                    directed = TRUE,
-                                    vertices = nodes)
+    directed = TRUE,
+    vertices = nodes
+  )
   meta <- get_play_metadata(play = play, corpus = corpus)
   structure(
     graph,
@@ -488,11 +502,13 @@ summary.relations_igraph <- function(object, ...) {
   edges_df$arrow <-
     ifelse(edges_df$type == "Directed", "--->", "<-->")
   edges_text <-
-    paste(edges_df$from,
-          edges_df$arrow,
-          edges_df$to,
-          ":",
-          edges_df$relation)
+    paste(
+      edges_df$from,
+      edges_df$arrow,
+      edges_df$to,
+      ":",
+      edges_df$relation
+    )
   cat(
     sprintf(
       "%s: %s - relations network summary",
@@ -516,7 +532,8 @@ summary.relations_igraph <- function(object, ...) {
     sprintf("Relations: %i", n),
     if (n > 6) {
       sprintf(paste(c(head(edges_text, 6), "...and %i more"),
-                    collapse = "\n"), n - 6)
+        collapse = "\n"
+      ), n - 6)
     } else {
       sprintf(paste(edges_text, collapse = "\n"))
     },
@@ -566,9 +583,11 @@ summary.relations_igraph <- function(object, ...) {
 #' \code{plot.igraph} with slightly modified defaults.
 plot.relations_igraph <- function(x,
                                   layout = igraph::layout_randomly,
-                                  gender_colors = c(MALE = "#0073C2",
-                                                    FEMALE = "#EFC000",
-                                                    UNKNOWN = "#99979D"),
+                                  gender_colors = c(
+                                    MALE = "#0073C2",
+                                    FEMALE = "#EFC000",
+                                    UNKNOWN = "#99979D"
+                                  ),
                                   show_others = c("vertex", "vertex_label", "none"),
                                   vertex_size = c(20, 6),
                                   vertex_label_size = c(1, .5),
@@ -584,18 +603,19 @@ plot.relations_igraph <- function(x,
                                   edge.label.font = 4L,
                                   edge.label.cex = .75,
                                   ...) {
-
   nodes_with_relations <- attr(x, "node_with_relations")
   character_ids <- attr(x, "character_ids")
   show_others <- match.arg(show_others)
 
   if (show_others == "vertex") {
     vertex.label.cex <- ifelse(character_ids %in% nodes_with_relations,
-                               vertex_label_size[1],
-                               0.01)
+      vertex_label_size[1],
+      0.01
+    )
     vertex.size <- ifelse(character_ids %in% nodes_with_relations,
-                          vertex_size[1],
-                          vertex_size[2])
+      vertex_size[1],
+      vertex_size[2]
+    )
   } else if (show_others == "vertex_label") {
     vertex.label.cex <- ifelse(
       character_ids %in% nodes_with_relations,
@@ -603,15 +623,18 @@ plot.relations_igraph <- function(x,
       vertex_label_size[2]
     )
     vertex.size <- ifelse(character_ids %in% nodes_with_relations,
-                          vertex_size[1],
-                          vertex_size[2])
+      vertex_size[1],
+      vertex_size[2]
+    )
   } else {
     vertex.label.cex <- ifelse(character_ids %in% nodes_with_relations,
-                               vertex_label_size[1],
-                               0.01)
+      vertex_label_size[1],
+      0.01
+    )
     vertex.size <- ifelse(character_ids %in% nodes_with_relations,
-                          vertex_size[1],
-                          0)
+      vertex_size[1],
+      0
+    )
   }
 
   edge.arrow.mode <- ifelse(E(x)$type == "Undirected", "-", ">")
@@ -620,19 +643,19 @@ plot.relations_igraph <- function(x,
     stopifnot(
       "gender_colors must be named vector with 3 values or NULL" =
         names(gender_colors) == c("MALE", "FEMALE", "UNKNOWN") |
-        is.null(gender_colors)
+          is.null(gender_colors)
     )
     if (is.null(gender_colors)) {
       vertex.color <- NULL
     } else {
-      vertex.color = gender_colors[igraph::vertex_attr(x, "gender")]
+      vertex.color <- gender_colors[igraph::vertex_attr(x, "gender")]
     }
   }
   if (!exists("vertex.label.dist")) {
     stopifnot(
       "vertex_label_adjust must be TRUE or FALSE" =
         isTRUE(vertex_label_adjust) |
-        isFALSE(vertex_label_adjust)
+          isFALSE(vertex_label_adjust)
     )
     if (vertex_label_adjust) {
       vertex.label.dist <- vertex.size / 10 + .75
@@ -661,7 +684,7 @@ plot.relations_igraph <- function(x,
     vertex.color = vertex.color,
     vertex.label.color = vertex.label.color,
     vertex.label.family = vertex.label.family,
-    vertex.label.cex =  vertex.label.cex,
+    vertex.label.cex = vertex.label.cex,
     vertex.label.font = vertex.label.font,
     vertex.frame.color = vertex.frame.color,
     edge.arrow.mode = edge.arrow.mode,
@@ -677,4 +700,3 @@ plot.relations_igraph <- function(x,
     edge.label.cex = edge.label.cex
   )
 }
-

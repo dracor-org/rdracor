@@ -99,16 +99,18 @@ dracor_api <- function(request,
   if (!parse) {
     return(cont)
   }
-  switch(
-    expected_type,
+  switch(expected_type,
     "application/json" = if (as_tibble) {
       return(tibble::as_tibble(jsonlite::fromJSON(cont, ...)))
-      } else {
-      return(jsonlite::fromJSON(cont, ...))},
+    } else {
+      return(jsonlite::fromJSON(cont, ...))
+    },
     "application/xml" = return(xml2::read_xml(cont, ...)),
     "text/csv" = if (as_tibble) {
       return(tibble::as_tibble(data.table::fread(cont, ...)))
-      } else {return(data.table::fread(cont, ...))},
+    } else {
+      return(data.table::fread(cont, ...))
+    },
     "text/plain" = if (split_text) {
       return(unlist(strsplit(cont, "\n")))
     } else {

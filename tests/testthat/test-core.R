@@ -11,8 +11,10 @@ test_that("More than one corpus induce error for a play", {
 })
 
 test_that("Valid request is created", {
-  expect_equal(form_play_request(play = "pushkin-boris-godunov", corpus = "rus"),
-               "https://dracor.org/api/corpora/rus/play/pushkin-boris-godunov")
+  expect_equal(
+    form_play_request(play = "pushkin-boris-godunov", corpus = "rus"),
+    "https://dracor.org/api/corpora/rus/play/pushkin-boris-godunov"
+  )
 })
 
 test_that("dracor_sparql() returns xml_document by default", {
@@ -34,4 +36,3 @@ test_that("dracor_sparql() returns xml_document", {
 test_that("dracor_sparql() with parse = FALSE returns character", {
   expect_type(dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE), "character")
 })
-

@@ -36,30 +36,32 @@ get_play_metadata <-
           flatten = TRUE,
           as_tibble = FALSE
         )
-      full_meta_play_list <- as.list(full_meta[full_meta$name == play,
-                                               c(
-                                                 "normalizedGenre",
-                                                 "size",
-                                                 "density",
-                                                 "diameter",
-                                                 "averageClustering",
-                                                 "averagePathLength",
-                                                 "averageDegree",
-                                                 "maxDegree",
-                                                 "maxDegreeIds",
-                                                 "numConnectedComponents",
-                                                 "wordCountSp",
-                                                 "wordCountText",
-                                                 "wordCountStage",
-                                                 "numOfSpeakers",
-                                                 "numOfSpeakersFemale",
-                                                 "numOfSpeakersMale",
-                                                 "numOfSpeakersUnknown",
-                                                 "numOfPersonGroups",
-                                                 "numOfSegments",
-                                                 "numOfActs",
-                                                 "wikipediaLinkCount"
-                                               )])
+      full_meta_play_list <- as.list(full_meta[
+        full_meta$name == play,
+        c(
+          "normalizedGenre",
+          "size",
+          "density",
+          "diameter",
+          "averageClustering",
+          "averagePathLength",
+          "averageDegree",
+          "maxDegree",
+          "maxDegreeIds",
+          "numConnectedComponents",
+          "wordCountSp",
+          "wordCountText",
+          "wordCountStage",
+          "numOfSpeakers",
+          "numOfSpeakersFemale",
+          "numOfSpeakersMale",
+          "numOfSpeakersUnknown",
+          "numOfPersonGroups",
+          "numOfSegments",
+          "numOfActs",
+          "wikipediaLinkCount"
+        )
+      ])
       meta <- c(meta, full_meta_play_list)
     }
     purrr::modify_if(meta, is.data.frame, tibble::as_tibble)

@@ -7,10 +7,9 @@ test_that("non-existant corpus returns error", {
 })
 
 test_that("several corpora are downloaded via get_dracor() if character vector
-          is provided",
-          {
-            expect_s3_class(get_dracor(c("tat", "span")), "tbl_df")
-          })
+          is provided", {
+  expect_s3_class(get_dracor(c("tat", "span")), "tbl_df")
+})
 
 test_that("is.dracor() works for 'dracor' object", {
   expect_true(is.dracor(get_dracor("cal")))
@@ -33,7 +32,6 @@ test_that(
   }
 )
 
-test_that("get_character_plays() for Maria Stuart returns at least 2 plays",
-          {
-expect_gte(nrow(get_character_plays(char_wiki_id = "Q131412")), 2L)
-          })
+test_that("get_character_plays() for Maria Stuart returns at least 2 plays", {
+  expect_gte(nrow(get_character_plays(char_wiki_id = "Q131412")), 2L)
+})

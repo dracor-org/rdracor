@@ -14,10 +14,10 @@
 #' @seealso \code{\link{get_play_metadata}}
 #' @importFrom xml2 read_xml
 #' @export
-get_text_tei <- function(play = NULL, corpus = NULL,  ...) {
+get_text_tei <- function(play = NULL, corpus = NULL, ...) {
   dracor_api(form_play_request(play = play, corpus = corpus, type = "tei"),
-             expected_type = "application/xml",
-             ...
+    expected_type = "application/xml",
+    ...
   )
 }
 
@@ -54,7 +54,7 @@ get_text_chr_spoken <-
       request <- paste0(request, "?gender=", toupper(gender))
     }
     dracor_api(request,
-               expected_type = "text/plain", ...
+      expected_type = "text/plain", ...
     )
   }
 
@@ -89,8 +89,8 @@ get_text_chr_spoken_bych <-
 get_text_chr_stage <-
   function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
     dracor_api(form_play_request(play = play, corpus = corpus, type = "stage-directions"),
-               expected_type = "text/plain",
-               ...
+      expected_type = "text/plain",
+      ...
     )
   }
 

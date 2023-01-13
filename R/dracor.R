@@ -1,13 +1,16 @@
 divide_years <- function(dracor, year_column) {
   data.table::setDT(dracor)
-  if (!year_column %in% names(dracor))
-    stop (paste("There is no such column as", year_column))
+  if (!year_column %in% names(dracor)) {
+    stop(paste("There is no such column as", year_column))
+  }
   written_years_list <-
-    lapply(strsplit(as.character(dracor[[year_column]]), "/"), function(x)
-      if (length(x) == 1)
+    lapply(strsplit(as.character(dracor[[year_column]]), "/"), function(x) {
+      if (length(x) == 1) {
         return(c(NA_character_, x))
-      else
-        return(x))
+      } else {
+        return(x)
+      }
+    })
   dracor[, (paste0(year_column, "Start")) := suppressWarnings(as.integer(vapply(written_years_list, `[[`, "", 1)))]
   dracor[, (paste0(year_column, "Finish")) := suppressWarnings(as.integer(vapply(written_years_list, `[[`, "", 2)))]
   dracor[, (year_column) := NULL]
@@ -35,7 +38,7 @@ get_corpus <- function(corpus = NULL,
       "printYearFinish",
       "premiereYearStart",
       "premiereYearFinish",
-      "wikidataId" ,
+      "wikidataId",
       "networkSize",
       "networkdataCsvUrl"
     )
@@ -66,15 +69,19 @@ get_corpus <- function(corpus = NULL,
     stop("You must provide dracor id")
   } else {
     dracor_list <-
-      dracor_api(request = paste0("https://dracor.org/api/corpora/", corpus),
-                 expected_type = "application/json",
-                 flatten = TRUE,
-                 as_tibble = FALSE)
+      dracor_api(
+        request = paste0("https://dracor.org/api/corpora/", corpus),
+        expected_type = "application/json",
+        flatten = TRUE,
+        as_tibble = FALSE
+      )
     data.table::setDT(dracor_list$dramas)
-    lapply(c("writtenYear", "printYear", "premiereYear"), function(x)
-      divide_years(dracor_list$dramas, x))
-    if (!"subtitle" %in% names(dracor_list$dramas))
+    lapply(c("writtenYear", "printYear", "premiereYear"), function(x) {
+      divide_years(dracor_list$dramas, x)
+    })
+    if (!"subtitle" %in% names(dracor_list$dramas)) {
       dracor_list$dramas[, subtitle := NA_character_]
+    }
     data.table::setnames(
       dracor_list$dramas,
       old = c("name", "author.name"),
@@ -83,7 +90,8 @@ get_corpus <- function(corpus = NULL,
     )
     dracor_list$dramas[, corpus := dracor_list$name]
     data.table::setcolorder(dracor_list$dramas,
-                            neworder = columns_short_order)
+      neworder = columns_short_order
+    )
   }
   if (full_metadata) {
     dracor_list$dramas <-
@@ -94,8 +102,11 @@ get_corpus <- function(corpus = NULL,
         suffixes = c("", "Meta")
       )
     data.table::setcolorder(dracor_list$dramas,
-                            neworder = c(columns_short_order,
-                                         columns_extra_order))
+      neworder = c(
+        columns_short_order,
+        columns_extra_order
+      )
+    )
     dublicate_columns <-
       c(
         "name",
@@ -156,52 +167,56 @@ summary.dracor <- function(object, ...) {
     ))
   printed <-
     suppressWarnings(range(object$printYearStart, object$printYearFinish, na.rm = T))
-  cat(if (identical(written, c(Inf, -Inf))) {
-    "No information on written years"
-  } else {
-    sprintf("Written years (range): %d - %d", written[1], written[2])
-  },
-  if (identical(premiere, c(Inf, -Inf))) {
-    "No information on premiere years"
-  } else {
-    sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2])
-  },
-  if (identical(printed, c(Inf, -Inf))) {
-    "No information on years of the first printing"
-  } else {
-    sprintf("Years of the first printing (range): %d - %d",
-            printed[1],
-            printed[2])
-  },
-  if (length(attr(object, "name")) == 1) {
-    cat(
+  cat(
+    if (identical(written, c(Inf, -Inf))) {
+      "No information on written years"
+    } else {
+      sprintf("Written years (range): %d - %d", written[1], written[2])
+    },
+    if (identical(premiere, c(Inf, -Inf))) {
+      "No information on premiere years"
+    } else {
+      sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2])
+    },
+    if (identical(printed, c(Inf, -Inf))) {
+      "No information on years of the first printing"
+    } else {
       sprintf(
-        "%d plays in %s",
-        attr(object, "plays"),
-        attr(object, "title")
-      ),
-      sprintf(
-        "Corpus id: %s, repository: %s",
-        attr(object, "name"),
-        attr(object, "repository")
-      ),
-      sprintf(
-        "Description: %s",
-        attr(object, "description")
-      ),
-      sep = "\t\n"
-    )
-  } else {
-    cat(
-      sprintf("%d plays in %s corpora:", sum(attr(object, "plays")), length(attr(object, "name"))),
-      "Corpora id:",
-      paste(sprintf(
-        "%s (%i plays)", attr(object, "name"), attr(object, "plays")
-      ), collapse = ", "),
-      sep = "\t\n"
-    )
-  },
-  sep = "\t\n")
+        "Years of the first printing (range): %d - %d",
+        printed[1],
+        printed[2]
+      )
+    },
+    if (length(attr(object, "name")) == 1) {
+      cat(
+        sprintf(
+          "%d plays in %s",
+          attr(object, "plays"),
+          attr(object, "title")
+        ),
+        sprintf(
+          "Corpus id: %s, repository: %s",
+          attr(object, "name"),
+          attr(object, "repository")
+        ),
+        sprintf(
+          "Description: %s",
+          attr(object, "description")
+        ),
+        sep = "\t\n"
+      )
+    } else {
+      cat(
+        sprintf("%d plays in %s corpora:", sum(attr(object, "plays")), length(attr(object, "name"))),
+        "Corpora id:",
+        paste(sprintf(
+          "%s (%i plays)", attr(object, "name"), attr(object, "plays")
+        ), collapse = ", "),
+        sep = "\t\n"
+      )
+    },
+    sep = "\t\n"
+  )
 }
 
 
@@ -248,11 +263,15 @@ get_dracor <- function(corpus = "all",
     corpus <- dracor_meta$name
   }
   available_corpora <- get_available_corpus_names()
-  if (!all(corpus %in% available_corpora)) stop(
-    paste("Corpus (corpora)",
-          paste(setdiff(corpus, available_corpora), collapse = ", "),
-          "do(es)n't exist(s)")
-  )
+  if (!all(corpus %in% available_corpora)) {
+    stop(
+      paste(
+        "Corpus (corpora)",
+        paste(setdiff(corpus, available_corpora), collapse = ", "),
+        "do(es)n't exist(s)"
+      )
+    )
+  }
   dracor_list <- purrr::map(corpus, purrr::safely(get_corpus), full_metadata = full_metadata)
 
   dracor_data_list <- dracor_list %>%
@@ -296,4 +315,3 @@ get_dracor <- function(corpus = "all",
 get_character_plays <- function(char_wiki_id) {
   dracor_api(paste0("https://dracor.org/api/character/", char_wiki_id))
 }
-

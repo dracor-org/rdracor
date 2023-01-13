@@ -32,15 +32,18 @@ get_available_corpus_names <- function() {
 dracor_meta <- function(dracor_df) {
   dracor_meta <-
     type.convert(dracor_df,
-                 as.is = TRUE,
-                 na.strings = c("NA", "-"))
+      as.is = TRUE,
+      na.strings = c("NA", "-")
+    )
   names(dracor_meta) <-
     gsub("metrics.", "", names(dracor_meta), fixed = TRUE)
   dracor_meta$updated <-
     as.POSIXct(dracor_meta$updated, format = "%FT%H:%M:%OS", tz = "UTC")
-  dracor_meta <- dracor_meta[order(-dracor_meta$plays),]
-  attributes(dracor_meta) <- c(attributes(dracor_meta),
-                               dracor_api_info())
+  dracor_meta <- dracor_meta[order(-dracor_meta$plays), ]
+  attributes(dracor_meta) <- c(
+    attributes(dracor_meta),
+    dracor_api_info()
+  )
   class(dracor_meta) <- c("dracor_meta", class(dracor_meta))
   return(dracor_meta)
 }
@@ -88,8 +91,10 @@ plot.dracor_meta <- function(x,
   left_margin <- 10.5
   y_in <- rev(1:nrow(x))
   old.par <- par(no.readonly = TRUE)
-  par(mar = c(3, left_margin, 4, 2) + 0.1,
-      mgp = c(2, 1, 0))
+  par(
+    mar = c(3, left_margin, 4, 2) + 0.1,
+    mgp = c(2, 1, 0)
+  )
   plot.default(
     x$plays,
     y_in,
