@@ -13,12 +13,15 @@
 #' @examples
 #' get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
 #' @seealso \code{\link{get_net_coocur_edges}}
-#'
+#' @importFrom purrr modify_at
+#' @importFrom tibble as_tibble
 #' @export
 get_play_metadata <- function(play = NULL, corpus = NULL, ...) {
-  dracor_api(form_play_request(play = play, corpus = corpus),
+  meta <- dracor_api(form_play_request(play = play, corpus = corpus),
     expected_type = "application/json", as_tibble = FALSE, ...
   )
+  meta$cast <- get_play_cast(play = play, corpus = corpus)
+  purrr::modify_if(meta, is.data.frame, tibble::as_tibble)
 }
 
 #' Retrieve an RDF for a play.
