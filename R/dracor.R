@@ -103,7 +103,9 @@ get_corpus <- function(corpus = NULL,
         "yearPrinted",
         "yearNormalizedMeta",
         "yearWritten",
-        "playNameMeta"
+        "playNameMeta",
+        "titleMeta",
+        "subtitleMeta"
       )
     dracor_list$dramas[, (dublicate_columns) := NULL]
   }
