@@ -5,7 +5,7 @@
 \alias{get_text_chr_spoken_bych}
 \alias{get_text_chr_stage}
 \alias{get_text_chr_stage_with_sp}
-\title{Retrieve lines and stage directions for a play.}
+\title{Retrieve lines and stage directions for a play}
 \usage{
 get_text_chr_spoken(
   play = NULL,

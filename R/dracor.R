@@ -93,7 +93,7 @@ get_corpus <- function(corpus = NULL,
       neworder = columns_short_order
     )
   }
-  if (full_metadata) {
+  if (isTRUE(full_metadata)) {
     dracor_list$dramas <-
       merge(
         dracor_list$dramas,

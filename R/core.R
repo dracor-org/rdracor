@@ -91,7 +91,7 @@ dracor_api <- function(request,
                        as_tibble = TRUE,
                        ...) {
   expected_type <- match.arg(expected_type)
-  if (default_type) {
+  if (isTRUE(default_type)) {
     resp <- httr::GET(request)
     return(httr::content(resp, as = "text", encoding = "UTF-8"))
   } else {
@@ -99,7 +99,7 @@ dracor_api <- function(request,
   }
   dracor_error(resp)
   cont <- httr::content(resp, as = "text", encoding = "UTF-8")
-  if (!parse) {
+  if (!isTRUE(parse)) {
     return(cont)
   }
   switch(expected_type,

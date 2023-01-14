@@ -2,7 +2,7 @@
 % Please edit documentation in R/net.R
 \name{label_coocur_igraph}
 \alias{label_coocur_igraph}
-\title{Extract labels for plotting 'coocur_igraph' object.}
+\title{Extract labels for plotting 'coocur_igraph' object}
 \usage{
 label_coocur_igraph(
   graph,

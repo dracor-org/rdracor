@@ -2,7 +2,7 @@
 % Please edit documentation in R/net.R
 \name{is.relations_igraph}
 \alias{is.relations_igraph}
-\title{Test an object to be a 'relations_igraph' object.}
+\title{Test an object to be a 'relations_igraph' object}
 \usage{
 is.relations_igraph(x)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/text.R
 \name{get_text_tei}
 \alias{get_text_tei}
-\title{Retrieve a text for a play in TEI.}
+\title{Retrieve a text for a play in TEI}
 \usage{
 get_text_tei(play = NULL, corpus = NULL, ...)
 }

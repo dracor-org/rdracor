@@ -2,7 +2,7 @@
 % Please edit documentation in R/dracor_meta.R
 \name{is.dracor_meta}
 \alias{is.dracor_meta}
-\title{Test an object to be a 'dracor_meta' object.}
+\title{Test an object to be a 'dracor_meta' object}
 \usage{
 is.dracor_meta(x)
 }
