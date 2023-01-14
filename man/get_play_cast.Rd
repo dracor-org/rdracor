@@ -2,7 +2,7 @@
 % Please edit documentation in R/play.R
 \name{get_play_cast}
 \alias{get_play_cast}
-\title{Retrieve data for characters in a play.}
+\title{Retrieve data for characters in a play}
 \usage{
 get_play_cast(play = NULL, corpus = NULL, ...)
 }
@@ -16,13 +16,16 @@ get_play_cast(play = NULL, corpus = NULL, ...)
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
+\value{
+a data frame where every raw represent one charachter.
+}
 \description{
-The DraCor API lets you request miscellaneous information for characters in
-a play, given corpus and play names: name, number and size of their lines,
+\code{get_play_cast()} request miscellaneous information for characters in
+a play, given play and corpus names: name, number and size of their lines,
 gender, some network metrics etc.
 }
 \examples{
-get_play_cast(play = "gogol-zhenitba", corpus = "rus")
+get_play_cast(play = "lessing-emilia-galotti", corpus = "ger")
 }
 \seealso{
 \code{\link{get_play_metadata}}

@@ -10,5 +10,5 @@ is.coocur_igraph(x)
 \item{x}{An R object.}
 }
 \description{
-Test that object is a \code{coocur_igraph}.
+Tests that object is a \code{coocur_igraph}.
 }

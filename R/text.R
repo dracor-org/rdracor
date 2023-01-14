@@ -1,17 +1,18 @@
-#' Retrieve a text for a play in TEI.
+#' Retrieve a text for a play in TEI
 #'
-#' The DraCor API lets you request a text for a play in TEI format, given corpus
+#' \code{get_text_tei()} requests a text for a play in TEI format, given corpus
 #' and play names. TEI is an XML vocabulary, which makes it easy to extract
 #' structural information.
 #'
-#' @return Text of a play parsed by
+#' @return TEI data parsed by
 #'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @examples
-#' get_text_tei(play = "gogol-zhenitba", corpus = "rus")
+#' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want a text in TEI without parsing by xml2::read_xml():
-#' get_text_tei(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
-#' @seealso \code{\link{get_play_metadata}}
+#' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+#' @seealso \code{\link{get_text_df}} \code{\link{get_text_chr_spoken}}
+#' \code{\link{tei_to_df}}
 #' @importFrom xml2 read_xml
 #' @export
 get_text_tei <- function(play = NULL, corpus = NULL, ...) {
@@ -23,22 +24,22 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 
 #' Retrieve lines and stage directions for a play
 #'
-#' The DraCor API lets you request lines and stage directions for a play, given
+#' \code{get_text_chr_spoken()} request lines and stage directions for a play, given
 #' corpus and play names.
 #'
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @param gender Character, optional parameter to extract lines for characters
 #' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
 #' @param split_text If \code{TRUE} returns text as a character vector of lines.
 #' Otherwise, returns text as one character value. \code{TRUE} by default.
 #' @examples
-#' get_text_chr_spoken(play = "gogol-zhenitba", corpus = "rus")
-#' get_text_chr_spoken(play = "gogol-zhenitba", corpus = "rus", "FEMALE")
-#' get_text_chr_spoken(play = "gogol-zhenitba", corpus = "rus", "FEMALE", split = FALSE)
-#' get_text_chr_spoken_bych(play = "gogol-zhenitba", corpus = "rus")
-#' get_text_chr_stage(play = "gogol-zhenitba", corpus = "rus")
-#' get_text_chr_stage_with_sp(play = "gogol-zhenitba", corpus = "rus")
-#' @seealso \code{\link{get_play_metadata}}
+#' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger")
+#' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger", "FEMALE")
+#' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger", "FEMALE", split = FALSE)
+#' get_text_chr_spoken_bych(play = "lessing-emilia-galotti", corpus = "ger")
+#' get_text_chr_stage(play = "lessing-emilia-galotti", corpus = "ger")
+#' get_text_chr_stage_with_sp(play = "lessing-emilia-galotti", corpus = "ger")
+#' @seealso \code{\link{get_text_tei}} \code{\link{get_text_df}}
 #' @export
 get_text_chr_spoken <-
   function(play = NULL,
@@ -62,7 +63,7 @@ get_text_chr_spoken <-
 #' character and text in a column \code{"text"}. \code{FALSE} by default.
 #' @importFrom purrr map_chr
 #' @export
-#' @describeIn get_text_chr_spoken Retrieve lines grouped by characters in a
+#' @describeIn get_text_chr_spoken Retrieves lines grouped by characters in a
 #' play, given corpus and play names.
 get_text_chr_spoken_bych <-
   function(play = NULL, corpus = NULL, split_text = TRUE, dataframe = FALSE, ...) {
@@ -84,7 +85,7 @@ get_text_chr_spoken_bych <-
   }
 
 #' @export
-#' @describeIn get_text_chr_spoken Retrieve all stage directions of a play,
+#' @describeIn get_text_chr_spoken Retrieves all stage directions of a play,
 #' given corpus and play names.
 get_text_chr_stage <-
   function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
@@ -95,7 +96,7 @@ get_text_chr_stage <-
   }
 
 #' @export
-#' @describeIn get_text_chr_spoken Retrieve all stage directions of a play
+#' @describeIn get_text_chr_spoken Retrieves all stage directions of a play
 #' including speakers (if applicable), given corpus and play names.
 get_text_chr_stage_with_sp <-
   function(play = NULL, corpus = NULL, split_text = TRUE, ...) {

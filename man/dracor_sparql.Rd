@@ -2,13 +2,12 @@
 % Please edit documentation in R/core.R
 \name{dracor_sparql}
 \alias{dracor_sparql}
-\title{Submit SPARQL queries to DraCor API.}
+\title{Submit SPARQL queries to DraCor API}
 \usage{
 dracor_sparql(sparql_query = NULL, parse = TRUE, ...)
 }
 \arguments{
-\item{sparql_query}{Character, SPARQL query.
-of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.}
+\item{sparql_query}{Character, SPARQL query.}
 
 \item{parse}{Logical, if \code{TRUE} the result is parsed by
 {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
@@ -20,10 +19,13 @@ returned. Default value is \code{TRUE}.}
 SPARQL xml parsed.
 }
 \description{
-The DraCor API lets you submit SPARQL queries.
+\code{dracor_sparql()} submits SPARQL queries and parses the result.
 }
 \examples{
 dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10")
 # If you want to avoid parsing by xml2::read_xml():
 dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE)
+}
+\seealso{
+\code{\link{get_dracor}}
 }

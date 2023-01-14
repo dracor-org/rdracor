@@ -147,6 +147,12 @@ dracor <- function(dracor_list) {
   )
 }
 
+#' Test an object to be a 'dracor' object.
+#'
+#' Tests that object is a \code{dracor}.
+#'
+#' @param x An R object.
+#' @export
 is.dracor <- function(x) {
   inherits(x, "dracor")
 }
@@ -245,9 +251,8 @@ summary.dracor <- function(object, ...) {
 #' @return \code{dracor} object that inherits data.frame (and can be used as such).
 #' @examples
 #' \donttest{
-#' ru <- get_dracor("rus")
-#' head(ru)
-#' summary(ru)
+#' tat <- get_dracor("tat")
+#' summary(tat)
 #' get_dracor(c("ita", "span", "greek"))
 #' get_dracor()
 #' }
@@ -298,17 +303,19 @@ get_dracor <- function(corpus = "all",
 
 #' Retrieve plays having a character identified by Wikidata ID
 #'
-#' The DraCor API lets you request plays that include a character that can by
-#' found in Wikidata by it's id.
+#' \code{get_character_plays()} requests plays that include a character that can by
+#' found in Wikidata by it's id. \code{get_character_plays()} sends a request
+#' and parses the the result to get those plays as a data frame.
 #'
 #' @return Data frame, in which one row represents one play. Information on
 #' author(s) name, character name, play name, URL and ID is represented in
-#' separate columns
+#' separate columns.
 #' @param char_wiki_id Character value with Wikidata ID for a character.
 #' Wikidata ID can be found on \url{Wikidata.org}. Character vector (longer than
 #' 1) is not supported.
 #' @examples
-#' get_character_plays(char_wiki_id = "Q131412")
+#' wiki_id <- "Q131412"
+#' get_character_plays(wiki_id)
 #' @seealso \code{\link{get_dracor}}
 #' @export
 

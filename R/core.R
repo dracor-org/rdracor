@@ -41,7 +41,7 @@ dracor_error <- function(resp) {
 
 #' Send a GET request to DraCor API and parse the results
 #'
-#' Sending a GET request to DraCor API with a specified expected type and parse
+#' Function \code{dracor_api()} sends a GET request to DraCor API with a specified expected type and parses
 #' results depending on selected expected type.
 #'
 #' There are four different MIME types (aka internet media type) that can be
@@ -68,6 +68,9 @@ dracor_error <- function(resp) {
 #' @param as_tibble Logical, if \code{TRUE}, data.frame will be returned as a
 #'   tidyverse tibble (\code{tbl_df}). Default value is \code{TRUE}.
 #' @param ... Other arguments passed to a parser function.
+#' @examples
+#' dracor_api("https://dracor.org/api/info", expected_type = "application/json")
+#' @seealso \code{\link{dracor_sparql}}
 #' @import httr
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
@@ -119,13 +122,12 @@ dracor_api <- function(request,
   )
 }
 
-#' Submit SPARQL queries to DraCor API.
+#' Submit SPARQL queries to DraCor API
 #'
-#' The DraCor API lets you submit SPARQL queries.
+#' \code{dracor_sparql()} submits SPARQL queries and parses the result.
 #'
 #' @return SPARQL xml parsed.
 #' @param sparql_query Character, SPARQL query.
-#' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
@@ -134,6 +136,7 @@ dracor_api <- function(request,
 #' dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10")
 #' # If you want to avoid parsing by xml2::read_xml():
 #' dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE)
+#' @seealso \code{\link{get_dracor}}
 #' @importFrom utils URLencode
 #' @export
 dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
@@ -147,15 +150,16 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
   dracor_api(query, expected_type = "application/xml", parse = parse, ...)
 }
 
-#' Retrieve Dracor API info.
+#' Retrieve Dracor API info
 #'
-#' \code{dracor_api_info} returns information about DraCor API: name of
+#' \code{dracor_api_info()} returns information about DraCor API: name of
 #' the API, status, existdb version, and API version.
 #'
 #' No parameters are expected.
 #'
 #' @examples
 #' dracor_api_info()
+#' @seealso \code{\link{dracor_api}}
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
 #' @export

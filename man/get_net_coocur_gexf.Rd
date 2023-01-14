@@ -3,7 +3,7 @@
 \name{get_net_coocur_gexf}
 \alias{get_net_coocur_gexf}
 \alias{get_net_relations_gexf}
-\title{Retrieve co-occurrence network for a play in GEXF.}
+\title{Retrieve co-occurrence network for a play in GEXF}
 \usage{
 get_net_coocur_gexf(play = NULL, corpus = NULL, parse = TRUE, ...)
 
@@ -27,25 +27,27 @@ returned. Default value is \code{TRUE}.}
 GEXF data.
 }
 \description{
-The DraCor API lets you request a play co-occurrence network in GEXF (Graph Exchange XML
-Format), given corpus and play names. GEXF is a format used in Gephi - an
+\code{get_net_coocur_gexf()} requests a play co-occurrence network in GEXF (Graph Exchange XML
+Format), given play and corpus names. GEXF is a format used in Gephi - an
 open source software for network analysis and visualization.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_net_relations_gexf()}: Retrieve kinship and other relationship
+\item \code{get_net_relations_gexf()}: Retrieves kinship and other relationship
 data, following the encoding scheme proposed in
 \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 
 }}
 \examples{
-get_net_coocur_gexf(play = "gogol-zhenitba", corpus = "rus")
+get_net_coocur_gexf(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want GEXF without parsing by xml2::read_xml():
-get_net_coocur_gexf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
+get_net_coocur_gexf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \references{
 \insertAllCited{}
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_net_coocur_igraph}}
+\code{\link{get_net_coocur_metrics}} \code{\link{get_net_coocur_graphml}}
+\code{\link{get_net_coocur_edges}} \code{\link{get_net_relations_igraph}}
 }

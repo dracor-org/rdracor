@@ -4,7 +4,7 @@
 \alias{get_dracor_meta}
 \alias{summary.dracor_meta}
 \alias{plot.dracor_meta}
-\title{Retrieve information on available corpora}
+\title{Retrieve information on available corpora.}
 \usage{
 get_dracor_meta()
 

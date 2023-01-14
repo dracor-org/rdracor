@@ -111,26 +111,24 @@ line_table <- function(tei_line,
 
 #' Retrieve a text for a play as a data frame
 #'
-#' The function \code{get_text_df} returns you a data frame with text of
-#' the selected play. \code{tei_to_df} allows to convert an existing TEI object
+#' The function \code{get_text_df()} returns you a data frame with text of
+#' the selected play. \code{tei_to_df()} allows to convert an existing TEI object
 #' to a data frame.
 #'
 #' @return Text of a play as a data frame in
 #' \href{https://www.tidytextmining.com/tidytext.html}{tidy text} format.
-#'
 #' Each row represent one token. The text tokenized by lines, notes and stage
 #' directions (<p>, <l>, <stage> or <note>).
-#'
 #' Column \code{text} contains text of the line, other columns contain metadata
 #' for the line.
 #' @param tei A TEI object stored as an object of class \code{xml_document}.
 #' You can use this function if you have already downloaded TEI using
 #' \code{\link{get_text_tei}}.
 #' @examples
-#' \dontrun{
-#' get_text_df(play = "gogol-zhenitba", corpus = "rus")
-#' zhenitba <- get_text_tei(play = "gogol-zhenitba", corpus = "rus")
-#' tei_to_df(zhenitba)
+#' \donttest{
+#' get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
+#' emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
+#' tei_to_df(emilia_tei)
 #' }
 #' @seealso \code{\link{get_play_metadata}}
 #' @importFrom purrr flatten_chr
@@ -238,8 +236,8 @@ tei_to_df <- function(tei) {
 
 #' @inheritParams get_play_metadata
 #' @export
-#' @describeIn tei_to_df Retrieve all stage directions of a play,
-#' given corpus and play names.
+#' @describeIn tei_to_df Retrieves all stage directions of a play,
+#' given play and corpus names.
 get_text_df <- function(play, corpus) {
   get_text_tei(play = play, corpus = corpus) %>%
     tei_to_df()

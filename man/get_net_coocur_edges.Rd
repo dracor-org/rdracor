@@ -3,7 +3,7 @@
 \name{get_net_coocur_edges}
 \alias{get_net_coocur_edges}
 \alias{get_net_relations_edges}
-\title{Retrieve co-occurrence edges list for a play as a data frame.}
+\title{Retrieve co-occurrence edges list for a play as a data frame}
 \usage{
 get_net_coocur_edges(play = NULL, corpus = NULL, ...)
 
@@ -23,24 +23,26 @@ get_net_relations_edges(play = NULL, corpus = NULL, ...)
 data frame with edges (each row = one edge of a network).
 }
 \description{
-The DraCor API lets you request edges list for a play network, given corpus
-and play names. Each row represents co-occurrences of two characters in a play
- - number of scenes where two characters appeared together. This edges list
+\code{get_net_coocur_edges()} requests edges list for a play network, given
+corpus and play names. Each row represents co-occurrences of two characters in a play
+- number of scenes where two characters appeared together. This edges list
 can be used to construct a network for a play.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_net_relations_edges()}: Retrieve kinship and other relationship
+\item \code{get_net_relations_edges()}: Retrieves kinship and other relationship
 data, following the encoding scheme proposed in
 \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 
 }}
 \examples{
-get_net_coocur_edges(play = "gogol-zhenitba", corpus = "rus")
+get_net_coocur_edges(play = "lessing-emilia-galotti", corpus = "ger")
 }
 \references{
 \insertAllCited{}
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_net_coocur_igraph}}
+\code{\link{get_net_coocur_gexf}} \code{\link{get_net_coocur_graphml}}
+\code{\link{get_net_coocur_metrics}} \code{\link{get_net_relations_igraph}}
 }

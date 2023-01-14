@@ -14,14 +14,16 @@ Wikidata ID can be found on \url{Wikidata.org}. Character vector (longer than
 \value{
 Data frame, in which one row represents one play. Information on
 author(s) name, character name, play name, URL and ID is represented in
-separate columns
+separate columns.
 }
 \description{
-The DraCor API lets you request plays that include a character that can by
-found in Wikidata by it's id.
+\code{get_character_plays()} requests plays that include a character that can by
+found in Wikidata by it's id. \code{get_character_plays()} sends a request
+and parses the the result to get those plays as a data frame.
 }
 \examples{
-get_character_plays(char_wiki_id = "Q131412")
+wiki_id <- "Q131412"
+get_character_plays(wiki_id)
 }
 \seealso{
 \code{\link{get_dracor}}

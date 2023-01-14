@@ -5,7 +5,7 @@
 \alias{get_text_chr_spoken_bych}
 \alias{get_text_chr_stage}
 \alias{get_text_chr_stage_with_sp}
-\title{Retrieve lines and stage directions for a play}
+\title{Retrieve lines and stage directions for a play.}
 \usage{
 get_text_chr_spoken(
   play = NULL,
@@ -47,29 +47,29 @@ Otherwise, returns text as one character value. \code{TRUE} by default.}
 character and text in a column \code{"text"}. \code{FALSE} by default.}
 }
 \description{
-The DraCor API lets you request lines and stage directions for a play, given
+\code{get_text_chr_spoken()} request lines and stage directions for a play, given
 corpus and play names.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_text_chr_spoken_bych()}: Retrieve lines grouped by characters in a
+\item \code{get_text_chr_spoken_bych()}: Retrieves lines grouped by characters in a
 play, given corpus and play names.
 
-\item \code{get_text_chr_stage()}: Retrieve all stage directions of a play,
+\item \code{get_text_chr_stage()}: Retrieves all stage directions of a play,
 given corpus and play names.
 
-\item \code{get_text_chr_stage_with_sp()}: Retrieve all stage directions of a play
+\item \code{get_text_chr_stage_with_sp()}: Retrieves all stage directions of a play
 including speakers (if applicable), given corpus and play names.
 
 }}
 \examples{
-get_text_chr_spoken(play = "gogol-zhenitba", corpus = "rus")
-get_text_chr_spoken(play = "gogol-zhenitba", corpus = "rus", "FEMALE")
-get_text_chr_spoken(play = "gogol-zhenitba", corpus = "rus", "FEMALE", split = FALSE)
-get_text_chr_spoken_bych(play = "gogol-zhenitba", corpus = "rus")
-get_text_chr_stage(play = "gogol-zhenitba", corpus = "rus")
-get_text_chr_stage_with_sp(play = "gogol-zhenitba", corpus = "rus")
+get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger")
+get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger", "FEMALE")
+get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger", "FEMALE", split = FALSE)
+get_text_chr_spoken_bych(play = "lessing-emilia-galotti", corpus = "ger")
+get_text_chr_stage(play = "lessing-emilia-galotti", corpus = "ger")
+get_text_chr_stage_with_sp(play = "lessing-emilia-galotti", corpus = "ger")
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_text_tei}} \code{\link{get_text_df}}
 }

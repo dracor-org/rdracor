@@ -22,12 +22,13 @@ get_play_metadata(play = NULL, corpus = NULL, full_metadata = TRUE, ...)
 List with a play metadata.
 }
 \description{
-The DraCor API lets you request metadata for a specific play, given corpus
-and play names.
+\code{get_play_metadata()} requests metadata for a specific play, given play
+and corpus names.
 }
 \examples{
-get_play_metadata(play = "gogol-zhenitba", corpus = "rus")
+get_play_metadata(play = "lessing-emilia-galotti", corpus = "ger")
 }
 \seealso{
-\code{\link{get_net_coocur_edges}}
+\code{\link{get_net_coocur_edges}} \code{\link{get_play_rdf}}
+\code{\link{get_play_cast}}
 }

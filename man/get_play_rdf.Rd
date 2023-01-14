@@ -2,7 +2,7 @@
 % Please edit documentation in R/play.R
 \name{get_play_rdf}
 \alias{get_play_rdf}
-\title{Retrieve an RDF for a play.}
+\title{Retrieve an RDF for a play}
 \usage{
 get_play_rdf(play = NULL, corpus = NULL, parse = TRUE, ...)
 }
@@ -24,15 +24,15 @@ returned. Default value is \code{TRUE}.}
 RDF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 }
 \description{
-The DraCor API lets you request a RDF (Resource Description Framework) data
-for a play, given corpus and play names. RDF for plays can be useful for
+\code{get_play_rdf()} requests an RDF (Resource Description Framework) data
+for a play, given play and corpus names. RDF for plays can be useful for
 extraction data for a play from \url{Wikidata.org}.
 }
 \examples{
-get_play_rdf(play = "gogol-zhenitba", corpus = "rus")
+get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want RDF without parsing by xml2::read_xml():
-get_play_rdf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
+get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_play_metadata}} \code{\link{get_play_cast}}
 }

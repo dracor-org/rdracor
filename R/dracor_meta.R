@@ -1,4 +1,4 @@
-#' Retrieve information on available corpora
+#' Retrieve information on available corpora.
 #'
 #' \code{get_dracor_meta} returns a \code{dracor_meta} object that inherits
 #' data.frame (and can be used as such).
@@ -48,6 +48,12 @@ dracor_meta <- function(dracor_df) {
   return(dracor_meta)
 }
 
+#' Test an object to be a 'dracor_meta' object
+#'
+#' Tests that object is a \code{dracor_meta}.
+#'
+#' @param x An R object.
+#' @export
 is.dracor_meta <- function(x) {
   inherits(x, "dracor_meta")
 }

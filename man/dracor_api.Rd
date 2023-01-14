@@ -37,7 +37,7 @@ tidyverse tibble (\code{tbl_df}). Default value is \code{TRUE}.}
 \item{...}{Other arguments passed to a parser function.}
 }
 \description{
-Sending a GET request to DraCor API with a specified expected type and parse
+Function \code{dracor_api()} sends a GET request to DraCor API with a specified expected type and parses
 results depending on selected expected type.
 }
 \details{
@@ -50,4 +50,10 @@ parsed depending on selected MIME type in \code{expected_type}:
   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
   \item{\code{text/plain}}{No need for additional preprocessing}}
+}
+\examples{
+dracor_api("https://dracor.org/api/info", expected_type = "application/json")
+}
+\seealso{
+\code{\link{dracor_sparql}}
 }

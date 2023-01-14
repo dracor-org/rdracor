@@ -48,9 +48,8 @@ to extract names for all available corpora.
 }}
 \examples{
 \donttest{
-ru <- get_dracor("rus")
-head(ru)
-summary(ru)
+tat <- get_dracor("tat")
+summary(tat)
 get_dracor(c("ita", "span", "greek"))
 get_dracor()
 }

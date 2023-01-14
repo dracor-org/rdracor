@@ -1,10 +1,10 @@
 Package: rdracor
 Type: Package
 Title: Access To The DraCor API
+Description: Provide an interface for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
 Version: 0.6.6
 Author: Ivan Pozdniakov <bucherr@yandex.ru>
 Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
-Description: Wrapper for Drama Corpora Project (Dracor) API: https://dracor.org/documentation/api. 
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

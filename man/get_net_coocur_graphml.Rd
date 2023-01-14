@@ -3,7 +3,7 @@
 \name{get_net_coocur_graphml}
 \alias{get_net_coocur_graphml}
 \alias{get_net_relations_graphml}
-\title{Retrieve co-occurrence network for a play in GraphML.}
+\title{Retrieve co-occurrence network for a play in GraphML}
 \usage{
 get_net_coocur_graphml(play = NULL, corpus = NULL, parse = TRUE, ...)
 
@@ -27,25 +27,27 @@ returned. Default value is \code{TRUE}.}
 graphml data.
 }
 \description{
-The DraCor API lets you request a play co-occurrence network in GraphML,
-given corpus and play names. GraphML is a common format for graphs based on
+\code{get_net_coocur_graphml()} requests a play co-occurrence network in GraphML,
+given play and corpus names. GraphML is a common format for graphs based on
 XML.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_net_relations_graphml()}: Retrieve kinship and other relationship
+\item \code{get_net_relations_graphml()}: Retrieves kinship and other relationship
 data, following the encoding scheme proposed in
 \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 
 }}
 \examples{
-get_net_coocur_graphml(play = "gogol-zhenitba", corpus = "rus")
+get_net_coocur_graphml(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want GEXF without parsing by xml2::read_xml():
-get_net_coocur_graphml(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
+get_net_coocur_graphml(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \references{
 \insertAllCited{}
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_net_coocur_igraph}}
+\code{\link{get_net_coocur_gexf}} \code{\link{get_net_coocur_metrics}}
+\code{\link{get_net_coocur_edges}} \code{\link{get_net_relations_igraph}}
 }

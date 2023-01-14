@@ -15,7 +15,8 @@ label_coocur_igraph(
 \arguments{
 \item{graph}{\code{coocur_igraph} object to plot.}
 
-\item{max_graph_size}{Integer, maximum network size for plotting all labels.}
+\item{max_graph_size}{Integer, maximum network size for plotting all labels.
+If you don't want to delete any labels, set \code{Inf}.}
 
 \item{top_nodes}{Integer, number of labels to be plotted. Characters with the
 highest number of words will be selected.}
@@ -27,9 +28,11 @@ in a play.}
 Character vector of character names.
 }
 \description{
-Extract labels for plotting \code{coocur_igraph} object. \code{label_coocur_igraph}
+\code{label_coocur_igraph()} returns labels for plotting \code{coocur_igraph}
+object. \code{label_coocur_igraph}
 gives control of overplotting for labels (i.e. character names) by deleting
-extra labels if there are too many of them. This function can be used to set
+extra labels if there are too many of them. Thus, it highlights the most
+significant characters of the selected play. This function can be used to set
 \code{vertex.label} parameter for \code{\link{plot.coocur_igraph}}.
 }
 \details{
@@ -38,9 +41,9 @@ extra labels if there are too many of them. This function can be used to set
 if it is true, returns names for top \code{top_nodes} and NA for the rest.
 }
 \examples{
-zhenitba_igraph <- get_coocur_igraph(play = "gogol-zhenitba", corpus = "rus")
-label_coocur_igraph(zhenitba_igraph, max_graph_size = 10, top_nodes = 4)
+emilia_igraph <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+label_coocur_igraph(emilia_igraph, max_graph_size = 10, top_nodes = 4)
 }
 \seealso{
-\code{\link{get_coocur_igraph}}
+\code{\link{get_net_coocur_igraph}}
 }

@@ -20,13 +20,15 @@ get_net_coocur_metrics(play = NULL, corpus = NULL, ...)
 List with network metrics for a specific play.
 }
 \description{
-The DraCor API lets you request network metrics for a specific play, given
-corpus and play names. Play network is constructed based on characters'
-cooccurrence matrix.
+\code{get_net_coocur_metrics()} requests network metrics for a specific play, given
+play and corpus names. Play network is constructed based on characters'
+co-occurrence matrix.
 }
 \examples{
-get_net_coocur_metrics(corpus = "rus", play = "gogol-zhenitba")
+get_net_coocur_metrics(play = "lessing-emilia-galotti", corpus = "ger")
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_net_coocur_igraph}}
+\code{\link{get_net_coocur_gexf}} \code{\link{get_net_coocur_graphml}}
+\code{\link{get_net_coocur_edges}} \code{\link{get_net_relations_igraph}}
 }

@@ -10,5 +10,5 @@ is.relations_igraph(x)
 \item{x}{An R object.}
 }
 \description{
-Test that object is a \code{relations_igraph}.
+Tests that object is a \code{relations_igraph}.
 }

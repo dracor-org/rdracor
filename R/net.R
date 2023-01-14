@@ -1,35 +1,42 @@
 #' Retrieve co-occurrence network metrics for a play
 #'
-#' The DraCor API lets you request network metrics for a specific play, given
-#' corpus and play names. Play network is constructed based on characters'
-#' cooccurrence matrix.
+#' \code{get_net_coocur_metrics()} requests network metrics for a specific play, given
+#' play and corpus names. Play network is constructed based on characters'
+#' co-occurrence matrix.
 #'
 #' @return List with network metrics for a specific play.
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @examples
-#' get_net_coocur_metrics(corpus = "rus", play = "gogol-zhenitba")
-#' @seealso \code{\link{get_play_metadata}}
+#' get_net_coocur_metrics(play = "lessing-emilia-galotti", corpus = "ger")
+#' @seealso \code{\link{get_net_coocur_igraph}}
+#' \code{\link{get_net_coocur_gexf}} \code{\link{get_net_coocur_graphml}}
+#' \code{\link{get_net_coocur_edges}} \code{\link{get_net_relations_igraph}}
+#' @importFrom purrr modify_at
+#' @importFrom tibble as_tibble
 #' @export
 get_net_coocur_metrics <- function(play = NULL, corpus = NULL, ...) {
-  dracor_api(form_play_request(play = play, corpus = corpus, type = "metrics"),
+  metrics <- dracor_api(form_play_request(play = play, corpus = corpus, type = "metrics"),
     expected_type = "application/json",
     as_tibble = FALSE,
     ...
   )
+  purrr::modify_if(metrics, is.data.frame, tibble::as_tibble)
 }
 
-#' Retrieve co-occurrence edges list for a play as a data frame.
+#' Retrieve co-occurrence edges list for a play as a data frame
 #'
-#' The DraCor API lets you request edges list for a play network, given corpus
-#' and play names. Each row represents co-occurrences of two characters in a play
-#'  - number of scenes where two characters appeared together. This edges list
+#' \code{get_net_coocur_edges()} requests edges list for a play network, given
+#' corpus and play names. Each row represents co-occurrences of two characters in a play
+#' - number of scenes where two characters appeared together. This edges list
 #' can be used to construct a network for a play.
 #'
 #' @return data frame with edges (each row = one edge of a network).
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @examples
-#' get_net_coocur_edges(play = "gogol-zhenitba", corpus = "rus")
-#' @seealso \code{\link{get_play_metadata}}
+#' get_net_coocur_edges(play = "lessing-emilia-galotti", corpus = "ger")
+#' @seealso \code{\link{get_net_coocur_igraph}}
+#' \code{\link{get_net_coocur_gexf}} \code{\link{get_net_coocur_graphml}}
+#' \code{\link{get_net_coocur_metrics}} \code{\link{get_net_relations_igraph}}
 #' @export
 get_net_coocur_edges <-
   function(play = NULL, corpus = NULL, ...) {
@@ -42,22 +49,24 @@ get_net_coocur_edges <-
     )
   }
 
-#' Retrieve co-occurrence network for a play in GEXF.
+#' Retrieve co-occurrence network for a play in GEXF
 #'
-#' The DraCor API lets you request a play co-occurrence network in GEXF (Graph Exchange XML
-#' Format), given corpus and play names. GEXF is a format used in Gephi - an
+#' \code{get_net_coocur_gexf()} requests a play co-occurrence network in GEXF (Graph Exchange XML
+#' Format), given play and corpus names. GEXF is a format used in Gephi - an
 #' open source software for network analysis and visualization.
 #'
 #' @return GEXF data.
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
 #' @examples
-#' get_net_coocur_gexf(play = "gogol-zhenitba", corpus = "rus")
+#' get_net_coocur_gexf(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want GEXF without parsing by xml2::read_xml():
-#' get_net_coocur_gexf(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
-#' @seealso \code{\link{get_play_metadata}}
+#' get_net_coocur_gexf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+#' @seealso \code{\link{get_net_coocur_igraph}}
+#' \code{\link{get_net_coocur_metrics}} \code{\link{get_net_coocur_graphml}}
+#' \code{\link{get_net_coocur_edges}} \code{\link{get_net_relations_igraph}}
 #' @export
 get_net_coocur_gexf <-
   function(play = NULL, corpus = NULL, parse = TRUE, ...) {
@@ -68,22 +77,24 @@ get_net_coocur_gexf <-
     )
   }
 
-#' Retrieve co-occurrence network for a play in GraphML.
+#' Retrieve co-occurrence network for a play in GraphML
 #'
-#' The DraCor API lets you request a play co-occurrence network in GraphML,
-#' given corpus and play names. GraphML is a common format for graphs based on
+#' \code{get_net_coocur_graphml()} requests a play co-occurrence network in GraphML,
+#' given play and corpus names. GraphML is a common format for graphs based on
 #' XML.
 #'
 #' @return graphml data.
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
 #' @examples
-#' get_net_coocur_graphml(play = "gogol-zhenitba", corpus = "rus")
+#' get_net_coocur_graphml(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want GEXF without parsing by xml2::read_xml():
-#' get_net_coocur_graphml(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
-#' @seealso \code{\link{get_play_metadata}}
+#' get_net_coocur_graphml(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+#' @seealso \code{\link{get_net_coocur_igraph}}
+#' \code{\link{get_net_coocur_gexf}} \code{\link{get_net_coocur_metrics}}
+#' \code{\link{get_net_coocur_edges}} \code{\link{get_net_relations_igraph}}
 #' @export
 get_net_coocur_graphml <-
   function(play = NULL, corpus = NULL, parse = TRUE, ...) {
@@ -95,7 +106,7 @@ get_net_coocur_graphml <-
   }
 
 #' @export
-#' @describeIn get_net_coocur_edges Retrieve kinship and other relationship
+#' @describeIn get_net_coocur_edges Retrieves kinship and other relationship
 #' data, following the encoding scheme proposed in
 #' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #' @importFrom Rdpack reprompt
@@ -109,7 +120,7 @@ get_net_relations_edges <- function(play = NULL, corpus = NULL, ...) {
 }
 
 #' @export
-#' @describeIn get_net_coocur_gexf Retrieve kinship and other relationship
+#' @describeIn get_net_coocur_gexf Retrieves kinship and other relationship
 #' data, following the encoding scheme proposed in
 #' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #' @importFrom Rdpack reprompt
@@ -123,7 +134,7 @@ get_net_relations_gexf <- function(play = NULL, corpus = NULL, ...) {
 }
 
 #' @export
-#' @describeIn get_net_coocur_graphml Retrieve kinship and other relationship
+#' @describeIn get_net_coocur_graphml Retrieves kinship and other relationship
 #' data, following the encoding scheme proposed in
 #' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #' @importFrom Rdpack reprompt
@@ -136,33 +147,35 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
   )
 }
 
-#' Retrieve an igraph co-occurrence network for a play.
+#' Retrieve an igraph co-occurrence network for a play
 #'
-#' Returns a play network, given corpus and play names. Play network is
-#' constructed based on characters' co-occurrence matrix. Each node (vertex) is
-#' a character (circle) or a group of characters (square), edges width is
-#' proportional to number of common play segments where two characters occur
-#' together.
+#' \code{get_net_coocur_igraph()} returns a play network, given play and corpus
+#' names. Play network is constructed based on characters' co-occurrence matrix.
+#' Each node (vertex) is a character (circle) or a group of characters (square),
+#' edges width is proportional to the number of common play segments where two
+#' characters occur together.
 #'
-#' @return \code{coocur_igraph} Object that inherits \code{igraph} and can be
+#' @return \code{coocur_igraph} — an object that inherits \code{igraph} and can be
 #' treated as such.
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @examples
-#' zhenitba_igraph <- get_coocur_igraph(play = "gogol-zhenitba", corpus = "rus")
-#' igraph::diameter(zhenitba_igraph)
-#' plot(zhenitba_igraph)
-#' @seealso \code{\link{get_play_metadata}}
+#' emilia_igraph <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+#' igraph::diameter(emilia_igraph)
+#' plot(emilia_igraph)
+#' summary(emilia_igraph)
+#' @seealso \code{\link{get_net_relations_igraph}}
+#' \code{\link{label_coocur_igraph}}
 #' @import igraph
 #' @import data.table
 #' @export
-get_coocur_igraph <- function(play = NULL, corpus = NULL) {
+get_net_coocur_igraph <- function(play = NULL, corpus = NULL) {
   nodes <- get_play_cast(play = play, corpus = corpus, as_tibble = FALSE)
   edges <- get_net_coocur_edges(play = play, corpus = corpus, as_tibble = FALSE)
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
     igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
-  meta <- get_play_metadata(play = play, corpus = corpus)
+  meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
 
   structure(graph,
     play = play,
@@ -180,7 +193,7 @@ get_coocur_igraph <- function(play = NULL, corpus = NULL) {
 
 #' Test an object to be a 'coocur_igraph' object.
 #'
-#' Test that object is a \code{coocur_igraph}.
+#' Tests that object is a \code{coocur_igraph}.
 #'
 #' @param x An R object.
 #' @export
@@ -188,11 +201,13 @@ is.coocur_igraph <- function(x) {
   inherits(x, "coocur_igraph")
 }
 
-#' Extract labels for plotting 'coocur_igraph' object.
+#' Extract labels for plotting 'coocur_igraph' object
 #'
-#' Extract labels for plotting \code{coocur_igraph} object. \code{label_coocur_igraph}
+#' \code{label_coocur_igraph()} returns labels for plotting \code{coocur_igraph}
+#' object. \code{label_coocur_igraph}
 #' gives control of overplotting for labels (i.e. character names) by deleting
-#' extra labels if there are too many of them. This function can be used to set
+#' extra labels if there are too many of them. Thus, it highlights the most
+#' significant characters of the selected play. This function can be used to set
 #' \code{vertex.label} parameter for \code{\link{plot.coocur_igraph}}.
 #'
 #' \code{label_coocur_igraph} takes labels from a vertices data.frame column
@@ -202,14 +217,15 @@ is.coocur_igraph <- function(x) {
 #' @return Character vector of character names.
 #' @param graph \code{coocur_igraph} object to plot.
 #' @param max_graph_size Integer, maximum network size for plotting all labels.
+#' If you don't want to delete any labels, set \code{Inf}.
 #' @param top_nodes Integer, number of labels to be plotted. Characters with the
 #'   highest number of words will be selected.
 #' @param label_size_metric Character, a metric that is used to rank characters
 #' in a play.
 #' @examples
-#' zhenitba_igraph <- get_coocur_igraph(play = "gogol-zhenitba", corpus = "rus")
-#' label_coocur_igraph(zhenitba_igraph, max_graph_size = 10, top_nodes = 4)
-#' @seealso \code{\link{get_coocur_igraph}}
+#' emilia_igraph <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+#' label_coocur_igraph(emilia_igraph, max_graph_size = 10, top_nodes = 4)
+#' @seealso \code{\link{get_net_coocur_igraph}}
 #' @import igraph
 #' @export
 label_coocur_igraph <- function(graph,
@@ -239,7 +255,7 @@ label_coocur_igraph <- function(graph,
 #' @param x A \code{coocur_igraph} object to plot.
 #' @param layout Function, an algorithm used for graph layout. See
 #' \link[igraph]{igraph.plotting}.
-#' @param vertex.label A character vector of character names. By default,
+#' @param vertex.label Character vector of character names. By default,
 #' function \code{\link{label_coocur_igraph}} is used to avoid overplotting on
 #' large graphs.
 #' @param gender_colors Named vector with 3 values with colors for
@@ -262,7 +278,7 @@ label_coocur_igraph <- function(graph,
 #' If you specify edges size by yourself using parameter
 #' \code{"edge.width"}(see \link[igraph]{igraph.plotting}),
 #' \code{edge_size_scale} is ignored.
-#' @param vertex_label_adjust Logical value. If \code{TRUE}, labels positions
+#' @param vertex_label_adjust Logical. If \code{TRUE}, labels positions
 #' are moved to the top of the respectives nodes. If \code{FALSE}, labels
 #' are placed in the nodes centers. \code{TRUE} by default. If you set parameter
 #' \code{vertex.label.dist}(see \link[igraph]{igraph.plotting}) by yourself,
@@ -274,7 +290,7 @@ label_coocur_igraph <- function(graph,
 #' @param ... Other arguments to be passed to \link[igraph]{plot.igraph}
 #' @method plot coocur_igraph
 #' @export
-#' @describeIn get_coocur_igraph Plot \code{coocur_igraph} using \code{plot.igraph}
+#' @describeIn get_net_coocur_igraph Plot \code{coocur_igraph} using \code{plot.igraph}
 #' with slightly modified defaults.
 plot.coocur_igraph <- function(x,
                                layout = igraph::layout_with_kk,
@@ -374,7 +390,7 @@ plot.coocur_igraph <- function(x,
 #' @param object An object of class \code{"coocur_igraph"}.
 #' @method summary coocur_igraph
 #' @export
-#' @describeIn get_coocur_igraph Meaningful summary for \code{"coocur_igraph"} object:
+#' @describeIn get_net_coocur_igraph Meaningful summary for \code{"coocur_igraph"} object:
 #'   network properties, gender distribution
 summary.coocur_igraph <- function(object, ...) {
   genders <- igraph::vertex_attr(object, "gender")
@@ -424,19 +440,21 @@ summary.coocur_igraph <- function(object, ...) {
   )
 }
 
-#' Retrieve an igraph relations network for a play.
+#' Retrieve an igraph relations network for a play
 #'
-#' Returns a play network, given corpus and play names. The network represent
-#' kinship and other relationships data, following the encoding scheme proposed
-#' in \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
+#' \code{get_net_relations_igraph()} a play network, given play and corpus names
+#' . The network represent kinship and other relationships data, following the
+#' encoding scheme proposed in
+#' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #'
-#' @return \code{relations_igraph} Object that inherits \code{igraph} and can be
+#' @return \code{relations_igraph} — an object that inherits \code{igraph} and can be
 #' treated as such.
-#' @inheritParams get_play_metadata
+#' @inheritParams get_play_cast
 #' @examples
-#' zhen_rel <- get_relations_igraph(play = "gogol-zhenitba", corpus = "rus")
-#' plot(zhen_rel)
-#' @seealso \code{\link{get_play_metadata}}
+#' nedorosl_relations <- get_net_relations_igraph(play = "fonvizin-nedorosl", corpus = "rus")
+#' plot(nedorosl_relations)
+#' summary(nedorosl_relations)
+#' @seealso \code{\link{get_net_coocur_igraph}}
 #' @import igraph
 #' @import data.table
 #' @importFrom Rdpack reprompt
@@ -444,7 +462,7 @@ summary.coocur_igraph <- function(object, ...) {
 #'   \insertAllCited{}
 #' @export
 
-get_relations_igraph <- function(play = play, corpus = corpus) {
+get_net_relations_igraph <- function(play = play, corpus = corpus) {
   relations <-
     get_net_relations_edges(
       play = play,
@@ -462,7 +480,7 @@ get_relations_igraph <- function(play = play, corpus = corpus) {
     directed = TRUE,
     vertices = nodes
   )
-  meta <- get_play_metadata(play = play, corpus = corpus)
+  meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
   structure(
     graph,
     play = play,
@@ -480,9 +498,9 @@ get_relations_igraph <- function(play = play, corpus = corpus) {
   )
 }
 
-#' Test an object to be a 'relations_igraph' object.
+#' Test an object to be a 'relations_igraph' object
 #'
-#' Test that object is a \code{relations_igraph}.
+#' Tests that object is a \code{relations_igraph}.
 #'
 #' @param x An R object.
 #' @export
@@ -493,7 +511,7 @@ is.relations_igraph <- function(x) {
 #' @param object An object of class \code{"relations_igraph"}.
 #' @method summary relations_igraph
 #' @export
-#' @describeIn get_relations_igraph Meaningful summary for
+#' @describeIn get_net_relations_igraph Meaningful summary for
 #' \code{"relations_igraph"} object: relationships and their type.
 summary.relations_igraph <- function(object, ...) {
   genders <- igraph::vertex_attr(object, "gender")
@@ -543,7 +561,7 @@ summary.relations_igraph <- function(object, ...) {
 
 #' @param x A \code{relations_igraph} object to plot.
 #' @param layout Function, an algorithm used for graph layout. See
-#' \link[igraph]{igraph.plotting}.
+#' \link[igraph]{layout_}.
 #' @param gender_colors Named vector with 3 values with colors for
 #' MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
 #' colors. If you set parameter \code{vertex.color} (see
@@ -579,24 +597,24 @@ summary.relations_igraph <- function(object, ...) {
 #' @param ... Other arguments to be passed to \link[igraph]{plot.igraph}
 #' @method plot relations_igraph
 #' @export
-#' @describeIn get_relations_igraph Plot \code{relations_igraph} using
+#' @describeIn get_net_relations_igraph Plot \code{relations_igraph} using
 #' \code{plot.igraph} with slightly modified defaults.
 plot.relations_igraph <- function(x,
-                                  layout = igraph::layout_randomly,
+                                  layout = igraph::layout_nicely,
                                   gender_colors = c(
                                     MALE = "#0073C2",
                                     FEMALE = "#EFC000",
                                     UNKNOWN = "#99979D"
                                   ),
                                   show_others = c("vertex", "vertex_label", "none"),
-                                  vertex_size = c(20, 6),
-                                  vertex_label_size = c(1, .5),
+                                  vertex_size = c(13, 4),
+                                  vertex_label_size = c(.8, .5),
                                   vertex_label_adjust = TRUE,
                                   vertex.label.color = "#03070f",
                                   vertex.label.family = "sans",
                                   vertex.label.font = 2L,
                                   vertex.frame.color = "white",
-                                  edge.arrow.size = .5,
+                                  edge.arrow.size = .25,
                                   edge.arrow.width = 1.5,
                                   edge.curved = .15,
                                   edge.label.family = "sans",

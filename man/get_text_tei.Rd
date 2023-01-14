@@ -17,19 +17,20 @@ get_text_tei(play = NULL, corpus = NULL, ...)
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-Text of a play parsed by
+TEI data parsed by
   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 }
 \description{
-The DraCor API lets you request a text for a play in TEI format, given corpus
+\code{get_text_tei()} requests a text for a play in TEI format, given corpus
 and play names. TEI is an XML vocabulary, which makes it easy to extract
 structural information.
 }
 \examples{
-get_text_tei(play = "gogol-zhenitba", corpus = "rus")
+get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want a text in TEI without parsing by xml2::read_xml():
-get_text_tei(play = "gogol-zhenitba", corpus = "rus", parse = FALSE)
+get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \seealso{
-\code{\link{get_play_metadata}}
+\code{\link{get_text_df}} \code{\link{get_text_chr_spoken}}
+\code{\link{tei_to_df}}
 }
