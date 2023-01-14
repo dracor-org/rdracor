@@ -7,12 +7,14 @@
 get_net_coocur_metrics(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -20,8 +22,8 @@ get_net_coocur_metrics(play = NULL, corpus = NULL, ...)
 List with network metrics for a specific play.
 }
 \description{
-\code{get_net_coocur_metrics()} requests network metrics for a specific play, given
-play and corpus names. Play network is constructed based on characters'
+\code{get_net_coocur_metrics()} requests network metrics for a specific play,
+given play and corpus names. Play network is constructed based on characters'
 co-occurrence matrix.
 }
 \examples{

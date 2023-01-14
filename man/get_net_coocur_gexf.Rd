@@ -3,19 +3,21 @@
 \name{get_net_coocur_gexf}
 \alias{get_net_coocur_gexf}
 \alias{get_net_relations_gexf}
-\title{Retrieve co-occurrence network for a play in GEXF}
+\title{Retrieve co-occurrence network for a play in 'GEXF'}
 \usage{
 get_net_coocur_gexf(play = NULL, corpus = NULL, parse = TRUE, ...)
 
 get_net_relations_gexf(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{parse}{Logical, if \code{TRUE} the result is parsed by
 {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
@@ -24,12 +26,13 @@ returned. Default value is \code{TRUE}.}
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-GEXF data.
+'GEXF' data.
 }
 \description{
-\code{get_net_coocur_gexf()} requests a play co-occurrence network in GEXF (Graph Exchange XML
-Format), given play and corpus names. GEXF is a format used in Gephi - an
-open source software for network analysis and visualization.
+\code{get_net_coocur_gexf()} requests a play co-occurrence network in 'GEXF'
+(Graph Exchange XML Format), given play and corpus names. 'GEXF' is a format
+used in 'Gephi' — an open source software for network analysis and
+visualization.
 }
 \section{Functions}{
 \itemize{
@@ -39,9 +42,15 @@ data, following the encoding scheme proposed in
 
 }}
 \examples{
+\donttest{
 get_net_coocur_gexf(play = "lessing-emilia-galotti", corpus = "ger")
-# If you want GEXF without parsing by xml2::read_xml():
-get_net_coocur_gexf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+# If you want 'GEXF' without parsing by xml2::read_xml():
+get_net_coocur_gexf(
+  play = "lessing-emilia-galotti",
+  corpus = "ger",
+  parse = FALSE
+)
+}
 }
 \references{
 \insertAllCited{}

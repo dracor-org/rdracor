@@ -1,7 +1,7 @@
 #' Retrieve a text for a play in TEI
 #'
-#' \code{get_text_tei()} requests a text for a play in TEI format, given corpus
-#' and play names. TEI is an XML vocabulary, which makes it easy to extract
+#' \code{get_text_tei()} requests a text for a play in TEI format, given play
+#' and corpus names. TEI is an XML vocabulary, which makes it easy to extract
 #' structural information.
 #'
 #' @return TEI data parsed by
@@ -24,8 +24,8 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 
 #' Retrieve lines and stage directions for a play
 #'
-#' \code{get_text_chr_spoken()} request lines and stage directions for a play, given
-#' corpus and play names.
+#' \code{get_text_chr_spoken()} request lines and stage directions for a play,
+#' given play and corpus names.
 #'
 #' @inheritParams get_play_cast
 #' @param gender Character, optional parameter to extract lines for characters
@@ -34,11 +34,29 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 #' Otherwise, returns text as one character value. \code{TRUE} by default.
 #' @examples
 #' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger")
-#' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger", "FEMALE")
-#' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger", "FEMALE", split = FALSE)
-#' get_text_chr_spoken_bych(play = "lessing-emilia-galotti", corpus = "ger")
-#' get_text_chr_stage(play = "lessing-emilia-galotti", corpus = "ger")
-#' get_text_chr_stage_with_sp(play = "lessing-emilia-galotti", corpus = "ger")
+#' get_text_chr_spoken(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger",
+#'   gender = "FEMALE"
+#' )
+#' get_text_chr_spoken(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger",
+#'   gender = "FEMALE",
+#'   split = FALSE
+#' )
+#' get_text_chr_spoken_bych(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger"
+#' )
+#' get_text_chr_stage(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger"
+#' )
+#' get_text_chr_stage_with_sp(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger"
+#' )
 #' @seealso \code{\link{get_text_tei}} \code{\link{get_text_df}}
 #' @export
 get_text_chr_spoken <-
@@ -60,15 +78,20 @@ get_text_chr_spoken <-
   }
 
 #' @param dataframe If \code{TRUE} returns data frame with a row for every
-#' character and text in a column \code{"text"}. \code{FALSE} by default.
+#' character and text in a column \code{"text"}. Otherwise, a named list with
+#' character values is returned. \code{FALSE} by default.
 #' @importFrom purrr map_chr
 #' @export
 #' @describeIn get_text_chr_spoken Retrieves lines grouped by characters in a
-#' play, given corpus and play names.
+#' play, given play and corpus names.
 get_text_chr_spoken_bych <-
   function(play = NULL, corpus = NULL, split_text = TRUE, dataframe = FALSE, ...) {
     play_text <- dracor_api(
-      form_play_request(play = play, corpus = corpus, type = "spoken-text-by-character"),
+      form_play_request(
+        play = play,
+        corpus = corpus,
+        type = "spoken-text-by-character"
+      ),
       expected_type = "application/json",
       ...
     )
@@ -86,10 +109,15 @@ get_text_chr_spoken_bych <-
 
 #' @export
 #' @describeIn get_text_chr_spoken Retrieves all stage directions of a play,
-#' given corpus and play names.
+#' given play and corpus names.
 get_text_chr_stage <-
   function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
-    dracor_api(form_play_request(play = play, corpus = corpus, type = "stage-directions"),
+    dracor_api(
+      form_play_request(
+        play = play,
+        corpus = corpus,
+        type = "stage-directions"
+      ),
       expected_type = "text/plain",
       ...
     )
@@ -97,11 +125,15 @@ get_text_chr_stage <-
 
 #' @export
 #' @describeIn get_text_chr_spoken Retrieves all stage directions of a play
-#' including speakers (if applicable), given corpus and play names.
+#' including speakers (if applicable), given play and corpus names.
 get_text_chr_stage_with_sp <-
   function(play = NULL, corpus = NULL, split_text = TRUE, ...) {
     dracor_api(
-      form_play_request(play = play, corpus = corpus, type = "stage-directions-with-speakers"),
+      form_play_request(
+        play = play,
+        corpus = corpus,
+        type = "stage-directions-with-speakers"
+      ),
       expected_type = "text/plain",
       ...
     )

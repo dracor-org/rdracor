@@ -32,14 +32,16 @@ get_net_relations_igraph(play = play, corpus = corpus)
 )
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
-\item{object}{An object of class \code{"relations_igraph"}.}
+\item{object}{An object of class \code{relations_igraph}.}
 
 \item{...}{Other arguments to be passed to \link[igraph]{plot.igraph}}
 
@@ -53,7 +55,7 @@ MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
 colors. If you set parameter \code{vertex.color} (see
 \link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.}
 
-\item{show_others}{Character value. What to do with verteces without
+\item{show_others}{Character value. What to do with vertices without
 relations?
 \itemize{
    \item \code{"vertex"}: plot only vertices without labels.
@@ -70,7 +72,7 @@ defines label sizes for nodes with relations, the second number for nodes
 without relations.}
 
 \item{vertex_label_adjust}{Logical value. If \code{TRUE}, labels positions
-are moved to the top of the respectives nodes. If \code{FALSE}, labels
+are moved to the top of the respective nodes. If \code{FALSE}, labels
 are placed in the nodes centers. \code{TRUE} by default. If you set parameter
 \code{vertex.label.dist}(see \link[igraph]{igraph.plotting}) by yourself,
 \code{vertex_label_adjust} is ignored.}
@@ -96,8 +98,8 @@ are placed in the nodes centers. \code{TRUE} by default. If you set parameter
 \item{edge.label.cex}{See \link[igraph]{igraph.plotting}.}
 }
 \value{
-\code{relations_igraph} — an object that inherits \code{igraph} and can be
-treated as such.
+\code{relations_igraph} — an object that inherits \code{igraph} and
+can be treated as such.
 }
 \description{
 \code{get_net_relations_igraph()} a play network, given play and corpus names
@@ -115,7 +117,10 @@ encoding scheme proposed in
 
 }}
 \examples{
-nedorosl_relations <- get_net_relations_igraph(play = "fonvizin-nedorosl", corpus = "rus")
+nedorosl_relations <- get_net_relations_igraph(
+  play = "fonvizin-nedorosl",
+  corpus = "rus"
+)
 plot(nedorosl_relations)
 summary(nedorosl_relations)
 }

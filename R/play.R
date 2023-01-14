@@ -1,16 +1,18 @@
 #' Retrieve data for characters in a play
 #'
-#' \code{get_play_cast()} request miscellaneous information for characters in
+#' \code{get_play_cast()} requests miscellaneous information for characters in
 #' a play, given play and corpus names: name, number and size of their lines,
 #' gender, some network metrics etc.
 #'
-#' @return a data frame where every raw represent one charachter.
+#' @return Data frame, every raw represents one character in the play.
 #'
-#' @param play Character, name of the play (you can find all play names in
-#'   \code{playName} column within an object returned by
-#'   \code{\link{get_dracor}}). Character vector (longer than 1) is not supported.
+#' @param play Character, name of a play (you can find all play names in
+#'   \code{"playName"} column within an object returned by
+#'   \code{\link{get_dracor}}). Character vector (longer than 1) is not
+#'   supported.
 #' @param corpus Character, name of the corpus (you can find all corpus names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}}).
+#'   \code{name} column within an object returned by
+#'   \code{\link{get_dracor_meta}}).
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
 #' get_play_cast(play = "lessing-emilia-galotti", corpus = "ger")
@@ -28,11 +30,16 @@ get_play_cast <- function(play = NULL, corpus = NULL, ...) {
 #' \code{get_play_metadata()} requests metadata for a specific play, given play
 #' and corpus names.
 #'
-#' @return List with a play metadata.
+#' @return List with the play metadata.
 #' @inheritParams get_play_cast
-#' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
+#' @param full_metadata Logical: if \code{TRUE} (default value), then additional
+#' metadata are retrieved.
 #' @examples
-#' get_play_metadata(play = "lessing-emilia-galotti", corpus = "ger")
+#' get_play_metadata(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger",
+#'   full_metadata = FALSE
+#' )
 #' @seealso \code{\link{get_net_coocur_edges}} \code{\link{get_play_rdf}}
 #' \code{\link{get_play_cast}}
 #' @importFrom purrr modify_at
@@ -53,7 +60,10 @@ get_play_metadata <-
     if (isTRUE(full_metadata)) {
       full_meta <-
         dracor_api(
-          request = paste0("https://dracor.org/api/corpora/", corpus, "/metadata"),
+          request = paste0(
+            "https://dracor.org/api/corpora/", corpus,
+            "/metadata"
+          ),
           flatten = TRUE,
           as_tibble = FALSE
         )

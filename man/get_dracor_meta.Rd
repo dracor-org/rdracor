@@ -4,7 +4,7 @@
 \alias{get_dracor_meta}
 \alias{summary.dracor_meta}
 \alias{plot.dracor_meta}
-\title{Retrieve information on available corpora.}
+\title{Retrieve information on available corpora}
 \usage{
 get_dracor_meta()
 
@@ -20,12 +20,14 @@ get_dracor_meta()
 \item{x}{A \code{dracor_meta} object.}
 }
 \value{
-\code{dracor} object that inherits data.frame (and can be used
+\code{dracor_meta} object that inherits data frame (and can be used
   as such).
 }
 \description{
-\code{get_dracor_meta} returns a \code{dracor_meta} object that inherits
-data.frame (and can be used as such).
+\code{get_dracor_meta()} returns metadata on available corpora as a
+\code{dracor_meta} object that inherits data frame (and can be used as such).
+Use \code{summary()} and \code{plot()} on this object to get an even more
+condensed summary.
 }
 \section{Functions}{
 \itemize{

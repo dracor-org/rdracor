@@ -11,8 +11,12 @@ divide_years <- function(dracor, year_column) {
         return(x)
       }
     })
-  dracor[, (paste0(year_column, "Start")) := suppressWarnings(as.integer(vapply(written_years_list, `[[`, "", 1)))]
-  dracor[, (paste0(year_column, "Finish")) := suppressWarnings(as.integer(vapply(written_years_list, `[[`, "", 2)))]
+  dracor[, (paste0(year_column, "Start")) := suppressWarnings(
+    as.integer(vapply(written_years_list, `[[`, "", 1))
+  )]
+  dracor[, (paste0(year_column, "Finish")) := suppressWarnings(
+    as.integer(vapply(written_years_list, `[[`, "", 2))
+  )]
   dracor[, (year_column) := NULL]
   dracor[]
 }
@@ -97,7 +101,10 @@ get_corpus <- function(corpus = NULL,
     dracor_list$dramas <-
       merge(
         dracor_list$dramas,
-        dracor_api(request = paste0("https://dracor.org/api/corpora/", corpus, "/metadata"), flatten = TRUE),
+        dracor_api(request = paste0(
+          "https://dracor.org/api/corpora/", corpus,
+          "/metadata"
+        ), flatten = TRUE),
         by = "id",
         suffixes = c("", "Meta")
       )
@@ -147,12 +154,6 @@ dracor <- function(dracor_list) {
   )
 }
 
-#' Test an object to be a 'dracor' object.
-#'
-#' Tests that object is a \code{dracor}.
-#'
-#' @param x An R object.
-#' @export
 is.dracor <- function(x) {
   inherits(x, "dracor")
 }
@@ -164,7 +165,9 @@ is.dracor <- function(x) {
 #' @describeIn get_dracor Meaningful summary for \code{dracor_meta} object.
 summary.dracor <- function(object, ...) {
   written <-
-    suppressWarnings(range(object$writtenYearStart, object$writtenYearFinish, na.rm = T))
+    suppressWarnings(range(object$writtenYearStart, object$writtenYearFinish,
+      na.rm = T
+    ))
   premiere <-
     suppressWarnings(range(
       object$premiereYearStart,
@@ -172,7 +175,9 @@ summary.dracor <- function(object, ...) {
       na.rm = TRUE
     ))
   printed <-
-    suppressWarnings(range(object$printYearStart, object$printYearFinish, na.rm = T))
+    suppressWarnings(range(object$printYearStart, object$printYearFinish,
+      na.rm = T
+    ))
   cat(
     if (identical(written, c(Inf, -Inf))) {
       "No information on written years"
@@ -213,7 +218,10 @@ summary.dracor <- function(object, ...) {
       )
     } else {
       cat(
-        sprintf("%d plays in %s corpora:", sum(attr(object, "plays")), length(attr(object, "name"))),
+        sprintf(
+          "%d plays in %s corpora:", sum(attr(object, "plays")),
+          length(attr(object, "name"))
+        ),
         "Corpora id:",
         paste(sprintf(
           "%s (%i plays)", attr(object, "name"), attr(object, "plays")
@@ -228,27 +236,23 @@ summary.dracor <- function(object, ...) {
 
 #' Retrieve metadata for all plays in selected corpora
 #'
-#' The DraCor API lets you request data for plays for specific or all corpora.
-#' \code{get_dracor} returns \code{dracor} object that inherits
-#' data.frame (and can be used as such) but specified \code{\link{summary}}
+#' \code{get_dracor()} request data on all plays in selected (or all) corpora.
+#' \code{get_dracor()} returns \code{dracor} object that inherits
+#' data frame (and can be used as such) but specified \code{\link{summary}}
 #' method.
 #'
-#' \code{get_dracor} returns a \code{dracor} object that inherits
-#' data.frame (and can be used as such).
+#' You need to provide a vector with valid names of the corpora, e.g.
+#' \code{"rus"}, \code{"ger"} or \code{"shake"}. Use function
+#' \code{\link{get_dracor_meta}} to extract names for all available corpora.
 #'
-#' \code{dracor} constructs \code{dracor} object, \code{is.dracor} tests that
-#' object is \code{dracor}, \code{summary.dracor} returns informative summary
-#' for a dracor.
-#'
-#' You need to provide a vector with valid names of the corpora, e.g. \code{"rus"},
-#' \code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor_meta}}
-#' to extract names for all available corpora.
-#'
-#' @param corpus Character vector with names of the corpora (you can find all corpora names in
-#'   \code{name} column within an object returned by \code{\link{get_dracor_meta}})
-#'   or \code{"all"} (default value). if \code{"all"}, then all available corpora are downloaded
-#' @param full_metadata Logical: if \code{TRUE} (default value), then additional metadata are retrieved.
-#' @return \code{dracor} object that inherits data.frame (and can be used as such).
+#' @param corpus Character vector with names of the corpora (you can find all
+#' corpora names in \code{name} column within an object returned by
+#' \code{\link{get_dracor_meta}}) or \code{"all"} (default value). if
+#' \code{"all"}, then all available corpora are downloaded.
+#' @param full_metadata Logical: if \code{TRUE} (default value), then additional
+#' metadata are retrieved.
+#' @return \code{dracor} object that inherits data frame (and can be used as
+#' such).
 #' @examples
 #' \donttest{
 #' tat <- get_dracor("tat")
@@ -277,7 +281,9 @@ get_dracor <- function(corpus = "all",
       )
     )
   }
-  dracor_list <- purrr::map(corpus, purrr::safely(get_corpus), full_metadata = full_metadata)
+  dracor_list <- purrr::map(corpus, purrr::safely(get_corpus),
+    full_metadata = full_metadata
+  )
 
   dracor_data_list <- dracor_list %>%
     purrr::map("result")
@@ -293,7 +299,10 @@ get_dracor <- function(corpus = "all",
       paste0(collapse = "")
 
     failed_corpora <- paste0(corpus[dracor_empty_lgl], collapse = ", ")
-    warning(paste("\nDownload failed:", failed_corpora, "Error descriptions:", dracor_error, sep = "\n"))
+    warning(paste("\nDownload failed:", failed_corpora, "Error descriptions:",
+      dracor_error,
+      sep = "\n"
+    ))
   }
 
   dracor_data_list %>%
@@ -301,18 +310,18 @@ get_dracor <- function(corpus = "all",
     dracor()
 }
 
-#' Retrieve plays having a character identified by Wikidata ID
+#' Retrieve plays having a character identified by 'Wikidata ID'
 #'
-#' \code{get_character_plays()} requests plays that include a character that can by
-#' found in Wikidata by it's id. \code{get_character_plays()} sends a request
-#' and parses the the result to get those plays as a data frame.
+#' \code{get_character_plays()} requests plays that include a character that can
+#' by found in 'Wikidata' by it's id. \code{get_character_plays()} sends a
+#' request and parses the the result to get those plays as a data frame.
 #'
 #' @return Data frame, in which one row represents one play. Information on
 #' author(s) name, character name, play name, URL and ID is represented in
 #' separate columns.
-#' @param char_wiki_id Character value with Wikidata ID for a character.
-#' Wikidata ID can be found on \url{Wikidata.org}. Character vector (longer than
-#' 1) is not supported.
+#' @param char_wiki_id Character value with 'Wikidata ID' for a character.
+#' 'Wikidata ID' can be found on \url{Wikidata.org}. Character vector (longer
+#' than 1) is not supported.
 #' @examples
 #' wiki_id <- "Q131412"
 #' get_character_plays(wiki_id)

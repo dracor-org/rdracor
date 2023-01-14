@@ -10,12 +10,14 @@ get_net_coocur_edges(play = NULL, corpus = NULL, ...)
 get_net_relations_edges(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -24,9 +26,9 @@ data frame with edges (each row = one edge of a network).
 }
 \description{
 \code{get_net_coocur_edges()} requests edges list for a play network, given
-corpus and play names. Each row represents co-occurrences of two characters in a play
-- number of scenes where two characters appeared together. This edges list
-can be used to construct a network for a play.
+corpus and play names. Each row represents co-occurrences of two characters
+in a play — number of scenes where two characters appeared together. This
+edges list can be used to construct a network for a play.
 }
 \section{Functions}{
 \itemize{

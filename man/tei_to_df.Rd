@@ -14,25 +14,27 @@ get_text_df(play, corpus)
 You can use this function if you have already downloaded TEI using
 \code{\link{get_text_tei}}.}
 
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 }
 \value{
 Text of a play as a data frame in
 \href{https://www.tidytextmining.com/tidytext.html}{tidy text} format.
-Each row represent one token. The text tokenized by lines, notes and stage
+Each row represent one token. The text tokenised by lines, notes and stage
 directions (<p>, <l>, <stage> or <note>).
 Column \code{text} contains text of the line, other columns contain metadata
 for the line.
 }
 \description{
 The function \code{get_text_df()} returns you a data frame with text of
-the selected play. \code{tei_to_df()} allows to convert an existing TEI object
-to a data frame.
+the selected play. \code{tei_to_df()} allows to convert an existing TEI
+object to a data frame.
 }
 \section{Functions}{
 \itemize{

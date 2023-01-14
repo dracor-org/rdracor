@@ -7,12 +7,14 @@
 get_text_tei(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -21,8 +23,8 @@ TEI data parsed by
   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 }
 \description{
-\code{get_text_tei()} requests a text for a play in TEI format, given corpus
-and play names. TEI is an XML vocabulary, which makes it easy to extract
+\code{get_text_tei()} requests a text for a play in TEI format, given play
+and corpus names. TEI is an XML vocabulary, which makes it easy to extract
 structural information.
 }
 \examples{

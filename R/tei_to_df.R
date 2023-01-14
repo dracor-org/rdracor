@@ -112,12 +112,12 @@ line_table <- function(tei_line,
 #' Retrieve a text for a play as a data frame
 #'
 #' The function \code{get_text_df()} returns you a data frame with text of
-#' the selected play. \code{tei_to_df()} allows to convert an existing TEI object
-#' to a data frame.
+#' the selected play. \code{tei_to_df()} allows to convert an existing TEI
+#' object to a data frame.
 #'
 #' @return Text of a play as a data frame in
 #' \href{https://www.tidytextmining.com/tidytext.html}{tidy text} format.
-#' Each row represent one token. The text tokenized by lines, notes and stage
+#' Each row represent one token. The text tokenised by lines, notes and stage
 #' directions (<p>, <l>, <stage> or <note>).
 #' Column \code{text} contains text of the line, other columns contain metadata
 #' for the line.
@@ -142,7 +142,9 @@ line_table <- function(tei_line,
 tei_to_df <- function(tei) {
   line_id <- scene_id <- scene_path <- NULL # to pass check
   tags_text <-
-    c("l", "p") # these will be tokens for the dataframe, they cannot be inside metatext tokens
+    c("l", "p") # these will be tokens for the data frame,
+  # they cannot be inside metatext tokens
+
 
   regex_remove_tags_text <-
     paste0("(</?", tags_text, "([^>]*)>)", collapse = "|")
@@ -151,7 +153,8 @@ tei_to_df <- function(tei) {
     paste0("not(parent::", tags_text, ")", collapse = " and ")
 
   tags_metatext <-
-    c("stage", "note") # these will be tokens for the dataframe, they can be both inside text tokens or outside
+    c("stage", "note") # these will be tokens for the data frame,
+  # they can be both inside text tokens or outside
 
   regex_extract_inline <-
     paste0("(</?", tags_metatext, "([^>]*)>)", collapse = "|")
@@ -160,14 +163,17 @@ tei_to_df <- function(tei) {
     paste0("(</?", c(tags_text, tags_metatext), "([^>]*)>)", collapse = "|")
 
   tags_remove_self_closed <-
-    c("lb", "pb", "graphic") # self-closed tags. As for now, all self-closed tags will be ignored
+    c("lb", "pb", "graphic") # self-closed tags. As for now, all self-closed
+  # tags will be ignored
 
   tags_remove_save_content <-
-    c("emph", "term", "quote", "cit", "lg", "phr", "w", "pc", "cl", "c") # tags that will be ignored but
+    c("emph", "term", "quote", "cit", "lg", "phr", "w", "pc", "cl", "c") # tags
+  # that will be ignored but
   # their content will be saved.
 
   tags_remove_drop_content <-
-    c("ref", "bibl") # tags that will be ignored and their content will be dropped from the results
+    c("ref", "bibl") # tags that will be ignored and their content will be
+  # dropped from the results
 
   regex_remove_self_closed <-
     paste0("(<", tags_remove_self_closed, "/>)", collapse = "|")

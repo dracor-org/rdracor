@@ -11,14 +11,17 @@ test_that("get_text_chr_spoken() returns text", {
   )
 })
 
-test_that("get_text_chr_spoken() for Boris Godunov, UNKNOWN gender returns more than one value", {
-  expect_gt(
-    length(
-      get_text_chr_spoken("pushkin-boris-godunov", "rus", "UNKNOWN")
-    ),
-    1
-  )
-})
+test_that(
+  "get_text_chr_spoken() for Boris Godunov, UNKNOWN gender returns more than one value",
+  {
+    expect_gt(
+      length(
+        get_text_chr_spoken("pushkin-boris-godunov", "rus", "UNKNOWN")
+      ),
+      1
+    )
+  }
+)
 
 test_that("get_text_chr_spoken_bych() returns data.frame", {
   expect_type(

@@ -7,26 +7,33 @@
 get_play_metadata(play = NULL, corpus = NULL, full_metadata = TRUE, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
-\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
+\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional
+metadata are retrieved.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-List with a play metadata.
+List with the play metadata.
 }
 \description{
 \code{get_play_metadata()} requests metadata for a specific play, given play
 and corpus names.
 }
 \examples{
-get_play_metadata(play = "lessing-emilia-galotti", corpus = "ger")
+get_play_metadata(
+  play = "lessing-emilia-galotti",
+  corpus = "ger",
+  full_metadata = FALSE
+)
 }
 \seealso{
 \code{\link{get_net_coocur_edges}} \code{\link{get_play_rdf}}

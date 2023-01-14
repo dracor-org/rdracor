@@ -20,7 +20,10 @@ test_that("get_net_coocur_gexf() returns valid object", {
 })
 
 test_that("coocur_igraph is returned by get_net_coocur_igraph()", {
-  expect_s3_class(get_net_coocur_igraph("gogol-zhenitba", "rus"), "coocur_igraph")
+  expect_s3_class(
+    get_net_coocur_igraph("gogol-zhenitba", "rus"),
+    "coocur_igraph"
+  )
 })
 
 test_that("label_coocur_igraph() return come NA for big network", {
@@ -28,10 +31,13 @@ test_that("label_coocur_igraph() return come NA for big network", {
   expect_true(any(is.na(label_coocur_igraph(henryiv))))
 })
 
-test_that("label_coocur_igraph() do not return NA after max_graph_size adjustment", {
-  henryiv <- get_net_coocur_igraph("henry-iv-part-i", "shake")
-  expect_true(all(!is.na(label_coocur_igraph(henryiv, max_graph_size = 36))))
-})
+test_that(
+  "label_coocur_igraph() do not return NA after max_graph_size adjustment",
+  {
+    henryiv <- get_net_coocur_igraph("henry-iv-part-i", "shake")
+    expect_true(all(!is.na(label_coocur_igraph(henryiv, max_graph_size = 36))))
+  }
+)
 
 test_that("summary.coocur_igraph() prints appropriate number of rows", {
   henryiv <- get_net_coocur_igraph("henry-iv-part-i", "shake")

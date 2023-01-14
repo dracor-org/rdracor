@@ -14,32 +14,28 @@ get_dracor(corpus = "all", full_metadata = TRUE)
 
 \item{...}{Other arguments to be passed to \code{\link{summary.default}}.}
 
-\item{corpus}{Character vector with names of the corpora (you can find all corpora names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}})
-or \code{"all"} (default value). if \code{"all"}, then all available corpora are downloaded}
+\item{corpus}{Character vector with names of the corpora (you can find all
+corpora names in \code{name} column within an object returned by
+\code{\link{get_dracor_meta}}) or \code{"all"} (default value). if
+\code{"all"}, then all available corpora are downloaded.}
 
-\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional metadata are retrieved.}
+\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional
+metadata are retrieved.}
 }
 \value{
-\code{dracor} object that inherits data.frame (and can be used as such).
+\code{dracor} object that inherits data frame (and can be used as
+such).
 }
 \description{
-The DraCor API lets you request data for plays for specific or all corpora.
-\code{get_dracor} returns \code{dracor} object that inherits
-data.frame (and can be used as such) but specified \code{\link{summary}}
+\code{get_dracor()} request data on all plays in selected (or all) corpora.
+\code{get_dracor()} returns \code{dracor} object that inherits
+data frame (and can be used as such) but specified \code{\link{summary}}
 method.
 }
 \details{
-\code{get_dracor} returns a \code{dracor} object that inherits
-data.frame (and can be used as such).
-
-\code{dracor} constructs \code{dracor} object, \code{is.dracor} tests that
-object is \code{dracor}, \code{summary.dracor} returns informative summary
-for a dracor.
-
-You need to provide a vector with valid names of the corpora, e.g. \code{"rus"},
-\code{"ger"} or \code{"shake"}. Use function \code{\link{get_dracor_meta}}
-to extract names for all available corpora.
+You need to provide a vector with valid names of the corpora, e.g.
+\code{"rus"}, \code{"ger"} or \code{"shake"}. Use function
+\code{\link{get_dracor_meta}} to extract names for all available corpora.
 }
 \section{Functions}{
 \itemize{

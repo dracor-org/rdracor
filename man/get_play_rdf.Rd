@@ -7,12 +7,14 @@
 get_play_rdf(play = NULL, corpus = NULL, parse = TRUE, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{parse}{Logical, if \code{TRUE} the result is parsed by
 {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is

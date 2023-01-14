@@ -36,13 +36,18 @@ significant characters of the selected play. This function can be used to set
 \code{vertex.label} parameter for \code{\link{plot.coocur_igraph}}.
 }
 \details{
-\code{label_coocur_igraph} takes labels from a vertices data.frame column
+\code{label_coocur_igraph} takes labels from a vertices data frame column
 \code{"name"}, checks that network size is more than \code{max_graph_size},
 if it is true, returns names for top \code{top_nodes} and NA for the rest.
 }
 \examples{
-emilia_igraph <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+\donttest{
+emilia_igraph <- get_net_coocur_igraph(
+  play = "lessing-emilia-galotti",
+  corpus = "ger"
+)
 label_coocur_igraph(emilia_igraph, max_graph_size = 10, top_nodes = 4)
+}
 }
 \seealso{
 \code{\link{get_net_coocur_igraph}}

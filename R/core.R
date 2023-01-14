@@ -41,13 +41,14 @@ dracor_error <- function(resp) {
 
 #' Send a GET request to DraCor API and parse the results
 #'
-#' Function \code{dracor_api()} sends a GET request to DraCor API with a specified expected type and parses
-#' results depending on selected expected type.
+#' Function \code{dracor_api()} sends a GET request to DraCor API with a
+#' specified expected type and parses results depending on selected expected
+#' type.
 #'
-#' There are four different MIME types (aka internet media type) that can be
-#' retrieved for DraCor API, the specific combination of possible MIME types
+#' There are four different 'MIME' types (aka internet media type) that can be
+#' retrieved for DraCor API, the specific combination of possible 'MIME' types
 #' depends on API command. When \code{parse = TRUE} is used, the content is
-#' parsed depending on selected MIME type in \code{expected_type}:
+#' parsed depending on selected 'MIME' type in \code{expected_type}:
 #' \describe{
 #'   \item{\code{application/json}}{\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
 #'   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
@@ -55,18 +56,19 @@ dracor_error <- function(resp) {
 #'   \item{\code{text/plain}}{No need for additional preprocessing}}
 #'
 #' @param request Character, valid GET request.
-#' @param expected_type Character, MIME type: one of \code{"application/json"},
-#'   \code{"application/xml"}, \code{"text/csv"}, \code{"text/plain"}.
-#' @param parse Logical, if \code{TRUE} (default value), then a response is parsed depending on
-#'   \code{expected_type}. See details below.
+#' @param expected_type Character, 'MIME' type: one of
+#' \code{"application/json"},  \code{"application/xml"}, \code{"text/csv"},
+#' \code{"text/plain"}.
+#' @param parse Logical, if \code{TRUE} (default value), then a response is
+#'   parsed depending on \code{expected_type}. See details below.
 #' @param default_type Logical, if \code{TRUE}, default response data type is
 #'   returned. Therefore, a response is not parsed and \code{parse} is ignored.
-#'   Default value is \code{FALSE}.
+#'   The default value is \code{FALSE}.
 #' @param split_text Logical, if \code{TRUE}, plain text lines are read as
 #'   different values in a vector instead of returning one character value.
 #'   Default value is \code{TRUE}.
-#' @param as_tibble Logical, if \code{TRUE}, data.frame will be returned as a
-#'   tidyverse tibble (\code{tbl_df}). Default value is \code{TRUE}.
+#' @param as_tibble Logical, if \code{TRUE}, data frame will be returned as a
+#'   tidyverse tibble (\code{tbl_df}). The default value is \code{TRUE}.
 #' @param ... Other arguments passed to a parser function.
 #' @examples
 #' dracor_api("https://dracor.org/api/info", expected_type = "application/json")
@@ -164,5 +166,7 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
 #' @importFrom tibble as_tibble
 #' @export
 dracor_api_info <- function() {
-  tibble::as_tibble(dracor_api("https://dracor.org/api/info", expected_type = "application/json"))
+  tibble::as_tibble(dracor_api("https://dracor.org/api/info",
+    expected_type = "application/json"
+  ))
 }

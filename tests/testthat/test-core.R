@@ -18,11 +18,19 @@ test_that("Valid request is created", {
 })
 
 test_that("dracor_sparql() returns xml_document by default", {
-  expect_s3_class(dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"), "xml_document")
+  expect_s3_class(
+    dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"),
+    "xml_document"
+  )
 })
 
 test_that("dracor_sparql() returns character with parse = FALSE", {
-  expect_type(dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE), "character")
+  expect_type(
+    dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10",
+      parse = FALSE
+    ),
+    "character"
+  )
 })
 
 test_that("API info is 1 x 4", {
@@ -30,9 +38,17 @@ test_that("API info is 1 x 4", {
 })
 
 test_that("dracor_sparql() returns xml_document", {
-  expect_s3_class(dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"), "xml_document")
+  expect_s3_class(
+    dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"),
+    "xml_document"
+  )
 })
 
 test_that("dracor_sparql() with parse = FALSE returns character", {
-  expect_type(dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE), "character")
+  expect_type(
+    dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10",
+      parse = FALSE
+    ),
+    "character"
+  )
 })

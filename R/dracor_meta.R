@@ -1,9 +1,11 @@
-#' Retrieve information on available corpora.
+#' Retrieve information on available corpora
 #'
-#' \code{get_dracor_meta} returns a \code{dracor_meta} object that inherits
-#' data.frame (and can be used as such).
+#' \code{get_dracor_meta()} returns metadata on available corpora as a
+#' \code{dracor_meta} object that inherits data frame (and can be used as such).
+#' Use \code{summary()} and \code{plot()} on this object to get an even more
+#' condensed summary.
 #'
-#' @return \code{dracor} object that inherits data.frame (and can be used
+#' @return \code{dracor_meta} object that inherits data frame (and can be used
 #'   as such).
 #' @examples
 #' corpora_meta <- get_dracor_meta()
@@ -48,12 +50,6 @@ dracor_meta <- function(dracor_df) {
   return(dracor_meta)
 }
 
-#' Test an object to be a 'dracor_meta' object
-#'
-#' Tests that object is a \code{dracor_meta}.
-#'
-#' @param x An R object.
-#' @export
 is.dracor_meta <- function(x) {
   inherits(x, "dracor_meta")
 }
@@ -95,7 +91,7 @@ plot.dracor_meta <- function(x,
   lty.baseline <- 2
   cex <- 0.8
   left_margin <- 10.5
-  y_in <- rev(1:nrow(x))
+  y_in <- rev(seq_len(nrow(x)))
   old.par <- par(no.readonly = TRUE)
   par(
     mar = c(3, left_margin, 4, 2) + 0.1,

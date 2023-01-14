@@ -7,20 +7,22 @@
 get_play_cast(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-a data frame where every raw represent one charachter.
+Data frame, every raw represents one character in the play.
 }
 \description{
-\code{get_play_cast()} request miscellaneous information for characters in
+\code{get_play_cast()} requests miscellaneous information for characters in
 a play, given play and corpus names: name, number and size of their lines,
 gender, some network metrics etc.
 }

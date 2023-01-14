@@ -2,14 +2,14 @@
 % Please edit documentation in R/dracor.R
 \name{get_character_plays}
 \alias{get_character_plays}
-\title{Retrieve plays having a character identified by Wikidata ID}
+\title{Retrieve plays having a character identified by 'Wikidata ID'}
 \usage{
 get_character_plays(char_wiki_id)
 }
 \arguments{
-\item{char_wiki_id}{Character value with Wikidata ID for a character.
-Wikidata ID can be found on \url{Wikidata.org}. Character vector (longer than
-1) is not supported.}
+\item{char_wiki_id}{Character value with 'Wikidata ID' for a character.
+'Wikidata ID' can be found on \url{Wikidata.org}. Character vector (longer
+than 1) is not supported.}
 }
 \value{
 Data frame, in which one row represents one play. Information on
@@ -17,9 +17,9 @@ author(s) name, character name, play name, URL and ID is represented in
 separate columns.
 }
 \description{
-\code{get_character_plays()} requests plays that include a character that can by
-found in Wikidata by it's id. \code{get_character_plays()} sends a request
-and parses the the result to get those plays as a data frame.
+\code{get_character_plays()} requests plays that include a character that can
+by found in 'Wikidata' by it's id. \code{get_character_plays()} sends a
+request and parses the the result to get those plays as a data frame.
 }
 \examples{
 wiki_id <- "Q131412"

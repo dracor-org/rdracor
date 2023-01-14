@@ -19,11 +19,14 @@ test_that("is.dracor() doesn't work for integer", {
   expect_false(is.dracor(list()))
 })
 
-test_that("summary() work for 'dracor' object if there is no info on some years", {
-  expect_true(all(nchar(capture.output(
-    summary(get_dracor("tat"))
-  )) > 3L))
-})
+test_that(
+  "summary() work for 'dracor' object if there is no info on some years",
+  {
+    expect_true(all(nchar(capture.output(
+      summary(get_dracor("tat"))
+    )) > 3L))
+  }
+)
 
 test_that(
   "writtenYear with format 'YYYY/YYYY' is processed as integer in column writtenYearFinish",
