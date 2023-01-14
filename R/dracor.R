@@ -166,7 +166,7 @@ is.dracor <- function(x) {
 summary.dracor <- function(object, ...) {
   written <-
     suppressWarnings(range(object$writtenYearStart, object$writtenYearFinish,
-      na.rm = T
+      na.rm = TRUE
     ))
   premiere <-
     suppressWarnings(range(
@@ -176,7 +176,7 @@ summary.dracor <- function(object, ...) {
     ))
   printed <-
     suppressWarnings(range(object$printYearStart, object$printYearFinish,
-      na.rm = T
+      na.rm = TRUE
     ))
   cat(
     if (identical(written, c(Inf, -Inf))) {

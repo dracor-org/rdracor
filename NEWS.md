@@ -1,3 +1,3 @@
-# rdracor 0.6.6
+# rdracor 0.7.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* Initial version of the package

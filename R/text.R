@@ -1,8 +1,8 @@
-#' Retrieve a text for a play in TEI
+#' Retrieve a text for a play in 'TEI'
 #'
-#' \code{get_text_tei()} requests a text for a play in TEI format, given play
-#' and corpus names. TEI is an XML vocabulary, which makes it easy to extract
-#' structural information.
+#' \code{get_text_tei()} requests a text for a play in 'TEI' format, given play
+#' and corpus names. 'TEI' is an XML vocabulary, which makes it easy to extract
+#' structural information \insertCite{fischer2019programmable}{rdracor}.
 #'
 #' @return TEI data parsed by
 #'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
@@ -13,6 +13,8 @@
 #' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 #' @seealso \code{\link{get_text_df}} \code{\link{get_text_chr_spoken}}
 #' \code{\link{tei_to_df}}
+#' @references
+#'   \insertAllCited{}
 #' @importFrom xml2 read_xml
 #' @export
 get_text_tei <- function(play = NULL, corpus = NULL, ...) {

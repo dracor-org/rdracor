@@ -33,7 +33,7 @@ for the line.
 }
 \description{
 The function \code{get_text_df()} returns you a data frame with text of
-the selected play. \code{tei_to_df()} allows to convert an existing TEI
+the selected play. \code{tei_to_df()} allows to convert an existing 'TEI'
 object to a data frame.
 }
 \section{Functions}{

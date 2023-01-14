@@ -1,11 +1,12 @@
 citHeader("To cite rdracor in publications use:")
 
 citEntry(
-  entry    = "Conference paper",
+  entry    = "InProceedings",
   title    = "Programmable corpora: Introducing DraCor, an infrastructure for the research on European drama",
   author   = "Fisher, Frank, et al.",
+  booktitle = "Digital Humanities 2019: 'Complexities' (DH2019)",
   year     = "2019",
-  volume   = "Digital Humanities 2019: "Complexities" (DH2019), Utrecht, 9–12 July 2019"",
+  volume   = "Digital Humanities 2019: 'Complexities' (DH2019), Utrecht, 9–12 July 2019",
   url      = "https://zenodo.org/record/4284002#.Y8LZhi96DpC",
   textVersion = "Fischer, Frank, et al. (2019). Programmable Corpora: Introducing DraCor, an Infrastructure for the Research on European Drama. In Proceedings of DH2019: 'Complexities', Utrecht University, doi:10.5281/zenodo.4284002."
 )

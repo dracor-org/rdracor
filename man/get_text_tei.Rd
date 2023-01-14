@@ -2,7 +2,7 @@
 % Please edit documentation in R/text.R
 \name{get_text_tei}
 \alias{get_text_tei}
-\title{Retrieve a text for a play in TEI}
+\title{Retrieve a text for a play in 'TEI'}
 \usage{
 get_text_tei(play = NULL, corpus = NULL, ...)
 }
@@ -23,14 +23,17 @@ TEI data parsed by
   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 }
 \description{
-\code{get_text_tei()} requests a text for a play in TEI format, given play
-and corpus names. TEI is an XML vocabulary, which makes it easy to extract
-structural information.
+\code{get_text_tei()} requests a text for a play in 'TEI' format, given play
+and corpus names. 'TEI' is an XML vocabulary, which makes it easy to extract
+structural information \insertCite{fischer2019programmable}{rdracor}.
 }
 \examples{
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want a text in TEI without parsing by xml2::read_xml():
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+}
+\references{
+\insertAllCited{}
 }
 \seealso{
 \code{\link{get_text_df}} \code{\link{get_text_chr_spoken}}

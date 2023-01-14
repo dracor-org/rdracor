@@ -112,7 +112,7 @@ line_table <- function(tei_line,
 #' Retrieve a text for a play as a data frame
 #'
 #' The function \code{get_text_df()} returns you a data frame with text of
-#' the selected play. \code{tei_to_df()} allows to convert an existing TEI
+#' the selected play. \code{tei_to_df()} allows to convert an existing 'TEI'
 #' object to a data frame.
 #'
 #' @return Text of a play as a data frame in

@@ -4,14 +4,9 @@
 # rdracor <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-
-[![Travis build
-status](https://travis-ci.org/dracor-org/rdracor.svg?branch=master)](https://travis-ci.org/dracor-org/rdracor)
-[![Codecov test
-coverage](https://codecov.io/gh/dracor-org/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/dracor-org/rdracor?branch=master)
 <!-- badges: end -->
 
-**Authors:** Ivan Pozdniakov, Frank Fischer<br /> **Licence:**
+**Authors:** Ivan Pozdniakov, Frank Fischer<br /> **License:**
 [GPL-3](https://opensource.org/licenses/GPL-3.0)
 
 The goal of **rdracor** is to provide an R interface for the [DraCor
@@ -36,9 +31,9 @@ library(rdracor)
 ``` r
 corpora <- get_dracor_meta()
 summary(corpora)
-#> DraCor hosts 15 corpora comprising 3034 plays.
+#> DraCor hosts 15 corpora comprising 3035 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2022-12-22 21:23:40).
+#> The last updated corpus was German Drama Corpus (2023-01-02 18:15:22).
 plot(corpora)
 ```
 
@@ -47,14 +42,14 @@ plot(corpora)
 ## Plays in the corpus
 
 ``` r
-ru <- get_dracor(corpus = "rus")
-summary(ru)
-#> 212 plays in Russian Drama Corpus    
-#> Corpus id: rus, repository: https://github.com/dracor-org/rusdracor  
-#> Description: Edited by Frank Fischer and Daniil Skorinkin. Features more than 200 Russian plays from the 1740s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/rusdracor).
-#> Written years (range): 1747 - 1940   
-#> Premiere years (range): 1750 - 1992  
-#> Years of the first printing (range): 1747 - 1986
+ger <- get_dracor(corpus = "ger")
+summary(ger)
+#> 598 plays in German Drama Corpus 
+#> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor  
+#> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 550 German-language plays from the 1650s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
+#> Written years (range): 1646 - 1947   
+#> Premiere years (range): 1650 - 1981  
+#> Years of the first printing (range): 1560 - 1962
 ```
 
 You can get all corpora at once:
@@ -62,115 +57,323 @@ You can get all corpora at once:
 ``` r
 all <- get_dracor()
 summary(all)
-#> 3034 plays in 15 corpora:    
+#> 3035 plays in 15 corpora:    
 #> Corpora id:  
-#> fre (1560 plays), ger (597 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
+#> fre (1560 plays), ger (598 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
 #> Written years (range): 43 - 1970 
 #> Premiere years (range): -472 - 1992  
 #> Years of the first printing (range): 1170 - 2017
 ```
 
-## Play network
+## Play metadata
 
-You can extract a network (undirected weighted graph) for a specific
-play:
+With `get_play_metadata()` you can get miscellaneous data for a play:
 
 ``` r
-godunov <- play_igraph(corpus = "rus",
-                       play = "pushkin-boris-godunov")
+get_play_metadata(play = "lessing-emilia-galotti", 
+                  corpus = "ger") #use full_metadata = FALSE for faster download 
+#> $id
+#> [1] "ger000088"
+#> 
+#> $name
+#> [1] "lessing-emilia-galotti"
+#> 
+#> $corpus
+#> [1] "ger"
+#> 
+#> $title
+#> [1] "Emilia Galotti"
+#> 
+#> $author
+#> $author$name
+#> [1] "Lessing, Gotthold Ephraim"
+#> 
+#> $author$warning
+#> [1] "The single author property is deprecated. Use the array of 'authors' instead!"
+#> 
+#> 
+#> $authors
+#> # A tibble: 1 × 4
+#>   name                      fullname                 shortname refs        
+#>   <chr>                     <chr>                    <chr>     <list>      
+#> 1 Lessing, Gotthold Ephraim Gotthold Ephraim Lessing Lessing   <df [2 × 2]>
+#> 
+#> $genre
+#> [1] "Tragedy"
+#> 
+#> $libretto
+#> [1] FALSE
+#> 
+#> $allInSegment
+#> [1] 30
+#> 
+#> $allInIndex
+#> [1] 0.6976744
+#> 
+#> $cast
+#> # A tibble: 13 × 12
+#>    id        name  isGroup gender numOf…¹ numOf…² numOf…³ degree weigh…⁴ close…⁵
+#>    <chr>     <chr> <lgl>   <chr>    <int>   <int>   <int>  <int>   <int>   <dbl>
+#>  1 der_prinz Der … FALSE   MALE        17     157    4002      8      20   0.75 
+#>  2 der_kamm… Der … FALSE   MALE         2       6      33      1       2   0.444
+#>  3 conti     Conti FALSE   MALE         2      24     604      1       2   0.444
+#>  4 marinelli Mari… FALSE   MALE        19     221    4343      9      30   0.8  
+#>  5 camillo_… Cami… FALSE   MALE         1       6      78      1       1   0.444
+#>  6 claudia   Clau… FALSE   FEMALE      13      73    1581      7      19   0.6  
+#>  7 pirro     Pirro FALSE   MALE         4      25     263      5       7   0.545
+#>  8 odoardo   Odoa… FALSE   MALE        12     108    2441      6      15   0.667
+#>  9 angelo    Ange… FALSE   MALE         2      28     487      2       2   0.48 
+#> 10 emilia    Emil… FALSE   FEMALE       7      64    1702      6      13   0.667
+#> 11 appiani   Appi… FALSE   MALE         5      48     852      4       8   0.522
+#> 12 battista  Batt… FALSE   MALE         4      11     152      4       7   0.6  
+#> 13 orsina    Orsi… FALSE   FEMALE       6      64    2111      4       8   0.6  
+#> # … with 2 more variables: betweenness <dbl>, eigenvector <dbl>, and
+#> #   abbreviated variable names ¹​numOfScenes, ²​numOfSpeechActs, ³​numOfWords,
+#> #   ⁴​weightedDegree, ⁵​closeness
+#> 
+#> $segments
+#> # A tibble: 43 × 4
+#>    type  number title                              speakers 
+#>    <chr>  <int> <chr>                              <list>   
+#>  1 scene      1 Erster Aufzug | Erster Auftritt    <chr [2]>
+#>  2 scene      2 Erster Aufzug | Zweiter Auftritt   <chr [2]>
+#>  3 scene      3 Erster Aufzug | Dritter Auftritt   <chr [1]>
+#>  4 scene      4 Erster Aufzug | Vierter Auftritt   <chr [2]>
+#>  5 scene      5 Erster Aufzug | Fünfter Auftritt   <chr [1]>
+#>  6 scene      6 Erster Aufzug | Sechster Auftritt  <chr [2]>
+#>  7 scene      7 Erster Aufzug | Siebenter Auftritt <chr [2]>
+#>  8 scene      8 Erster Aufzug | Achter Auftritt    <chr [2]>
+#>  9 scene      9 Zweiter Aufzug | Erster Auftritt   <chr [2]>
+#> 10 scene     10 Zweiter Aufzug | Zweiter Auftritt  <chr [2]>
+#> # … with 33 more rows
+#> 
+#> $yearWritten
+#> NULL
+#> 
+#> $yearPremiered
+#> [1] "1772-03-13"
+#> 
+#> $yearPrinted
+#> [1] "1772"
+#> 
+#> $yearNormalized
+#> [1] 1772
+#> 
+#> $wikidataId
+#> [1] "Q782653"
+#> 
+#> $subtitle
+#> [1] "Ein Trauerspiel in fünf Aufzügen"
+#> 
+#> $relations
+#> # A tibble: 4 × 4
+#>   directed type            source       target   
+#>   <lgl>    <chr>           <chr>        <chr>    
+#> 1 TRUE     parent_of       odoardo      emilia   
+#> 2 TRUE     parent_of       claudia      emilia   
+#> 3 TRUE     associated_with marinelli    der_prinz
+#> 4 TRUE     associated_with camillo_rota der_prinz
+#> 
+#> $source
+#> $source$name
+#> [1] "TextGrid Repository"
+#> 
+#> $source$url
+#> [1] "http://www.textgridrep.org/textgrid:rksp.0"
+#> 
+#> 
+#> $originalSource
+#> [1] "Gotthold Ephraim Lessing: Werke. Herausgegeben von Herbert G. Göpfert in Zusammenarbeit mit Karl Eibl, Helmut Göbel, Karl S. Guthke, Gerd Hillen, Albert von Schirmding und Jörg Schönert, Band 1–8, München: Hanser, 1970 ff."
+#> 
+#> $normalizedGenre
+#> [1] "Tragedy"
+#> 
+#> $size
+#> [1] 13
+#> 
+#> $density
+#> [1] 0.3717949
+#> 
+#> $diameter
+#> [1] 3
+#> 
+#> $averageClustering
+#> [1] 0.5174603
+#> 
+#> $averagePathLength
+#> [1] 1.782051
+#> 
+#> $averageDegree
+#> [1] 4.461538
+#> 
+#> $maxDegree
+#> [1] 9
+#> 
+#> $maxDegreeIds
+#> [1] "marinelli"
+#> 
+#> $numConnectedComponents
+#> [1] 1
+#> 
+#> $wordCountSp
+#> [1] 20809
+#> 
+#> $wordCountText
+#> [1] 21136
+#> 
+#> $wordCountStage
+#> [1] 1332
+#> 
+#> $numOfSpeakers
+#> [1] 13
+#> 
+#> $numOfSpeakersFemale
+#> [1] 3
+#> 
+#> $numOfSpeakersMale
+#> [1] 10
+#> 
+#> $numOfSpeakersUnknown
+#> [1] 0
+#> 
+#> $numOfPersonGroups
+#> [1] 0
+#> 
+#> $numOfSegments
+#> [1] 43
+#> 
+#> $numOfActs
+#> [1] 5
+#> 
+#> $wikipediaLinkCount
+#> [1] 15
 ```
 
-This will create an object of S3 class `"play_igraph"` that inherits
-from `"igraph"`. It means that you can work with it as an `"igraph"`
-object:
+## Play network
+
+You can extract a co-occurence network (undirected weighted graph) for a
+specific play:
+
+``` r
+emilia <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+plot(emilia)
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+You can use the package `{igraph}` to work with this object as a graph:
 
 ``` r
 library(igraph)
-edge_density(godunov)
-#> [1] 0.1061344
-diameter(godunov, weights = NA)
-#> [1] 6
-graph.cohesion(godunov)
+edge_density(emilia)
+#> [1] 0.3717949
+graph.cohesion(emilia)
 #> [1] 1
 ```
-
-You can plot the graph: `plot()` will use plot method for `igraph`
-objects with some adjusted parameters. For example, vertices are
-coloured based on the gender and shape is based on whether a character
-is a group:
-
-``` r
-plot(godunov)
-```
-
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 In addition, you can get a summary with network properties and gender
 distribution:
 
 ``` r
-summary(godunov)
-#> rus: pushkin-boris-godunov - network summary 
+summary(emilia)
+#> ger: lessing-emilia-galotti - co-ocurence network summary    
+#> Lessing, Gotthold Ephraim: Emilia Galotti (1772) 
 #>  
-#>          Size: 79 (9 FEMALES, 69 MALES, 1 UNKNOWN)   
-#>       Density: 0.11  
+#>          Size: 13 (3 FEMALES, 10 MALES, 0 UNKNOWN)   
+#>       Density: 0.37  
 #>        Degree:   
-#>          - Maximum: 29 (Борис)   
+#>          - Maximum: 9 (Marinelli)    
 #>      Distance:   
-#>          - Maximum (Diameter): 7 
-#>          - Average: 3.45 
+#>          - Maximum (Diameter): 6 
+#>          - Average: 3.03 
 #>    Clustering:   
-#>          - Global: 0.65  
-#>          - Average local: 0.92   
+#>          - Global: 0.54  
+#>          - Average local: 0.67   
 #>      Cohesion: 1 
-#> Assortativity: -0.06
+#> Assortativity: -0.45
 ```
 
-## Text of the play
+Similarly, you can use function `get_net_relations_igraph()` to build a
+network based on relationships data:
+
+``` r
+nedorosl_relations <- get_net_relations_igraph(play = "fonvizin-nedorosl",
+                                               corpus = "rus")
+plot(nedorosl_relations)
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+``` r
+summary(nedorosl_relations)
+#> rus: fonvizin-nedorosl - relations network summary   
+#> Фонвизин, Денис Иванович: Недоросль (1782)   
+#>  
+#> Size: 15 (3 FEMALES, 12 MALES, 0 UNKNOWN)    
+#> Relations: 8 
+#> Простаков <--> Г-жа Простакова : spouses
+#> Скотинин <--> Г-жа Простакова : siblings
+#> Г-жа Простакова ---> Митрофан : parent_of
+#> Простаков ---> Митрофан : parent_of
+#> Еремеевна ---> Митрофан : associated_with
+#> Софья ---> Стародум : related_with
+#> ...and 2 more
+```
+
+## Text of a play
 
 You can get text of a play in different forms:
 
-- as a raw TEI (optionally parsed with {xml2})
+- as a raw TEI (optionally parsed with `{xml2}`):
 
 ``` r
-get_play_tei(corpus = "rus", play = "pushkin-boris-godunov")
+get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 #> {xml_document}
-#> <TEI id="rus000042" lang="rus" xmlns="http://www.tei-c.org/ns/1.0">
-#> [1] <teiHeader>\n  <fileDesc>\n    <titleStmt>\n      <title type="main">Бори ...
-#> [2] <standOff>\n  <listEvent>\n    <event type="print" when="1831">\n      <l ...
-#> [3] <text>\n  <front>\n    <docTitle>\n      <titlePart type="main">Борис Год ...
+#> <TEI id="ger000088" lang="ger" xmlns="http://www.tei-c.org/ns/1.0">
+#> [1] <teiHeader>\n  <fileDesc>\n    <titleStmt>\n      <title type="main">Emil ...
+#> [2] <standOff>\n  <listEvent>\n    <event type="print" when="1772">\n      <d ...
+#> [3] <text>\n  <front>\n    <titlePage>\n      <docAuthor>Gotthold Ephraim Les ...
 ```
 
 - as a character vector:
 
 ``` r
-text_godunov <- get_play_spoken_text(corpus = "rus", play = "pushkin-boris-godunov")
+text_godunov <- get_text_chr_spoken(play = "lessing-emilia-galotti",
+                                     corpus = "ger")
 head(text_godunov)
-#> [1] "Наряжены мы вместе город ведать,"    
-#> [2] "Но, кажется, нам не за кем смотреть:"
-#> [3] "Москва пуста; вослед за патриархом"  
-#> [4] "К монастырю пошел и весь народ."     
-#> [5] "Как думаешь, чем кончится тревога?"  
-#> [6] "Чем кончится? Узнать немудрено:"
+#> [1] "Klagen, nichts als Klagen! Bittschriften, nichts als Bittschriften! – Die traurigen Geschäfte; und man beneidet uns noch! – Das glaub' ich; wenn wir allen helfen könnten: dann wären wir zu beneiden. – Emilia? Eine Emilia? – Aber eine Emilia Bruneschi – nicht Galotti. Nicht Emilia Galotti! – Was will sie, diese Emilia Bruneschi? Viel gefodert; sehr viel. – Doch sie heißt Emilia. Gewährt! Es ist wohl noch keiner von den Räten in dem Vorzimmer?"
+#> [2] "Nein."                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+#> [3] "Ich habe zu früh Tag gemacht. – Der Morgen ist so schön. Ich will ausfahren. Marchese Marinelli soll mich begleiten. Laßt ihn rufen. – Ich kann doch nicht mehr arbeiten. – Ich war so ruhig, bild' ich mir ein, so ruhig – Auf einmal muß eine arme Bruneschi, Emilia heißen; – weg ist meine Ruhe, und alles! –"                                                                                                                                            
+#> [4] "Nach dem Marchese ist geschickt. Und hier, ein Brief von der Gräfin Orsina."                                                                                                                                                                                                                                                                                                                                                                                  
+#> [5] "Der Orsina? Legt ihn hin."                                                                                                                                                                                                                                                                                                                                                                                                                                    
+#> [6] "Ihr Läufer wartet."
 ```
 
 - as a data frame:
 
 ``` r
-get_play_text_df(corpus = "rus", play = "pushkin-boris-godunov")
-#> # A tibble: 1,993 × 10
+get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
+#> # A tibble: 1,174 × 10
 #>    text        type  type_…¹ who   scene scene…² subdi…³ line_id subdi…⁴ scene…⁵
 #>    <chr>       <chr> <chr>   <chr> <chr> <chr>   <chr>     <int>   <int>   <int>
-#>  1 (1598 года… stage ""      <NA>  КРЕМ… scene 1 stage 1       1       1       1
-#>  2 Князья Шуй… stage ""      <NA>  КРЕМ… scene 1 stage 2       2       2       1
-#>  3 Наряжены м… l     ""      voro… КРЕМ… scene 1 sp 1 |…       3       3       1
-#>  4 Но, кажетс… l     ""      voro… КРЕМ… scene 1 sp 1 |…       4       4       1
-#>  5 Москва пус… l     ""      voro… КРЕМ… scene 1 sp 1 |…       5       5       1
-#>  6 К монастыр… l     ""      voro… КРЕМ… scene 1 sp 1 |…       6       6       1
-#>  7 Как думаеш… l     ""      voro… КРЕМ… scene 1 sp 1 |…       7       7       1
-#>  8 Чем кончит… l     ""      shuj… КРЕМ… scene 1 sp 2 |…       8       8       1
-#>  9 Народ еще … l     ""      shuj… КРЕМ… scene 1 sp 2 |…       9       9       1
-#> 10 Борис еще … l     ""      shuj… КРЕМ… scene 1 sp 2 |…      10      10       1
-#> # … with 1,983 more rows, and abbreviated variable names ¹​type_attributes,
+#>  1 Die Szene,… stage ""      <NA>  Erst… act 1   stage 1       1       1       1
+#>  2 an einem A… stage ""      der_… Erst… act 1 … sp 1 |…       2       2       2
+#>  3 Klagen, ni… p     ""      der_… Erst… act 1 … sp 1 |…       3       3       2
+#>  4 Indem er n… stage ""      der_… Erst… act 1 … sp 1 |…       4       3       2
+#>  5 Eine Emili… p     ""      der_… Erst… act 1 … sp 1 |…       5       3       2
+#>  6 Er lieset.  stage ""      der_… Erst… act 1 … sp 1 |…       6       3       2
+#>  7 Viel gefod… p     ""      der_… Erst… act 1 … sp 1 |…       7       3       2
+#>  8 Er untersc… stage ""      der_… Erst… act 1 … sp 1 |…       8       3       2
+#>  9 Es ist woh… p     ""      der_… Erst… act 1 … sp 1 |…       9       3       2
+#> 10 Nein.       p     ""      der_… Erst… act 1 … sp 2 |…      10       4       2
+#> # … with 1,164 more rows, and abbreviated variable names ¹​type_attributes,
 #> #   ²​scene_path, ³​subdiv_path, ⁴​subdiv_id, ⁵​scene_id
 ```
+
+## Acknowledgments
+
+The development of this research software was supported by Computational
+Literary Studies Infrastructure (CLS INFRA) through its Transnational
+Access Fellowship programme. CLS INFRA has received funding from the
+European Union’s Horizon 2020 research and innovation programme under
+grant agreement №101004984.
