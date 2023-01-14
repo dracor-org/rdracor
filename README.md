@@ -71,7 +71,8 @@ With `get_play_metadata()` you can get miscellaneous data for a play:
 
 ``` r
 get_play_metadata(play = "lessing-emilia-galotti", 
-                  corpus = "ger") #use full_metadata = FALSE for faster download 
+                  corpus = "ger",
+                  full_metadata = FALSE) #use full_metadata = FALSE for faster download 
 #> $id
 #> [1] "ger000088"
 #> 
@@ -184,69 +185,6 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> 
 #> $originalSource
 #> [1] "Gotthold Ephraim Lessing: Werke. Herausgegeben von Herbert G. Göpfert in Zusammenarbeit mit Karl Eibl, Helmut Göbel, Karl S. Guthke, Gerd Hillen, Albert von Schirmding und Jörg Schönert, Band 1–8, München: Hanser, 1970 ff."
-#> 
-#> $normalizedGenre
-#> [1] "Tragedy"
-#> 
-#> $size
-#> [1] 13
-#> 
-#> $density
-#> [1] 0.3717949
-#> 
-#> $diameter
-#> [1] 3
-#> 
-#> $averageClustering
-#> [1] 0.5174603
-#> 
-#> $averagePathLength
-#> [1] 1.782051
-#> 
-#> $averageDegree
-#> [1] 4.461538
-#> 
-#> $maxDegree
-#> [1] 9
-#> 
-#> $maxDegreeIds
-#> [1] "marinelli"
-#> 
-#> $numConnectedComponents
-#> [1] 1
-#> 
-#> $wordCountSp
-#> [1] 20809
-#> 
-#> $wordCountText
-#> [1] 21136
-#> 
-#> $wordCountStage
-#> [1] 1332
-#> 
-#> $numOfSpeakers
-#> [1] 13
-#> 
-#> $numOfSpeakersFemale
-#> [1] 3
-#> 
-#> $numOfSpeakersMale
-#> [1] 10
-#> 
-#> $numOfSpeakersUnknown
-#> [1] 0
-#> 
-#> $numOfPersonGroups
-#> [1] 0
-#> 
-#> $numOfSegments
-#> [1] 43
-#> 
-#> $numOfActs
-#> [1] 5
-#> 
-#> $wikipediaLinkCount
-#> [1] 15
 ```
 
 ## Play network
