@@ -9,3 +9,5 @@ rdracor.Rproj
 tests/.DS_Store
 R/.DS_Store
 man/figures/.DS_Store
+.travis.yml
+codecov.yml

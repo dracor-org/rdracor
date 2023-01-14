@@ -17,12 +17,10 @@ knitr::opts_chunk$set(
 # rdracor <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/dracor-org/rdracor.svg?branch=master)](https://travis-ci.org/dracor-org/rdracor)
-[![Codecov test coverage](https://codecov.io/gh/dracor-org/rdracor/branch/master/graph/badge.svg)](https://codecov.io/gh/dracor-org/rdracor?branch=master)
 <!-- badges: end -->
 
 **Authors:** Ivan Pozdniakov, Frank Fischer<br />
-**Licence:** [GPL-3](https://opensource.org/licenses/GPL-3.0)
+**License:** [GPL-3](https://opensource.org/licenses/GPL-3.0)
 
 The goal of **rdracor** is to provide an R interface for the [DraCor API](https://dracor.org/documentation/api) (DraCor: Drama Corpora Project). Website of the project: [dracor.org](https://dracor.org).
 
@@ -51,8 +49,8 @@ plot(corpora)
 ## Plays in the corpus
 
 ```{r}
-ru <- get_dracor(corpus = "rus")
-summary(ru)
+ger <- get_dracor(corpus = "ger")
+summary(ger)
 ```
 
 You can get all corpora at once:
@@ -62,57 +60,82 @@ all <- get_dracor()
 summary(all)
 ```
 
-## Play network
+## Play metadata
 
-You can extract a network (undirected weighted graph) for a specific play:
+With `get_play_metadata()` you can get miscellaneous data for a play:
 
 ```{r}
-godunov <- play_igraph(corpus = "rus",
-                       play = "pushkin-boris-godunov")
+get_play_metadata(play = "lessing-emilia-galotti", 
+                  corpus = "ger") #use full_metadata = FALSE for faster download 
 ```
 
-This will create an object of S3 class `"play_igraph"` that inherits from `"igraph"`. 
-It means that you can work with it as an `"igraph"` object:
+
+## Play network
+
+You can extract a co-occurence network (undirected weighted graph) for a 
+specific play:
+
+```{r}
+emilia <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+plot(emilia)
+```
+
+You can use the package `{igraph}` to work with this object as a graph:
 
 ```{r}
 library(igraph)
-edge_density(godunov)
-diameter(godunov, weights = NA)
-graph.cohesion(godunov)
+edge_density(emilia)
+graph.cohesion(emilia)
 ```
 
-You can plot the graph: `plot()` will use plot method for `igraph` objects with some adjusted parameters. For example, vertices are coloured based on the gender and shape is based on whether a character is a group:
+In addition, you can get a summary with network properties and gender 
+distribution:  
 
 ```{r}
-plot(godunov)
+summary(emilia)
 ```
 
-In addition, you can get a summary with network properties and gender distribution:  
+Similarly, you can use function `get_net_relations_igraph()` to build a network
+based on relationships data:
 
 ```{r}
-summary(godunov)
+nedorosl_relations <- get_net_relations_igraph(play = "fonvizin-nedorosl",
+                                               corpus = "rus")
+plot(nedorosl_relations)
+summary(nedorosl_relations)
 ```
 
-## Text of the play
+## Text of a play
 
 You can get text of a play in different forms:
 
-- as a raw TEI (optionally parsed with {xml2})
+- as a raw TEI (optionally parsed with `{xml2}`):
 
 ```{r}
-get_play_tei(corpus = "rus", play = "pushkin-boris-godunov")
+get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 ```
 
 - as a character vector:
 
 ```{r}
-text_godunov <- get_play_spoken_text(corpus = "rus", play = "pushkin-boris-godunov")
+text_godunov <- get_text_chr_spoken(play = "lessing-emilia-galotti",
+                                     corpus = "ger")
 head(text_godunov)
 ```
 
 - as a data frame:
 
 ```{r}
-get_play_text_df(corpus = "rus", play = "pushkin-boris-godunov")
+get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 ```
 
+## Acknowledgments
+
+The development of this research software was supported by Computational 
+Literary Studies Infrastructure (CLS INFRA) through its Transnational Access 
+Fellowship programme. CLS INFRA has received funding from the European Union’s 
+Horizon 2020 research and innovation programme under grant agreement №101004984.
+
+<img src="man/figures/CLS INFRA_Stacked Long Logo Rev Col.png" align="left" width="360" />
+
+<img src="man/figures/Flag_of_Europe.png" align="left" width="360" />

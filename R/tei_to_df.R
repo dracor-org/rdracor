@@ -15,7 +15,7 @@ parse_line <- function(line,
 
   general_type_attr <- text_line %>%
     stringr::str_extract(regex_extract_segment_type) %>%
-    stringr::str_remove_all("[<>]")  %>%
+    stringr::str_remove_all("[<>]") %>%
     stringr::str_split("\\s", n = 2, simplify = TRUE) %>%
     c()
 
@@ -27,8 +27,10 @@ parse_line <- function(line,
     stringr::str_split("\\s", n = 2, simplify = TRUE) %>%
     data.table::data.table() %>%
     list(
-      data.table::data.table(type = general_type_attr[1],
-                             type_attributes = general_type_attr[2]),
+      data.table::data.table(
+        type = general_type_attr[1],
+        type_attributes = general_type_attr[2]
+      ),
       .
     ) %>%
     data.table::rbindlist(use.names = FALSE) %>%
@@ -36,14 +38,15 @@ parse_line <- function(line,
     .[is.na(type_attributes), type_attributes := general_type_attr[2]]
 
   lines_dt <-
-    line_tags[, text := line_parts][stringr::str_detect(text, "[:alnum:]+"),
-                                    .(text, type, type_attributes)]
+    line_tags[, text := line_parts][
+      stringr::str_detect(text, "[:alnum:]+"),
+      .(text, type, type_attributes)
+    ]
 
   return(lines_dt)
 }
 
 segment_info <- function(tei_line, sep = " | ") {
-
   position <- tei_line %>%
     xml2::xml_path() %>%
     stringr::str_remove(fixed("/TEI/text/body/")) %>%
@@ -70,15 +73,19 @@ segment_info <- function(tei_line, sep = " | ") {
     xml2::xml_name() %>%
     rev()
 
-  scene_path <-  paste(div_types[!is.na(div_types)],
-                       head(position, -1)[!is.na(div_types)], collapse = sep)
+  scene_path <- paste(div_types[!is.na(div_types)],
+    head(position, -1)[!is.na(div_types)],
+    collapse = sep
+  )
 
 
   subdiv_path <- paste(c(divs[divs != "div"], xml_name(tei_line)),
-                       c(position[divs != "div"], tail(position, 1)), collapse = sep)
+    c(position[divs != "div"], tail(position, 1)),
+    collapse = sep
+  )
 
   who <- tei_line %>%
-    xml2::xml_parent() %>% #map to avoid deduplication
+    xml2::xml_parent() %>% # map to avoid deduplication
     xml2::xml_attr("who") %>%
     stringr::str_remove("#")
 
@@ -93,43 +100,37 @@ line_table <- function(tei_line,
     segment_info()
   line_text <- tei_line %>%
     as.character() %>%
-    parse_line(regex_remove_full,
-               regex_extract_inline,
-               regex_extract_segment_type)
+    parse_line(
+      regex_remove_full,
+      regex_extract_inline,
+      regex_extract_segment_type
+    )
 
   line_text[, c(.SD, line_info)]
 }
 
 #' Retrieve a text for a play as a data frame
 #'
-#' The function \code{get_play_text_df} returns you a data frame with text of
-#' the selected play. \code{tei_to_df} allows to convert an existing TEI object
-#' to a data frame.
+#' The function \code{get_text_df()} returns you a data frame with text of
+#' the selected play. \code{tei_to_df()} allows to convert an existing 'TEI'
+#' object to a data frame.
 #'
 #' @return Text of a play as a data frame in
 #' \href{https://www.tidytextmining.com/tidytext.html}{tidy text} format.
-#'
-#' Each row represent one token. The text tokenized by lines, notes and stage
+#' Each row represent one token. The text tokenised by lines, notes and stage
 #' directions (<p>, <l>, <stage> or <note>).
-#'
 #' Column \code{text} contains text of the line, other columns contain metadata
 #' for the line.
 #' @param tei A TEI object stored as an object of class \code{xml_document}.
 #' You can use this function if you have already downloaded TEI using
-#' \code{\link{get_play_tei}}.
+#' \code{\link{get_text_tei}}.
 #' @examples
-#' get_play_text_df(corpus = "rus", play = "gogol-zhenitba")
-#' zhenitba <- get_play_tei(corpus = "rus", play = "gogol-zhenitba")
-#' tei_to_df(zhenitba)
-#' @seealso \code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
-#'   \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
-#'   \code{\link{get_play_networkdata_csv}},
-#'   \code{\link{get_play_networkdata_gexf}},
-#'   \code{\link{get_play_spoken_text}},
-#'   \code{\link{get_play_spoken_text_bych}},
-#'   \code{\link{get_play_stage_directions}},
-#'   \code{\link{get_play_stage_directions_with_sp}},
-#'   \code{\link{play_igraph}}
+#' \donttest{
+#' get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
+#' emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
+#' tei_to_df(emilia_tei)
+#' }
+#' @seealso \code{\link{get_play_metadata}}
 #' @importFrom purrr flatten_chr
 #' @importFrom tibble as_tibble
 #' @importFrom stats na.omit
@@ -141,7 +142,9 @@ line_table <- function(tei_line,
 tei_to_df <- function(tei) {
   line_id <- scene_id <- scene_path <- NULL # to pass check
   tags_text <-
-    c("l", "p") #these will be tokens for the dataframe, they cannot be inside metatext tokens
+    c("l", "p") # these will be tokens for the data frame,
+  # they cannot be inside metatext tokens
+
 
   regex_remove_tags_text <-
     paste0("(</?", tags_text, "([^>]*)>)", collapse = "|")
@@ -150,7 +153,8 @@ tei_to_df <- function(tei) {
     paste0("not(parent::", tags_text, ")", collapse = " and ")
 
   tags_metatext <-
-    c("stage", "note") #these will be tokens for the dataframe, they can be both inside text tokens or outside
+    c("stage", "note") # these will be tokens for the data frame,
+  # they can be both inside text tokens or outside
 
   regex_extract_inline <-
     paste0("(</?", tags_metatext, "([^>]*)>)", collapse = "|")
@@ -159,14 +163,17 @@ tei_to_df <- function(tei) {
     paste0("(</?", c(tags_text, tags_metatext), "([^>]*)>)", collapse = "|")
 
   tags_remove_self_closed <-
-    c("lb", "pb", "graphic") #self-closed tags. As for now, all self-closed tags will be ignored
+    c("lb", "pb", "graphic") # self-closed tags. As for now, all self-closed
+  # tags will be ignored
 
   tags_remove_save_content <-
-    c("emph", "term", "quote", "cit", "lg", "phr", "w", "pc", "cl", "c") #tags that will be ignored but
-  #their content will be saved.
+    c("emph", "term", "quote", "cit", "lg", "phr", "w", "pc", "cl", "c") # tags
+  # that will be ignored but
+  # their content will be saved.
 
   tags_remove_drop_content <-
-    c("ref", "bibl") #tags that will be ignored and their content will be dropped from the results
+    c("ref", "bibl") # tags that will be ignored and their content will be
+  # dropped from the results
 
   regex_remove_self_closed <-
     paste0("(<", tags_remove_self_closed, "/>)", collapse = "|")
@@ -195,18 +202,23 @@ tei_to_df <- function(tei) {
   path_tei_root <- "/TEI/text/body//"
 
   xpath <- paste0(path_tei_root,
-                  c(tags_text,
-                    paste0(tags_metatext, "[", not_parents, "]")),
-                  collapse = " | ")
+    c(
+      tags_text,
+      paste0(tags_metatext, "[", not_parents, "]")
+    ),
+    collapse = " | "
+  )
 
   tei %>%
     xml2::xml_ns_strip()
   play_text_df <- tei %>%
     xml2::xml_find_all(xpath) %>%
-    lapply(line_table,
-           regex_remove_full,
-           regex_extract_inline,
-           regex_extract_segment_type) %>%
+    lapply(
+      line_table,
+      regex_remove_full,
+      regex_extract_inline,
+      regex_extract_segment_type
+    ) %>%
     data.table::rbindlist(idcol = "subdiv_id")
   play_text_df[, line_id := .I]
   play_text_df[, scene_id := .GRP, by = scene_path]
@@ -230,9 +242,9 @@ tei_to_df <- function(tei) {
 
 #' @inheritParams get_play_metadata
 #' @export
-#' @describeIn tei_to_df Retrieve all stage directions of a play,
-#' given corpus and play names.
-get_play_text_df <- function(corpus, play) {
-  get_play_tei(corpus = corpus, play = play) %>%
+#' @describeIn tei_to_df Retrieves all stage directions of a play,
+#' given play and corpus names.
+get_text_df <- function(play, corpus) {
+  get_text_tei(play = play, corpus = corpus) %>%
     tei_to_df()
 }

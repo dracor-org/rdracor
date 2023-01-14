@@ -2,36 +2,33 @@
 % Please edit documentation in R/play.R
 \name{get_play_cast}
 \alias{get_play_cast}
-\title{Retrieve data for characters in a play.}
+\title{Retrieve data for characters in a play}
 \usage{
-get_play_cast(corpus = NULL, play = NULL, ...)
+get_play_cast(play = NULL, corpus = NULL, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
+\value{
+Data frame, every raw represents one character in the play.
+}
 \description{
-The DraCor API lets you request miscellaneous information for characters in
-a play, given corpus and play names: name, number and size of their lines,
+\code{get_play_cast()} requests miscellaneous information for characters in
+a play, given play and corpus names: name, number and size of their lines,
 gender, some network metrics etc.
 }
 \examples{
-get_play_cast(corpus = "rus", play = "gogol-zhenitba")
+get_play_cast(play = "lessing-emilia-galotti", corpus = "ger")
 }
 \seealso{
-\code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
-  \code{\link{get_play_tei}}, \code{\link{get_play_rdf}},
-  \code{\link{get_play_networkdata_csv}},
-  \code{\link{get_play_networkdata_gexf}},
-  \code{\link{get_play_spoken_text}},
-  \code{\link{get_play_spoken_text_bych}},
-  \code{\link{get_play_stage_directions}},
-  \code{\link{get_play_stage_directions_with_sp}},
-  \code{\link{play_igraph}}
+\code{\link{get_play_metadata}}
 }

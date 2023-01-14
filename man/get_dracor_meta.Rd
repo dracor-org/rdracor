@@ -20,12 +20,14 @@ get_dracor_meta()
 \item{x}{A \code{dracor_meta} object.}
 }
 \value{
-\code{dracor} object that inherits data.frame (and can be used
+\code{dracor_meta} object that inherits data frame (and can be used
   as such).
 }
 \description{
-\code{get_dracor_meta} returns a \code{dracor} object that inherits
-data.frame (and can be used as such).
+\code{get_dracor_meta()} returns metadata on available corpora as a
+\code{dracor_meta} object that inherits data frame (and can be used as such).
+Use \code{summary()} and \code{plot()} on this object to get an even more
+condensed summary.
 }
 \section{Functions}{
 \itemize{
@@ -36,10 +38,10 @@ available for each corpus.
 
 }}
 \examples{
-corpora <- get_dracor_meta()
-corpora
-summary(corpora)
-plot(corpora)
+corpora_meta <- get_dracor_meta()
+corpora_meta
+summary(corpora_meta)
+plot(corpora_meta)
 }
 \seealso{
 \code{\link{get_dracor}}

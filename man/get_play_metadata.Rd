@@ -4,36 +4,38 @@
 \alias{get_play_metadata}
 \title{Retrieve metadata for a play}
 \usage{
-get_play_metadata(corpus = NULL, play = NULL, ...)
+get_play_metadata(play = NULL, corpus = NULL, full_metadata = TRUE, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
+
+\item{full_metadata}{Logical: if \code{TRUE} (default value), then additional
+metadata are retrieved.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-List with a play metadata.
+List with the play metadata.
 }
 \description{
-The DraCor API lets you request metadata for a specific play, given corpus
-and play names.
+\code{get_play_metadata()} requests metadata for a specific play, given play
+and corpus names.
 }
 \examples{
-get_play_metadata(corpus = "rus", play = "gogol-zhenitba")
+get_play_metadata(
+  play = "lessing-emilia-galotti",
+  corpus = "ger",
+  full_metadata = FALSE
+)
 }
 \seealso{
-\code{\link{get_play_metrics}}, \code{\link{get_play_tei}},
-  \code{\link{get_play_rdf}}, \code{\link{get_play_cast}},
-  \code{\link{get_play_networkdata_csv}},
-  \code{\link{get_play_networkdata_gexf}},
-  \code{\link{get_play_spoken_text}},
-  \code{\link{get_play_spoken_text_bych}},
-  \code{\link{get_play_stage_directions}},
-  \code{\link{get_play_stage_directions_with_sp}},
-  \code{\link{play_igraph}}
+\code{\link{get_net_coocur_edges}} \code{\link{get_play_rdf}}
+\code{\link{get_play_cast}}
 }

@@ -17,37 +17,45 @@ dracor_api(
 \arguments{
 \item{request}{Character, valid GET request.}
 
-\item{expected_type}{Character, MIME type: one of \code{"application/json"},
-\code{"application/xml"}, \code{"text/csv"}, \code{"text/plain"}.}
+\item{expected_type}{Character, 'MIME' type: one of
+\code{"application/json"},  \code{"application/xml"}, \code{"text/csv"},
+\code{"text/plain"}.}
 
-\item{parse}{Logical, if \code{TRUE} (default value), then a response is parsed depending on
-\code{expected_type}. See details below.}
+\item{parse}{Logical, if \code{TRUE} (default value), then a response is
+parsed depending on \code{expected_type}. See details below.}
 
 \item{default_type}{Logical, if \code{TRUE}, default response data type is
 returned. Therefore, a response is not parsed and \code{parse} is ignored.
-Default value is \code{FALSE}.}
+The default value is \code{FALSE}.}
 
 \item{split_text}{Logical, if \code{TRUE}, plain text lines are read as
 different values in a vector instead of returning one character value.
 Default value is \code{TRUE}.}
 
-\item{as_tibble}{Logical, if \code{TRUE}, data.frame will be returned as a
-tidyverse tibble (\code{tbl_df}). Default value is \code{TRUE}.}
+\item{as_tibble}{Logical, if \code{TRUE}, data frame will be returned as a
+tidyverse tibble (\code{tbl_df}). The default value is \code{TRUE}.}
 
 \item{...}{Other arguments passed to a parser function.}
 }
 \description{
-Sending a GET request to DraCor API with a specified expected type and parse
-results depending on selected expected type.
+Function \code{dracor_api()} sends a GET request to DraCor API with a
+specified expected type and parses results depending on selected expected
+type.
 }
 \details{
-There are four different MIME types (aka internet media type) that can be
-retrieved for DraCor API, the specific combination of possible MIME types
+There are four different 'MIME' types (aka internet media type) that can be
+retrieved for DraCor API, the specific combination of possible 'MIME' types
 depends on API command. When \code{parse = TRUE} is used, the content is
-parsed depending on selected MIME type in \code{expected_type}:
+parsed depending on selected 'MIME' type in \code{expected_type}:
 \describe{
   \item{\code{application/json}}{\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
   \item{\code{text/plain}}{No need for additional preprocessing}}
+}
+\examples{
+dracor_api("https://dracor.org/api/info", expected_type = "application/json")
+}
+\seealso{
+\code{\link{dracor_sparql}}
 }

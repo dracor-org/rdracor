@@ -2,17 +2,23 @@
 % Please edit documentation in R/play.R
 \name{get_play_rdf}
 \alias{get_play_rdf}
-\title{Retrieve an RDF for a play.}
+\title{Retrieve an RDF for a play}
 \usage{
-get_play_rdf(corpus = NULL, play = NULL, ...)
+get_play_rdf(play = NULL, corpus = NULL, parse = TRUE, ...)
 }
 \arguments{
-\item{corpus}{Character, name of the corpus (you can find all corpus names in
-\code{name} column within an object returned by \code{\link{get_dracor_meta}}).}
+\item{play}{Character, name of a play (you can find all play names in
+\code{"playName"} column within an object returned by
+\code{\link{get_dracor}}). Character vector (longer than 1) is not
+supported.}
 
-\item{play}{Character, name of the play (you can find all play names in
-\code{playName} column within an object returned by
-\code{\link{get_dracor}}). Character vector (longer than 1) is not supported.}
+\item{corpus}{Character, name of the corpus (you can find all corpus names in
+\code{name} column within an object returned by
+\code{\link{get_dracor_meta}}).}
+
+\item{parse}{Logical, if \code{TRUE} the result is parsed by
+{\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
+returned. Default value is \code{TRUE}.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
@@ -20,23 +26,15 @@ get_play_rdf(corpus = NULL, play = NULL, ...)
 RDF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 }
 \description{
-The DraCor API lets you request a RDF (Resource Description Framework) data
-for a play, given corpus and play names. RDF for plays can be useful for
+\code{get_play_rdf()} requests an RDF (Resource Description Framework) data
+for a play, given play and corpus names. RDF for plays can be useful for
 extraction data for a play from \url{Wikidata.org}.
 }
 \examples{
-get_play_rdf(corpus = "rus", play = "gogol-zhenitba")
+get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want RDF without parsing by xml2::read_xml():
-get_play_rdf(corpus = "rus", play = "gogol-zhenitba", parse = FALSE)
+get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \seealso{
-\code{\link{get_play_metadata}}, \code{\link{get_play_metrics}},
-  \code{\link{get_play_tei}}, \code{\link{get_play_cast}},
-  \code{\link{get_play_networkdata_csv}},
-  \code{\link{get_play_networkdata_gexf}},
-  \code{\link{get_play_spoken_text}},
-  \code{\link{get_play_spoken_text_bych}},
-  \code{\link{get_play_stage_directions}},
-  \code{\link{get_play_stage_directions_with_sp}},
-  \code{\link{play_igraph}}
+\code{\link{get_play_metadata}} \code{\link{get_play_cast}}
 }

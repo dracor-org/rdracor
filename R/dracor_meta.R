@@ -1,31 +1,17 @@
-#' Retrieve Dracor API info.
-#'
-#' \code{get_dracor_api_info} returns information about DraCor API: name of
-#' the API, status, existdb version, and API version.
-#'
-#' No parameters are expected.
-#'
-#' @examples
-#' get_dracor_api_info()
-#' @importFrom jsonlite fromJSON
-#' @importFrom tibble as_tibble
-#' @export
-get_dracor_api_info <- function() {
-  tibble::as_tibble(dracor_api("https://dracor.org/api/info", expected_type = "application/json"))
-}
-
 #' Retrieve information on available corpora
 #'
-#' \code{get_dracor_meta} returns a \code{dracor} object that inherits
-#' data.frame (and can be used as such).
+#' \code{get_dracor_meta()} returns metadata on available corpora as a
+#' \code{dracor_meta} object that inherits data frame (and can be used as such).
+#' Use \code{summary()} and \code{plot()} on this object to get an even more
+#' condensed summary.
 #'
-#' @return \code{dracor} object that inherits data.frame (and can be used
+#' @return \code{dracor_meta} object that inherits data frame (and can be used
 #'   as such).
 #' @examples
-#' corpora <- get_dracor_meta()
-#' corpora
-#' summary(corpora)
-#' plot(corpora)
+#' corpora_meta <- get_dracor_meta()
+#' corpora_meta
+#' summary(corpora_meta)
+#' plot(corpora_meta)
 #' @seealso
 #' \code{\link{get_dracor}}
 #' @export
@@ -48,15 +34,18 @@ get_available_corpus_names <- function() {
 dracor_meta <- function(dracor_df) {
   dracor_meta <-
     type.convert(dracor_df,
-                 as.is = TRUE,
-                 na.strings = c("NA", "-"))
+      as.is = TRUE,
+      na.strings = c("NA", "-")
+    )
   names(dracor_meta) <-
     gsub("metrics.", "", names(dracor_meta), fixed = TRUE)
   dracor_meta$updated <-
     as.POSIXct(dracor_meta$updated, format = "%FT%H:%M:%OS", tz = "UTC")
-  dracor_meta <- dracor_meta[order(-dracor_meta$plays),]
-  attributes(dracor_meta) <- c(attributes(dracor_meta),
-                               get_dracor_api_info())
+  dracor_meta <- dracor_meta[order(-dracor_meta$plays), ]
+  attributes(dracor_meta) <- c(
+    attributes(dracor_meta),
+    dracor_api_info()
+  )
   class(dracor_meta) <- c("dracor_meta", class(dracor_meta))
   return(dracor_meta)
 }
@@ -102,10 +91,12 @@ plot.dracor_meta <- function(x,
   lty.baseline <- 2
   cex <- 0.8
   left_margin <- 10.5
-  y_in <- rev(1:nrow(x))
+  y_in <- rev(seq_len(nrow(x)))
   old.par <- par(no.readonly = TRUE)
-  par(mar = c(3, left_margin, 4, 2) + 0.1,
-      mgp = c(2, 1, 0))
+  par(
+    mar = c(3, left_margin, 4, 2) + 0.1,
+    mgp = c(2, 1, 0)
+  )
   plot.default(
     x$plays,
     y_in,
