@@ -103,7 +103,8 @@ get_play_metadata <-
 #'
 #' \code{get_play_rdf()} requests an RDF (Resource Description Framework) data
 #' for a play, given play and corpus names. RDF for plays can be useful for
-#' extraction data for a play from \url{Wikidata.org}.
+#' extraction data for a play from
+#' \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}.
 #'
 #' @return RDF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 #' @inheritParams get_play_cast

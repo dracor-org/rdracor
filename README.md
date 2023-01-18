@@ -47,9 +47,9 @@ summary(ger)
 #> 598 plays in German Drama Corpus 
 #> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor  
 #> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 550 German-language plays from the 1650s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
-#> Written years (range): 1646 - 1947   
-#> Premiere years (range): 1650 - 1981  
-#> Years of the first printing (range): 1560 - 1962
+#> Written years (range): 1646–1947 
+#> Premiere years (range): 1650–1981    
+#> Years of the first printing (range): 1560–1962
 ```
 
 You can get all corpora at once:
@@ -60,9 +60,9 @@ summary(all)
 #> 3035 plays in 15 corpora:    
 #> Corpora id:  
 #> fre (1560 plays), ger (598 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
-#> Written years (range): 43 - 1970 
-#> Premiere years (range): -472 - 1992  
-#> Years of the first printing (range): 1170 - 2017
+#> Written years (range): 43–1970   
+#> Premiere years (range): -472–1992    
+#> Years of the first printing (range): 1170–2017
 ```
 
 ## Play metadata
@@ -316,6 +316,6 @@ Access Fellowship programme. CLS INFRA has received funding from the
 European Union’s Horizon 2020 research and innovation programme under
 grant agreement №101004984.
 
-<img src="man/figures/CLS INFRA_Stacked Long Logo Rev Col.png" align="left" width="360" />
+<img src="man/figures/CLS.png" align="left" width="360" />
 
 <img src="man/figures/Flag_of_Europe.png" align="left" width="360" />

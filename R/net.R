@@ -490,12 +490,14 @@ summary.coocur_igraph <- function(object, ...) {
 #' can be treated as such.
 #' @inheritParams get_play_cast
 #' @examples
+#' \donttest{
 #' nedorosl_relations <- get_net_relations_igraph(
 #'   play = "fonvizin-nedorosl",
 #'   corpus = "rus"
 #' )
 #' plot(nedorosl_relations)
 #' summary(nedorosl_relations)
+#' }
 #' @seealso \code{\link{get_net_coocur_igraph}}
 #' @import igraph
 #' @import data.table
