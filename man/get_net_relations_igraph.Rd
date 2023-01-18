@@ -117,12 +117,14 @@ encoding scheme proposed in
 
 }}
 \examples{
+\donttest{
 nedorosl_relations <- get_net_relations_igraph(
   play = "fonvizin-nedorosl",
   corpus = "rus"
 )
 plot(nedorosl_relations)
 summary(nedorosl_relations)
+}
 }
 \references{
 \insertAllCited{}

@@ -182,18 +182,18 @@ summary.dracor <- function(object, ...) {
     if (identical(written, c(Inf, -Inf))) {
       "No information on written years"
     } else {
-      sprintf("Written years (range): %d - %d", written[1], written[2])
+      sprintf("Written years (range): %d\u2013%d", written[1], written[2])
     },
     if (identical(premiere, c(Inf, -Inf))) {
       "No information on premiere years"
     } else {
-      sprintf("Premiere years (range): %d - %d", premiere[1], premiere[2])
+      sprintf("Premiere years (range): %d\u2013%d", premiere[1], premiere[2])
     },
     if (identical(printed, c(Inf, -Inf))) {
       "No information on years of the first printing"
     } else {
       sprintf(
-        "Years of the first printing (range): %d - %d",
+        "Years of the first printing (range): %d\u2013%d",
         printed[1],
         printed[2]
       )
@@ -320,8 +320,9 @@ get_dracor <- function(corpus = "all",
 #' author(s) name, character name, play name, URL and ID is represented in
 #' separate columns.
 #' @param char_wiki_id Character value with 'Wikidata ID' for a character.
-#' 'Wikidata ID' can be found on \url{Wikidata.org}. Character vector (longer
-#' than 1) is not supported.
+#' 'Wikidata ID' can be found on
+#' \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}. Character vector
+#' (longer than 1) is not supported.
 #' @examples
 #' wiki_id <- "Q131412"
 #' get_character_plays(wiki_id)
