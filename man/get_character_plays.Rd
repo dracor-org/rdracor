@@ -8,8 +8,8 @@ get_character_plays(char_wiki_id)
 }
 \arguments{
 \item{char_wiki_id}{Character value with 'Wikidata ID' for a character.
-'Wikidata ID' can be found on \url{Wikidata.org}. Character vector (longer
-than 1) is not supported.}
+'Wikidata ID' can be found on \url{https://www.wikidata.org}. Character
+vector (longer than 1) is not supported.}
 }
 \value{
 Data frame, in which one row represents one play. Information on

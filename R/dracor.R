@@ -320,8 +320,8 @@ get_dracor <- function(corpus = "all",
 #' author(s) name, character name, play name, URL and ID is represented in
 #' separate columns.
 #' @param char_wiki_id Character value with 'Wikidata ID' for a character.
-#' 'Wikidata ID' can be found on \url{Wikidata.org}. Character vector (longer
-#' than 1) is not supported.
+#' 'Wikidata ID' can be found on \url{https://www.wikidata.org}. Character
+#' vector (longer than 1) is not supported.
 #' @examples
 #' wiki_id <- "Q131412"
 #' get_character_plays(wiki_id)
