@@ -19,7 +19,7 @@ get_text_chr_spoken_bych(
   play = NULL,
   corpus = NULL,
   split_text = TRUE,
-  dataframe = FALSE,
+  as_data_frame = FALSE,
   ...
 )
 
@@ -45,9 +45,30 @@ Otherwise, returns text as one character value. \code{TRUE} by default.}
 
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 
-\item{dataframe}{If \code{TRUE} returns data frame with a row for every
+\item{as_data_frame}{If \code{TRUE} returns data frame with a row for every
 character and text in a column \code{"text"}. Otherwise, a named list with
 character values is returned. \code{FALSE} by default.}
+}
+\value{
+For \code{get_text_chr_spoken()}, \code{get_text_chr_stage()} and
+\code{get_text_chr_stage_with_sp()}: a character vector (if
+\code{split_text = TRUE}, the default value) or a single character value (if
+\code{split_text = FALSE)}.
+For \code{get_text_chr_spoken_bych()}:
+\describe{
+  \item{\code{split_text = TRUE} and \code{as_data_frame = FALSE} (default)}{
+  a named list with character vectors for every character}
+  \item{\code{split_text = FALSE} and \code{as_data_frame = FALSE}}{a named
+character vector (one value = one character)}
+  \item{\code{split_text = TRUE} and \code{as_data_frame = TRUE}}{a data
+  frame: every row represent a character, text of a play is stored in a
+  \code{"text"} column, the \code{"text"} column is a list column with a
+  character vector of lines}
+  \item{\code{split_text = FALSE} and \code{as_data_frame = TRUE}}{a data
+  frame: every row represent a character, text of a play is stored in a
+  \code{"text"} column, the \code{"text"} column is a simple character
+  column}
+}
 }
 \description{
 \code{get_text_chr_spoken()} request lines and stage directions for a play,
@@ -76,7 +97,7 @@ get_text_chr_spoken(
   play = "lessing-emilia-galotti",
   corpus = "ger",
   gender = "FEMALE",
-  split = FALSE
+  split_text = FALSE
 )
 get_text_chr_spoken_bych(
   play = "lessing-emilia-galotti",
