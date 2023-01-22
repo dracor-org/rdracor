@@ -50,7 +50,8 @@ dracor_error <- function(resp) {
 #' depends on API command. When \code{parse = TRUE} is used, the content is
 #' parsed depending on selected 'MIME' type in \code{expected_type}:
 #' \describe{
-#'   \item{\code{application/json}}{\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
+#'   \item{\code{application/json}}{\code{
+#'   \link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
 #'   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
 #'   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
 #'   \item{\code{text/plain}}{No need for additional preprocessing}}
@@ -70,6 +71,13 @@ dracor_error <- function(resp) {
 #' @param as_tibble Logical, if \code{TRUE}, data frame will be returned as a
 #'   tidyverse tibble (\code{tbl_df}). The default value is \code{TRUE}.
 #' @param ... Other arguments passed to a parser function.
+#' @return A content of a response to GET method to the 'DraCor' API. If
+#' \code{parse = FALSE} or \code{default_type = TRUE}, a single character value
+#' is returned. Otherwise, the resulting value is parsed according to a value of
+#' \code{default_type} parameter. The resulting structure of the output depends
+#' on the selected \code{default_type} value, the respective function for
+#' parsing (see \code{default_type}) and additional parameters that are passed
+#' to the function for parsing.
 #' @examples
 #' dracor_api("https://dracor.org/api/info", expected_type = "application/json")
 #' @seealso \code{\link{dracor_sparql}}
@@ -159,6 +167,7 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
 #'
 #' No parameters are expected.
 #'
+#' @return A data frame with version of API, 'existdb' and status.
 #' @examples
 #' dracor_api_info()
 #' @seealso \code{\link{dracor_api}}

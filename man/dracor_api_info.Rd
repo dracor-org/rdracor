@@ -6,6 +6,9 @@
 \usage{
 dracor_api_info()
 }
+\value{
+A data frame with version of API, 'existdb' and status.
+}
 \description{
 \code{dracor_api_info()} returns information about DraCor API: name of
 the API, status, existdb version, and API version.
