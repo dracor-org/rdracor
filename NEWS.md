@@ -1,11 +1,19 @@
+# rdracor 0.7.2
+
+* Fixed DESCRIPTION file
+* Fixed spelling
+* Updated `plot.dracor_meta()` function (fixed changing `par()` options)
+* Added missing Rd-tags from documentation
+* Updated Readme
+
 # rdracor 0.7.1
 
 * Changed hyphens to en-dash in `summary.dracor()`
 * Updated Readme
 * Fixed invalid URLs
 * Deleted extra files
-* added donttest for examples with >5s
-* updated the package Title to title case
+* Added donttest for examples with >5s
+* Updated the package Title to title case
 
 # rdracor 0.7.0
 

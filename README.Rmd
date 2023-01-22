@@ -77,7 +77,7 @@ You can extract a co-occurence network (undirected weighted graph) for a
 specific play:
 
 ```{r}
-emilia <- get_net_coocur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
+emilia <- get_net_cooccur_igraph(play = "lessing-emilia-galotti", corpus = "ger")
 plot(emilia)
 ```
 

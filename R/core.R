@@ -160,14 +160,14 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
   dracor_api(query, expected_type = "application/xml", parse = parse, ...)
 }
 
-#' Retrieve Dracor API info
+#' Retrieve 'DraCor' API info
 #'
-#' \code{dracor_api_info()} returns information about DraCor API: name of
+#' \code{dracor_api_info()} returns information about 'DraCor' API: name of
 #' the API, status, existdb version, and API version.
 #'
 #' No parameters are expected.
 #'
-#' @return A data frame with version of API, 'existdb' and status.
+#' @return A data frame with version of 'DraCor' API, 'existdb' and status.
 #' @examples
 #' dracor_api_info()
 #' @seealso \code{\link{dracor_api}}

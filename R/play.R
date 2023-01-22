@@ -40,7 +40,7 @@ get_play_cast <- function(play = NULL, corpus = NULL, ...) {
 #'   corpus = "ger",
 #'   full_metadata = FALSE
 #' )
-#' @seealso \code{\link{get_net_coocur_edges}} \code{\link{get_play_rdf}}
+#' @seealso \code{\link{get_net_cooccur_edges}} \code{\link{get_play_rdf}}
 #' \code{\link{get_play_cast}}
 #' @importFrom purrr modify_at
 #' @importFrom tibble as_tibble
