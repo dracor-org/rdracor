@@ -5,6 +5,7 @@
 * Updated `plot.dracor_meta()` function (fixed changing `par()` options)
 * Added missing Rd-tags from documentation
 * Updated Readme
+* Updated parameters for `get_text_chr_*()` functions
 
 # rdracor 0.7.1
 
