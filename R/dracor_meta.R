@@ -85,47 +85,50 @@ summary.dracor_meta <- function(object, ...) {
 #' available for each corpus.
 plot.dracor_meta <- function(x,
                              ...) {
-  pch <- 16
-  col <- "black"
-  lty.lolly <- 1
-  lty.baseline <- 2
-  cex <- 0.8
-  left_margin <- 10.5
   y_in <- rev(seq_len(nrow(x)))
-  old.par <- par(no.readonly = TRUE)
+  pch <- 16
+  lty <- 1
+  cex <- 0.8
+  left_margin <- 13
+
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
+
   par(
     mar = c(3, left_margin, 4, 2) + 0.1,
     mgp = c(2, 1, 0)
   )
+
   plot.default(
-    x$plays,
-    y_in,
+    x = x$plays,
+    y = y_in,
     pch = pch,
     main = "Number of plays for each corpus",
-    cex.main = 1,
     xlab = "Plays",
     ylab = NA,
     xlim = c(0, max(x$plays) * 1.2),
     yaxt = "n",
-    col = col,
-    lty = lty.lolly,
-    ...
+    lty = lty
   )
+
   axis(
-    2,
+    side = 2,
     at = y_in,
     labels = x$title,
     las = 1,
     cex.axis = cex,
     gap.axis = -1
   )
-  segments(0, y_in, x$plays, y_in, col = col)
+
+  segments(x0 = 0,
+           y0 = y_in,
+           x1 = x$plays,
+           y1 = y_in)
+
   text(
-    x$plays + 0.1 * max(x$plays),
-    y_in,
+    x = x$plays + 0.1 * max(x$plays),
+    y = y_in,
     labels = x$plays,
-    col = col,
     cex = cex
   )
-  par(old.par)
 }

@@ -36,6 +36,6 @@ get_play_metadata(
 )
 }
 \seealso{
-\code{\link{get_net_coocur_edges}} \code{\link{get_play_rdf}}
+\code{\link{get_net_cooccur_edges}} \code{\link{get_play_rdf}}
 \code{\link{get_play_cast}}
 }

@@ -1,10 +1,13 @@
 Package: rdracor
 Type: Package
-Title: Access to the DraCor API
-Description: Provide an interface for Drama Corpora Project (DraCor) API: <https://dracor.org/documentation/api>. 
-Version: 0.7.1
-Author: Ivan Pozdniakov <bucherr@yandex.ru>
-Maintainer: Ivan Pozdniakov <bucherr@yandex.ru>
+Title: Access to the 'DraCor' API
+Description: Provide an interface for 'Drama Corpora Project' ('DraCor') API: <https://dracor.org/documentation/api>. 
+Version: 0.7.2
+Authors@R: person("Ivan",
+                  "Pozdniakov",
+                  role = c("aut", "cre"),
+                  email = "bucherr@yandex.ru",
+                  comment = c(ORCID = "0000-0002-2450-7004"))
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

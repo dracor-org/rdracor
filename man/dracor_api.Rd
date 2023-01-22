@@ -37,6 +37,15 @@ tidyverse tibble (\code{tbl_df}). The default value is \code{TRUE}.}
 
 \item{...}{Other arguments passed to a parser function.}
 }
+\value{
+A content of a response to GET method to the 'DraCor' API. If
+\code{parse = FALSE} or \code{default_type = TRUE}, a single character value
+is returned. Otherwise, the resulting value is parsed according to a value of
+\code{default_type} parameter. The resulting structure of the output depends
+on the selected \code{default_type} value, the respective function for
+parsing (see \code{default_type}) and additional parameters that are passed
+to the function for parsing.
+}
 \description{
 Function \code{dracor_api()} sends a GET request to DraCor API with a
 specified expected type and parses results depending on selected expected
@@ -48,7 +57,8 @@ retrieved for DraCor API, the specific combination of possible 'MIME' types
 depends on API command. When \code{parse = TRUE} is used, the content is
 parsed depending on selected 'MIME' type in \code{expected_type}:
 \describe{
-  \item{\code{application/json}}{\code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
+  \item{\code{application/json}}{\code{
+  \link[jsonlite:fromJSON]{jsonlite::fromJSON()}}}
   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
   \item{\code{text/plain}}{No need for additional preprocessing}}

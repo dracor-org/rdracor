@@ -130,5 +130,5 @@ summary(nedorosl_relations)
 \insertAllCited{}
 }
 \seealso{
-\code{\link{get_net_coocur_igraph}}
+\code{\link{get_net_cooccur_igraph}}
 }
