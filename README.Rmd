@@ -28,8 +28,7 @@ The goal of **rdracor** is to provide an R interface for the [DraCor API](https:
 
 
 ``` r
-#install.packages("remotes") #if you don't have remotes installed
-remotes::install_github("dracor-org/rdracor")
+install.packages("rdracor")
 ```
 
 ## General info on corpora

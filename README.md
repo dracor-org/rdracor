@@ -16,8 +16,7 @@ Project). Website of the project: [dracor.org](https://dracor.org).
 ## Installation
 
 ``` r
-#install.packages("remotes") #if you don't have remotes installed
-remotes::install_github("dracor-org/rdracor")
+install.packages("rdracor")
 ```
 
 ## General info on corpora
