@@ -19,7 +19,7 @@ get_dracor_meta <-
   function() {
     dracor_meta(
       dracor_api(
-        "https://dracor.org/api/corpora?include=metrics",
+        paste0(get_dracor_api_url(), "/corpora?include=metrics"),
         expected_type = "application/json",
         flatten = TRUE
       )

@@ -33,10 +33,6 @@ test_that("dracor_sparql() returns character with parse = FALSE", {
   )
 })
 
-test_that("API info is 1 x 4", {
-  expect_equal(dim(dracor_api_info()), c(1, 4))
-})
-
 test_that("dracor_sparql() returns xml_document", {
   expect_s3_class(
     dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"),
@@ -51,4 +47,12 @@ test_that("dracor_sparql() with parse = FALSE returns character", {
     ),
     "character"
   )
+})
+
+test_that("dracor_api_info returns NULL", {
+  expect_invisible(dracor_api_info())
+})
+
+test_that("dracor_api_info returns NULL", {
+  expect_equal(get_dracor_api_url(), "https://dracor.org/api")
 })

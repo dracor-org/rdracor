@@ -2,22 +2,38 @@
 % Please edit documentation in R/core.R
 \name{dracor_api_info}
 \alias{dracor_api_info}
+\alias{get_dracor_api_url}
+\alias{set_dracor_api_url}
 \title{Retrieve 'DraCor' API info}
 \usage{
-dracor_api_info()
+dracor_api_info(dracor_api_url = NULL)
+
+get_dracor_api_url()
+
+set_dracor_api_url(new_dracor_api_url)
 }
-\value{
-A data frame with version of 'DraCor' API, 'existdb' and status.
+\arguments{
+\item{new_dracor_api_url}{Character, 'DraCor' API URL that will replace
+the current 'DraCor' API URL.}
+
+\item{dracor_repo_url}{Character, 'DraCor' API URL. If NULL (default), the
+current 'DraCor' API URL is used.}
 }
 \description{
 \code{dracor_api_info()} returns information about 'DraCor' API: name of
-the API, status, existdb version, and API version.
+the API, status, existdb version, API version etc.
 }
-\details{
-No parameters are expected.
-}
+\section{Functions}{
+\itemize{
+\item \code{get_dracor_api_url()}: Returns 'DraCor' API URL in use
+
+\item \code{set_dracor_api_url()}: Set new 'DraCor' API URL (globally), returns NULL
+
+}}
 \examples{
 dracor_api_info()
+dracor_api_info("https://staging.dracor.org/api")
+get_dracor_api_url()
 }
 \seealso{
 \code{\link{dracor_api}}

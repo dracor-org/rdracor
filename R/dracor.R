@@ -74,7 +74,7 @@ get_corpus <- function(corpus = NULL,
   } else {
     dracor_list <-
       dracor_api(
-        request = paste0("https://dracor.org/api/corpora/", corpus),
+        request = paste0(get_dracor_api_url, "/corpora/", corpus),
         expected_type = "application/json",
         flatten = TRUE,
         as_tibble = FALSE
@@ -102,7 +102,9 @@ get_corpus <- function(corpus = NULL,
       merge(
         dracor_list$dramas,
         dracor_api(request = paste0(
-          "https://dracor.org/api/corpora/", corpus,
+          get_dracor_api_url,
+          "/corpora/",
+          corpus,
           "/metadata"
         ), flatten = TRUE),
         by = "id",
@@ -330,5 +332,5 @@ get_dracor <- function(corpus = "all",
 #' @export
 
 get_character_plays <- function(char_wiki_id) {
-  dracor_api(paste0("https://dracor.org/api/character/", char_wiki_id))
+  dracor_api(paste0(get_dracor_api_url(), "/character/", char_wiki_id))
 }
