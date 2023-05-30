@@ -188,6 +188,9 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #' edges width is proportional to the number of common play segments where two
 #' characters occur together.
 #'
+#' @param as_igraph Logical, if \code{TRUE}, returns simple igraph object
+#' instead of \code{cooccur_igraph}. \code{FALSE} by default.
+#'
 #' @return \code{cooccur_igraph} — an object that inherits \code{igraph} and can be
 #' treated as such.
 #' @inheritParams get_play_cast
@@ -206,13 +209,18 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #' @import igraph
 #' @import data.table
 #' @export
-get_net_cooccur_igraph <- function(play = NULL, corpus = NULL) {
+get_net_cooccur_igraph <- function(play = NULL,
+                                   corpus = NULL,
+                                   as_igraph = FALSE) {
   nodes <- get_play_cast(play = play, corpus = corpus, as_tibble = FALSE)
   edges <- get_net_cooccur_edges(play = play, corpus = corpus, as_tibble = FALSE)
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
     igraph::graph_from_data_frame(edges, directed = FALSE, vertices = nodes)
+
+  if (as_igraph) return(graph)
+
   meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
 
   structure(graph,
@@ -486,6 +494,9 @@ summary.cooccur_igraph <- function(object, ...) {
 #' encoding scheme proposed in
 #' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #'
+#' @param as_igraph Logical, if \code{TRUE}, returns simple igraph object
+#' instead of \code{cooccur_igraph}. \code{FALSE} by default.
+#'
 #' @return \code{relations_igraph} — an object that inherits \code{igraph} and
 #' can be treated as such.
 #' @inheritParams get_play_cast
@@ -505,7 +516,9 @@ summary.cooccur_igraph <- function(object, ...) {
 #' @references
 #'   \insertAllCited{}
 #' @export
-get_net_relations_igraph <- function(play = play, corpus = corpus) {
+get_net_relations_igraph <- function(play = play,
+                                     corpus = corpus,
+                                     as_igraph = FALSE) {
   relations <-
     get_net_relations_edges(
       play = play,
@@ -529,6 +542,9 @@ get_net_relations_igraph <- function(play = play, corpus = corpus) {
     directed = TRUE,
     vertices = nodes
   )
+
+  if (as_igraph) return(graph)
+
   meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
   structure(
     graph,
