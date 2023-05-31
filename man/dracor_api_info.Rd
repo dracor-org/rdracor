@@ -13,11 +13,11 @@ get_dracor_api_url()
 set_dracor_api_url(new_dracor_api_url)
 }
 \arguments{
+\item{dracor_api_url}{Character, 'DraCor' API URL. If NULL (default), the
+current 'DraCor' API URL is used.}
+
 \item{new_dracor_api_url}{Character, 'DraCor' API URL that will replace
 the current 'DraCor' API URL.}
-
-\item{dracor_repo_url}{Character, 'DraCor' API URL. If NULL (default), the
-current 'DraCor' API URL is used.}
 }
 \description{
 \code{dracor_api_info()} returns information about 'DraCor' API: name of

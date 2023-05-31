@@ -172,7 +172,7 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
 #' \code{dracor_api_info()} returns information about 'DraCor' API: name of
 #' the API, status, existdb version, API version etc.
 #'
-#' @param dracor_repo_url Character, 'DraCor' API URL. If NULL (default), the
+#' @param dracor_api_url Character, 'DraCor' API URL. If NULL (default), the
 #' current 'DraCor' API URL is used.
 #' @param new_dracor_api_url Character, 'DraCor' API URL that will replace
 #' the current 'DraCor' API URL.

@@ -42,10 +42,6 @@ dracor_meta <- function(dracor_df) {
   dracor_meta$updated <-
     as.POSIXct(dracor_meta$updated, format = "%FT%H:%M:%OS", tz = "UTC")
   dracor_meta <- dracor_meta[order(-dracor_meta$plays), ]
-  attributes(dracor_meta) <- c(
-    attributes(dracor_meta),
-    dracor_api_info()
-  )
   class(dracor_meta) <- c("dracor_meta", class(dracor_meta))
   return(dracor_meta)
 }

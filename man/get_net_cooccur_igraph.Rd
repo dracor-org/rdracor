@@ -6,7 +6,7 @@
 \alias{summary.cooccur_igraph}
 \title{Retrieve an igraph co-occurrence network for a play}
 \usage{
-get_net_cooccur_igraph(play = NULL, corpus = NULL)
+get_net_cooccur_igraph(play = NULL, corpus = NULL, as_igraph = FALSE)
 
 \method{plot}{cooccur_igraph}(
   x,
@@ -36,6 +36,9 @@ supported.}
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
 \code{name} column within an object returned by
 \code{\link{get_dracor_meta}}).}
+
+\item{as_igraph}{Logical, if \code{TRUE}, returns simple igraph object
+instead of \code{cooccur_igraph}. \code{FALSE} by default.}
 
 \item{x}{A \code{cooccur_igraph} object to plot.}
 

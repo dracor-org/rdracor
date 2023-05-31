@@ -74,7 +74,7 @@ get_corpus <- function(corpus = NULL,
   } else {
     dracor_list <-
       dracor_api(
-        request = paste0(get_dracor_api_url, "/corpora/", corpus),
+        request = paste0(get_dracor_api_url(), "/corpora/", corpus),
         expected_type = "application/json",
         flatten = TRUE,
         as_tibble = FALSE
@@ -102,7 +102,7 @@ get_corpus <- function(corpus = NULL,
       merge(
         dracor_list$dramas,
         dracor_api(request = paste0(
-          get_dracor_api_url,
+          get_dracor_api_url(),
           "/corpora/",
           corpus,
           "/metadata"
