@@ -33,6 +33,11 @@ Retrieving general information about available corpora:
 
 ``` r
 library(rdracor)
+#> DraCor API URL:  https://dracor.org/api 
+#>  name: DraCor API
+#> version: 0.89.0
+#> status: beta
+#> existdb: 6.0.1
 ```
 
 ``` r
@@ -313,6 +318,55 @@ get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 #> 10 Nein.       p     ""      der_… Erst… act 1 … sp 2 |…      10       4       2
 #> # … with 1,164 more rows, and abbreviated variable names ¹​type_attributes,
 #> #   ²​scene_path, ³​subdiv_path, ⁴​subdiv_id, ⁵​scene_id
+```
+
+## Changing DraCor API
+
+If you want to use another version of DraCor API (e.g. staging or
+locally saved on your computer), you can use function
+`set_dracor_api_url()`:
+
+``` r
+set_dracor_api_url("https://staging.dracor.org/api")
+#> Working DraCor repository was changed from https://dracor.org/apiDraCor API URL:  https://staging.dracor.org/api 
+#>  name: DraCor API
+#> version: 0.90.1
+#> status: beta
+#> existdb: 6.0.1
+#> base: https://staging.dracor.org/api
+get_dracor("u")
+#> # A tibble: 40 × 55
+#>    corpus id       playName yearN…¹ title subti…² first…³ authors source sourc…⁴
+#>  * <chr>  <chr>    <chr>    <lgl>   <chr> <chr>   <chr>   <list>  <chr>  <chr>  
+#>  1 u      u000001  lesya-u… NA      Адво… <NA>    Україн… <df>    <NA>   "\n   …
+#>  2 u      u0000010 lesya-u… NA      Три … <NA>    Україн… <df>    <NA>   "https…
+#>  3 u      u0000011 lesya-u… NA      Одер… Драмат… Україн… <df>    <NA>   "https…
+#>  4 u      u0000012 lesya-u… NA      У пу… <NA>    Україн… <df>    <NA>   "https…
+#>  5 u      u0000013 lesya-u… NA      Блак… <NA>    Україн… <df>    <NA>   "https…
+#>  6 u      u0000014 lesya-u… NA      В до… <NA>    Україн… <df>    <NA>   "https…
+#>  7 u      u0000015 lesya-u… NA      Іфіг… (драма… Україн… <df>    <NA>   "\n   …
+#>  8 u      u0000016 kropivn… NA      Дай … Драма … Кропив… <df>    Біблі… "https…
+#>  9 u      u0000017 lesya-u… NA      Прощ… <NA>    Україн… <df>    <NA>   "\n   …
+#> 10 u      u0000018 lesya-u… NA      У по… Драмат… Україн… <df>    <NA>   "\n   …
+#> # … with 30 more rows, 45 more variables: writtenYearStart <lgl>,
+#> #   writtenYearFinish <lgl>, printYearStart <lgl>, printYearFinish <lgl>,
+#> #   premiereYearStart <lgl>, premiereYearFinish <lgl>, wikidataId <lgl>,
+#> #   networkSize <int>, networkdataCsvUrl <chr>, normalizedGenre <lgl>,
+#> #   size <int>, density <dbl>, diameter <int>, averageClustering <dbl>,
+#> #   averagePathLength <dbl>, averageDegree <dbl>, maxDegree <int>,
+#> #   maxDegreeIds <chr>, numConnectedComponents <int>, wordCountSp <int>, …
+```
+
+Information on the working API can be retrieved by `dracor_api_info()`:
+
+``` r
+dracor_api_info()
+#> DraCor API URL:  https://staging.dracor.org/api 
+#>  name: DraCor API
+#> version: 0.90.1
+#> status: beta
+#> existdb: 6.0.1
+#> base: https://staging.dracor.org/api
 ```
 
 ## Acknowledgments
