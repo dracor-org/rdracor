@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 **Authors:** Ivan Pozdniakov, Frank Fischer<br /> **License:**
-[GPL-3](https://opensource.org/licenses/GPL-3.0)
+[GPL-3](https://opensource.org/license/gpl-3-0/)
 
 The goal of **rdracor** is to provide an R interface for the [DraCor
 API](https://dracor.org/documentation/api) (DraCor: Drama Corpora
@@ -15,9 +15,17 @@ Project). Website of the project: [dracor.org](https://dracor.org).
 
 ## Installation
 
+Installation from CRAN:
+
 ``` r
 install.packages("rdracor")
 ```
+
+If you wish to install the current build of the next release you can do
+so using the following:
+
+    # install.packages("remotes")
+    remotes::install_github("dracor-org/rdracor")
 
 ## General info on corpora
 
@@ -25,14 +33,19 @@ Retrieving general information about available corpora:
 
 ``` r
 library(rdracor)
+#> DraCor API URL:  https://dracor.org/api 
+#>  name: DraCor API
+#> version: 0.89.0
+#> status: beta
+#> existdb: 6.0.1
 ```
 
 ``` r
 corpora <- get_dracor_meta()
 summary(corpora)
-#> DraCor hosts 15 corpora comprising 3035 plays.
+#> DraCor hosts 15 corpora comprising 3054 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2023-01-02 18:15:22).
+#> The last updated corpus was German Drama Corpus (2023-05-25 23:19:56).
 plot(corpora)
 ```
 
@@ -43,10 +56,10 @@ plot(corpora)
 ``` r
 ger <- get_dracor(corpus = "ger")
 summary(ger)
-#> 598 plays in German Drama Corpus 
+#> 617 plays in German Drama Corpus 
 #> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor  
-#> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 550 German-language plays from the 1650s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
-#> Written years (range): 1646–1947 
+#> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 600 German-language plays from the 1540s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
+#> Written years (range): 1549–1947 
 #> Premiere years (range): 1650–1981    
 #> Years of the first printing (range): 1560–1962
 ```
@@ -56,11 +69,11 @@ You can get all corpora at once:
 ``` r
 all <- get_dracor()
 summary(all)
-#> 3035 plays in 15 corpora:    
+#> 3054 plays in 15 corpora:    
 #> Corpora id:  
-#> fre (1560 plays), ger (598 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
+#> fre (1560 plays), ger (617 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
 #> Written years (range): 43–1970   
-#> Premiere years (range): -472–1992    
+#> Premiere years (range): -472–1999    
 #> Years of the first printing (range): 1170–2017
 ```
 
@@ -151,7 +164,7 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> NULL
 #> 
 #> $yearPremiered
-#> [1] "1772-03-13"
+#> [1] "1772"
 #> 
 #> $yearPrinted
 #> [1] "1772"
@@ -305,6 +318,55 @@ get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 #> 10 Nein.       p     ""      der_… Erst… act 1 … sp 2 |…      10       4       2
 #> # … with 1,164 more rows, and abbreviated variable names ¹​type_attributes,
 #> #   ²​scene_path, ³​subdiv_path, ⁴​subdiv_id, ⁵​scene_id
+```
+
+## Changing DraCor API
+
+If you want to use another version of DraCor API (e.g. staging or
+locally saved on your computer), you can use function
+`set_dracor_api_url()`:
+
+``` r
+set_dracor_api_url("https://staging.dracor.org/api")
+#> Working DraCor repository was changed from https://dracor.org/apiDraCor API URL:  https://staging.dracor.org/api 
+#>  name: DraCor API
+#> version: 0.90.1
+#> status: beta
+#> existdb: 6.0.1
+#> base: https://staging.dracor.org/api
+get_dracor("u")
+#> # A tibble: 40 × 55
+#>    corpus id       playName yearN…¹ title subti…² first…³ authors source sourc…⁴
+#>  * <chr>  <chr>    <chr>    <lgl>   <chr> <chr>   <chr>   <list>  <chr>  <chr>  
+#>  1 u      u000001  lesya-u… NA      Адво… <NA>    Україн… <df>    <NA>   "\n   …
+#>  2 u      u0000010 lesya-u… NA      Три … <NA>    Україн… <df>    <NA>   "https…
+#>  3 u      u0000011 lesya-u… NA      Одер… Драмат… Україн… <df>    <NA>   "https…
+#>  4 u      u0000012 lesya-u… NA      У пу… <NA>    Україн… <df>    <NA>   "https…
+#>  5 u      u0000013 lesya-u… NA      Блак… <NA>    Україн… <df>    <NA>   "https…
+#>  6 u      u0000014 lesya-u… NA      В до… <NA>    Україн… <df>    <NA>   "https…
+#>  7 u      u0000015 lesya-u… NA      Іфіг… (драма… Україн… <df>    <NA>   "\n   …
+#>  8 u      u0000016 kropivn… NA      Дай … Драма … Кропив… <df>    Біблі… "https…
+#>  9 u      u0000017 lesya-u… NA      Прощ… <NA>    Україн… <df>    <NA>   "\n   …
+#> 10 u      u0000018 lesya-u… NA      У по… Драмат… Україн… <df>    <NA>   "\n   …
+#> # … with 30 more rows, 45 more variables: writtenYearStart <lgl>,
+#> #   writtenYearFinish <lgl>, printYearStart <lgl>, printYearFinish <lgl>,
+#> #   premiereYearStart <lgl>, premiereYearFinish <lgl>, wikidataId <lgl>,
+#> #   networkSize <int>, networkdataCsvUrl <chr>, normalizedGenre <lgl>,
+#> #   size <int>, density <dbl>, diameter <int>, averageClustering <dbl>,
+#> #   averagePathLength <dbl>, averageDegree <dbl>, maxDegree <int>,
+#> #   maxDegreeIds <chr>, numConnectedComponents <int>, wordCountSp <int>, …
+```
+
+Information on the working API can be retrieved by `dracor_api_info()`:
+
+``` r
+dracor_api_info()
+#> DraCor API URL:  https://staging.dracor.org/api 
+#>  name: DraCor API
+#> version: 0.90.1
+#> status: beta
+#> existdb: 6.0.1
+#> base: https://staging.dracor.org/api
 ```
 
 ## Acknowledgments

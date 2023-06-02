@@ -6,7 +6,7 @@
 \alias{plot.relations_igraph}
 \title{Retrieve an igraph relations network for a play}
 \usage{
-get_net_relations_igraph(play = play, corpus = corpus)
+get_net_relations_igraph(play = play, corpus = corpus, as_igraph = FALSE)
 
 \method{summary}{relations_igraph}(object, ...)
 
@@ -40,6 +40,9 @@ supported.}
 \item{corpus}{Character, name of the corpus (you can find all corpus names in
 \code{name} column within an object returned by
 \code{\link{get_dracor_meta}}).}
+
+\item{as_igraph}{Logical, if \code{TRUE}, returns simple igraph object
+instead of \code{cooccur_igraph}. \code{FALSE} by default.}
 
 \item{object}{An object of class \code{relations_igraph}.}
 

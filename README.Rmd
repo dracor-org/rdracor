@@ -20,16 +20,25 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 **Authors:** Ivan Pozdniakov, Frank Fischer<br />
-**License:** [GPL-3](https://opensource.org/licenses/GPL-3.0)
+**License:** [GPL-3](https://opensource.org/license/gpl-3-0/)
 
 The goal of **rdracor** is to provide an R interface for the [DraCor API](https://dracor.org/documentation/api) (DraCor: Drama Corpora Project). Website of the project: [dracor.org](https://dracor.org).
 
 ## Installation
 
+Installation from CRAN:
 
 ``` r
 install.packages("rdracor")
 ```
+
+If you wish to install the current build of the next release you can do so using the following:
+
+```
+# install.packages("remotes")
+remotes::install_github("dracor-org/rdracor")
+```
+
 
 ## General info on corpora
 
@@ -128,6 +137,22 @@ head(text_godunov)
 ```{r}
 get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 ```
+
+## Changing DraCor API
+
+If you want to use another version of DraCor API (e.g. staging or locally saved on your computer), you can use function `set_dracor_api_url()`:
+
+```{r}
+set_dracor_api_url("https://staging.dracor.org/api")
+get_dracor("u")
+```
+
+Information on the working API can be retrieved by `dracor_api_info()`:
+
+```{r}
+dracor_api_info()
+```
+
 
 ## Acknowledgments
 
