@@ -1,5 +1,11 @@
 # rdracor 0.7.3
 
+* Fixed URL from ReadMe: <https://opensource.org/licenses/GPL-3.0> was moved to <https://opensource.org/license/gpl-3-0/>
+* Added option to return simple igraph object for `get_net_*_igraph()` functions
+* Added option to change 'DraCor' API URL
+
+# rdracor 0.7.3
+
 * Fixed error with outdated certificate 
 
 # rdracor 0.7.2

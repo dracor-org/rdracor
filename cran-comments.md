@@ -1,3 +1,30 @@
+# rdracor 0.7.4
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+-   Fixed URL from ReadMe: <https://opensource.org/licenses/GPL-3.0> was moved to <https://opensource.org/license/gpl-3-0/>
+-   Added option to return simple igraph object for `get_net_*_igraph()` functions
+-   Added option to change 'DraCor' API URL
+
+## R CMD check results
+
+There were no ERRORs or WARNINGs.
+
+There is 1 NOTE:
+
+> -   checking HTML version of manual ... NOTE Skipping checking HTML validation: no command 'tidy' found
+
+-   As  noted in [R-hub issue #548](https://github.com/r-hub/rhub/issues/548), this note is related to missing standalone tool 'tidy'. This note appears only in testing for Ubuntu Linux 20.04.1 LTS, R-release, GCC environment.
+
+## Test environments
+
+-   local OS X install, R 4.4.2
+-   Windows Server 2022, R-devel, 64 bit
+-   Fedora Linux, R-devel, clang, gfortran
+-   Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
 # rdracor 0.7.3
 
 ## Resubmission
