@@ -1,3 +1,23 @@
+# rdracor 0.7.5
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+-   Fixed URL from ReadMe
+
+## R CMD check results
+
+There were no ERRORs, WARNINGs or NOTEs.
+
+## Test environments
+ 
+-   local OS X install, R 4.4.2
+-   Windows Server 2022, R-devel, 64 bit
+-   Fedora Linux, R-devel, clang, gfortran
+-   Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+
 # rdracor 0.7.4
 
 ## Resubmission
