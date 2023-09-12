@@ -5,7 +5,7 @@ form_play_request <-
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)
     request <-
-      paste0("https://dracor.org/api/corpora/", corpus, "/play/", play)
+      paste0(get_dracor_api_url(), "/corpora/", corpus, "/play/", play)
     if (!is.null(type)) {
       return(paste(request, type, sep = "/"))
     } else {
@@ -102,10 +102,17 @@ dracor_api <- function(request,
                        ...) {
   expected_type <- match.arg(expected_type)
   if (isTRUE(default_type)) {
-    resp <- httr::GET(request, config = httr::config(ssl_verifypeer = FALSE))
+    resp <- tryCatch(httr::GET(request,
+                               config = httr::config(ssl_verifypeer = FALSE)),
+                     error = function(e) message("Problem with server occured:\n
+                                                 improper data returned:\n", e))
     return(httr::content(resp, as = "text", encoding = "UTF-8"))
   } else {
-    resp <- httr::GET(request, httr::accept(expected_type))
+    resp <- tryCatch(httr::GET(request,
+                      httr::accept(expected_type),
+                      httr::config(ssl_verifypeer = FALSE)),
+                     error = function(e) message("Problem with server occured:\n
+                                                 improper data returned:\n", e))
   }
   dracor_error(resp)
   cont <- httr::content(resp, as = "text", encoding = "UTF-8")
@@ -163,19 +170,48 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
 #' Retrieve 'DraCor' API info
 #'
 #' \code{dracor_api_info()} returns information about 'DraCor' API: name of
-#' the API, status, existdb version, and API version.
+#' the API, status, existdb version, API version etc.
 #'
-#' No parameters are expected.
+#' @param dracor_api_url Character, 'DraCor' API URL. If NULL (default), the
+#' current 'DraCor' API URL is used.
+#' @param new_dracor_api_url Character, 'DraCor' API URL that will replace
+#' the current 'DraCor' API URL.
 #'
-#' @return A data frame with version of 'DraCor' API, 'existdb' and status.
+#' @return NULL
 #' @examples
 #' dracor_api_info()
+#' dracor_api_info("https://staging.dracor.org/api")
+#' get_dracor_api_url()
 #' @seealso \code{\link{dracor_api}}
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
 #' @export
-dracor_api_info <- function() {
-  tibble::as_tibble(dracor_api("https://dracor.org/api/info",
-    expected_type = "application/json"
-  ))
+dracor_api_info <- function(dracor_api_url = NULL) {
+  if (is.null(dracor_api_url)) dracor_api_url = get_dracor_api_url()
+  tryCatch(
+    api_info_list <- dracor_api(paste0(dracor_api_url, "/info"),
+                                as_tibble = FALSE),
+    error = function(e) cat("DraCor API was not found:\n", e),
+    finally = cat("DraCor API URL: ", dracor_api_url, "\n",
+                  paste(names(api_info_list),
+                        unlist(api_info_list),
+                        sep = ": ",
+                        collapse = "\n"))
+  )
+  invisible(NULL)
+}
+
+#' @export
+#' @describeIn dracor_api_info Returns 'DraCor' API URL in use
+get_dracor_api_url <- function() {
+  the$dracor_api_url
+}
+
+
+#' @export
+#' @describeIn dracor_api_info Set new 'DraCor' API URL (globally), returns NULL
+set_dracor_api_url <- function(new_dracor_api_url) {
+  cat("Working DraCor repository was changed from", get_dracor_api_url())
+  the$dracor_api_url <- new_dracor_api_url
+  rdracor::dracor_api_info()
 }

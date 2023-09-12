@@ -52,3 +52,11 @@ test_that("dracor_sparql() with parse = FALSE returns character", {
     "character"
   )
 })
+
+test_that("dracor_api_info returns NULL", {
+  expect_invisible(dracor_api_info())
+})
+
+test_that("dracor_api_info returns NULL", {
+  expect_equal(get_dracor_api_url(), "https://dracor.org/api")
+})
