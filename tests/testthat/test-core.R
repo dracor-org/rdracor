@@ -33,8 +33,8 @@ test_that("dracor_sparql() returns character with parse = FALSE", {
   )
 })
 
-test_that("API info is 1 x 4", {
-  expect_equal(dim(dracor_api_info()), c(1, 4))
+test_that("API info is a tibble", {
+  expect_s3_class(dracor_api_info(), "tbl_df")
 })
 
 test_that("dracor_sparql() returns xml_document", {

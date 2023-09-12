@@ -1,3 +1,7 @@
+# rdracor 0.7.3
+
+* Updated tests
+
 # rdracor 0.7.2
 
 * Fixed DESCRIPTION file

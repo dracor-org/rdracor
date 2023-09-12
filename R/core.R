@@ -102,7 +102,7 @@ dracor_api <- function(request,
                        ...) {
   expected_type <- match.arg(expected_type)
   if (isTRUE(default_type)) {
-    resp <- httr::GET(request)
+    resp <- httr::GET(request, config = httr::config(ssl_verifypeer = FALSE))
     return(httr::content(resp, as = "text", encoding = "UTF-8"))
   } else {
     resp <- httr::GET(request, httr::accept(expected_type))
