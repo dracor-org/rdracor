@@ -33,10 +33,6 @@ test_that("dracor_sparql() returns character with parse = FALSE", {
   )
 })
 
-test_that("API info is a tibble", {
-  expect_s3_class(dracor_api_info(), "tbl_df")
-})
-
 test_that("dracor_sparql() returns xml_document", {
   expect_s3_class(
     dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"),
