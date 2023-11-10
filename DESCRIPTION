@@ -1,8 +1,8 @@
 Package: rdracor
 Type: Package
 Title: Access to the 'DraCor' API
-Description: Provide an interface for 'Drama Corpora Project' ('DraCor') API: <https://dracor.org/documentation/api>. 
-Version: 0.7.4
+Description: Provide an interface for 'Drama Corpora Project' ('DraCor') API: <https://dracor.org/documentation/api>.
+Version: 0.7.7
 Authors@R: person("Ivan",
                   "Pozdniakov",
                   role = c("aut", "cre"),
@@ -23,7 +23,7 @@ Imports:
     stringr (>= 1.4.1),
     tidyr (>= 1.2.1),
     Rdpack (>= 2.4)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 RdMacros: Rdpack
 Suggests: 
     testthat (>= 2.1.0)

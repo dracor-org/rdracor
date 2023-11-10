@@ -123,7 +123,6 @@ get_corpus <- function(corpus = NULL,
         "yearPrinted",
         "yearNormalizedMeta",
         "yearWritten",
-        "playNameMeta",
         "titleMeta",
         "subtitleMeta"
       )

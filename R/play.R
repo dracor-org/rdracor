@@ -61,7 +61,9 @@ get_play_metadata <-
       full_meta <-
         dracor_api(
           request = paste0(
-            "https://dracor.org/api/corpora/", corpus,
+            get_dracor_api_url(),
+            "/corpora/",
+            corpus,
             "/metadata"
           ),
           flatten = TRUE,
