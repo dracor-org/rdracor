@@ -39,14 +39,28 @@ If you wish to install the current build of the next release you can do so using
 remotes::install_github("dracor-org/rdracor")
 ```
 
+```{r example}
+library(rdracor)
+```
+
+## Select DraCor API
+
+DraCor API has several versions. By default, it utilizes the main branch:
+
+```{r}
+get_dracor_api_url()
+```
+
+You can set DraCor URL API of your choice:
+
+```{r, eval = FALSE}
+set_dracor_api_url("https://staging.dracor.org/api/v1")
+```
+
 
 ## General info on corpora
 
 Retrieving general information about available corpora:
-
-```{r example}
-library(rdracor)
-```
 
 ```{r}
 corpora <- get_dracor_meta()
