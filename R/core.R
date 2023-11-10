@@ -211,7 +211,7 @@ get_dracor_api_url <- function() {
 #' @export
 #' @describeIn dracor_api_info Set new 'DraCor' API URL (globally), returns NULL
 set_dracor_api_url <- function(new_dracor_api_url) {
-  cat("Working DraCor repository was changed from", get_dracor_api_url())
+  cat("Working DraCor repository was changed from", get_dracor_api_url(), "\n")
   the$dracor_api_url <- new_dracor_api_url
   rdracor::dracor_api_info()
 }
