@@ -1,3 +1,8 @@
+# rdracor 0.7.7
+
+* fixed `get_play_metadata()` not working with `full_metadata = TRUE` if
+'DraCor' API URL was modified with `set_dracor_api_url()`
+
 # rdracor 0.7.6
 
 * Updated tests
