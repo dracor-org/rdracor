@@ -133,8 +133,8 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> 
 #> $allInIndex
 #> [1] 0.6976744
-#> 
-#> $cast
+#>
+#> $characters
 #> # A tibble: 13 × 12
 #>    id         name  isGroup gender numOfScenes numOfSpeechActs numOfWords degree
 #>    <chr>      <chr> <lgl>   <chr>        <int>           <int>      <int>  <int>

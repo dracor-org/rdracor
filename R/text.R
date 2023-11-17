@@ -6,7 +6,7 @@
 #'
 #' @return TEI data parsed by
 #'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @examples
 #' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want a text in TEI without parsing by xml2::read_xml():
@@ -28,7 +28,7 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 #'
 #' \code{get_text_chr_spoken()} request lines and stage directions for a play,
 #' given play and corpus names.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @param gender Character, optional parameter to extract lines for characters
 #' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
 #' @param split_text If \code{TRUE} returns text as a character vector of lines.
