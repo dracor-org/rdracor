@@ -1,6 +1,6 @@
 #' Retrieve data for characters in a play
 #'
-#' \code{get_play_cast()} requests miscellaneous information for characters in
+#' \code{get_play_characters()} requests miscellaneous information for characters in
 #' a play, given play and corpus names: name, number and size of their lines,
 #' gender, some network metrics etc.
 #'
@@ -15,11 +15,11 @@
 #'   \code{\link{get_dracor_meta}}).
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
 #' @examples
-#' get_play_cast(play = "lessing-emilia-galotti", corpus = "ger")
+#' get_play_characters(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_play_metadata}}
 #' @export
-get_play_cast <- function(play = NULL, corpus = NULL, ...) {
-  dracor_api(form_play_request(play = play, corpus = corpus, type = "cast"),
+get_play_characters <- function(play = NULL, corpus = NULL, ...) {
+  dracor_api(form_play_request(play = play, corpus = corpus, type = "characters"),
     expected_type = "application/json",
     ...
   )
@@ -31,7 +31,7 @@ get_play_cast <- function(play = NULL, corpus = NULL, ...) {
 #' and corpus names.
 #'
 #' @return List with the play metadata.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @param full_metadata Logical: if \code{TRUE} (default value), then additional
 #' metadata are retrieved.
 #' @examples
@@ -41,7 +41,7 @@ get_play_cast <- function(play = NULL, corpus = NULL, ...) {
 #'   full_metadata = FALSE
 #' )
 #' @seealso \code{\link{get_net_cooccur_edges}} \code{\link{get_play_rdf}}
-#' \code{\link{get_play_cast}}
+#' \code{\link{get_play_characters}}
 #' @importFrom purrr modify_at
 #' @importFrom tibble as_tibble
 #' @export
@@ -56,7 +56,7 @@ get_play_metadata <-
       as_tibble = FALSE,
       ...
     )
-    meta$cast <- get_play_cast(play = play, corpus = corpus)
+    meta$characters <- get_play_characters(play = play, corpus = corpus)
     if (isTRUE(full_metadata)) {
       full_meta <-
         dracor_api(
@@ -109,7 +109,7 @@ get_play_metadata <-
 #' \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}.
 #'
 #' @return RDF data parsed by {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
@@ -117,7 +117,7 @@ get_play_metadata <-
 #' get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want RDF without parsing by xml2::read_xml():
 #' get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
-#' @seealso \code{\link{get_play_metadata}} \code{\link{get_play_cast}}
+#' @seealso \code{\link{get_play_metadata}} \code{\link{get_play_characters}}
 #' @export
 get_play_rdf <-
   function(play = NULL,

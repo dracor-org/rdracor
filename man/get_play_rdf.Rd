@@ -37,5 +37,5 @@ get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger")
 get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \seealso{
-\code{\link{get_play_metadata}} \code{\link{get_play_cast}}
+\code{\link{get_play_metadata}} \code{\link{get_play_characters}}
 }

@@ -8,6 +8,6 @@ test_that("rdf is not empty", {
   expect_gt(nchar(text), 0)
 })
 
-test_that("boris godunov cast has 79 characters", {
-  expect_equal(nrow(get_play_cast("pushkin-boris-godunov", "rus")), 79)
+test_that("boris godunov has 79 characters", {
+  expect_equal(nrow(get_play_characters("pushkin-boris-godunov", "rus")), 79)
 })

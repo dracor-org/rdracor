@@ -5,7 +5,7 @@
 #' co-occurrence matrix.
 #'
 #' @return List with network metrics for a specific play.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @examples
 #' get_net_cooccur_metrics(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_net_cooccur_igraph}}
@@ -36,7 +36,7 @@ get_net_cooccur_metrics <- function(play = NULL, corpus = NULL, ...) {
 #' edges list can be used to construct a network for a play.
 #'
 #' @return data frame with edges (each row = one edge of a network).
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @examples
 #' get_net_cooccur_edges(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_net_cooccur_igraph}}
@@ -62,7 +62,7 @@ get_net_cooccur_edges <-
 #' visualization.
 #'
 #' @return 'GEXF' data.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
@@ -100,7 +100,7 @@ get_net_cooccur_gexf <-
 #' graphs based on XML.
 #'
 #' @return 'GraphML' data.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
@@ -193,7 +193,7 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #'
 #' @return \code{cooccur_igraph} — an object that inherits \code{igraph} and can be
 #' treated as such.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @examples
 #' \donttest{
 #' emilia_igraph <- get_net_cooccur_igraph(
@@ -212,7 +212,7 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 get_net_cooccur_igraph <- function(play = NULL,
                                    corpus = NULL,
                                    as_igraph = FALSE) {
-  nodes <- get_play_cast(play = play, corpus = corpus, as_tibble = FALSE)
+  nodes <- get_play_characters(play = play, corpus = corpus, as_tibble = FALSE)
   edges <- get_net_cooccur_edges(play = play, corpus = corpus, as_tibble = FALSE)
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
@@ -499,7 +499,7 @@ summary.cooccur_igraph <- function(object, ...) {
 #'
 #' @return \code{relations_igraph} — an object that inherits \code{igraph} and
 #' can be treated as such.
-#' @inheritParams get_play_cast
+#' @inheritParams get_play_characters
 #' @examples
 #' \donttest{
 #' nedorosl_relations <- get_net_relations_igraph(
@@ -526,7 +526,7 @@ get_net_relations_igraph <- function(play = play,
       as_tibble = FALSE
     )
   nodes <-
-    get_play_cast(
+    get_play_characters(
       play = play,
       corpus = corpus,
       as_tibble = FALSE
