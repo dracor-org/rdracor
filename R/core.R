@@ -5,7 +5,7 @@ form_play_request <-
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)
     request <-
-      paste0(get_dracor_api_url(), "/corpora/", corpus, "/play/", play)
+      paste0(get_dracor_api_url(), "/corpora/", corpus, "/plays/", play)
     if (!is.null(type)) {
       return(paste(request, type, sep = "/"))
     } else {
@@ -213,5 +213,5 @@ get_dracor_api_url <- function() {
 set_dracor_api_url <- function(new_dracor_api_url) {
   cat("Working DraCor repository was changed from", get_dracor_api_url(), "\n")
   the$dracor_api_url <- new_dracor_api_url
-  rdracor::dracor_api_info()
+  dracor_api_info()
 }
