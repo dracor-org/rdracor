@@ -50,7 +50,9 @@ get_corpus <- function(corpus = NULL,
       "yearPremieredFinish",
       "wikidataId",
       "networkSize",
-      "networkdataCsvUrl"
+      "networkdataCsvUrl",
+      "uri",
+      "datePremiered"
     )
   columns_extra_order <- c(
     "normalizedGenre",
@@ -113,6 +115,8 @@ get_corpus <- function(corpus = NULL,
       skip_absent = TRUE
     )
     dracor_list$plays[, corpus := dracor_list$name]
+    columns_short_order <- columns_short_order[columns_short_order %in%
+                                                 colnames(dracor_list$plays)]
     data.table::setcolorder(dracor_list$plays,
       neworder = columns_short_order
     )
@@ -130,12 +134,11 @@ get_corpus <- function(corpus = NULL,
         by = "id",
         suffixes = c("", "Meta")
       )
+    new_order <- c(columns_short_order, columns_extra_order)
+    new_order <- new_order[new_order %in% colnames(dracor_list$plays)]
     data.table::setcolorder(dracor_list$plays,
-      neworder = c(
-        columns_short_order,
-        columns_extra_order
-      )
-    )
+                            neworder = new_order)
+
     dublicate_columns <-
       c(
         "wikidataIdMeta",
@@ -144,7 +147,7 @@ get_corpus <- function(corpus = NULL,
       )
     dracor_list$plays[, (dublicate_columns) := NULL]
   }
-  dracor_list$n <- nrow(dracor_list$plays)
+  dracor_list$amount_of_plays <- nrow(dracor_list$plays)
   return(dracor_list)
 }
 
@@ -166,7 +169,7 @@ dracor <- function(dracor_list) {
     title = purrr::map_chr(dracor_list, "title"),
     description = purrr::map_chr(dracor_list, "description"),
     repository = purrr::map_chr(dracor_list, "repository"),
-    plays = purrr::map_int(dracor_list, "n"),
+    plays = purrr::map_int(dracor_list, "amount_of_plays"),
     class = c("dracor", class(dracor_df))
   )
 }
