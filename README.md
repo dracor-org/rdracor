@@ -38,7 +38,7 @@ branch:
 
 ``` r
 get_dracor_api_url()
-#> [1] "https://dracor.org/api"
+#> [1] "https://dracor.org/api/v1"
 ```
 
 You can set DraCor URL API of your choice:
@@ -54,9 +54,9 @@ Retrieving general information about available corpora:
 ``` r
 corpora <- get_dracor_meta()
 summary(corpora)
-#> DraCor hosts 16 corpora comprising 3131 plays.
+#> DraCor hosts 17 corpora comprising 3184 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2023-11-10 19:21:44).
+#> The last updated corpus was German Drama Corpus (2024-04-03 10:50:28).
 plot(corpora)
 ```
 
@@ -67,12 +67,12 @@ plot(corpora)
 ``` r
 ger <- get_dracor(corpus = "ger")
 summary(ger)
-#> 654 plays in German Drama Corpus 
+#> 697 plays in German Drama Corpus 
 #> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor  
 #> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 600 German-language plays from the 1540s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
 #> Written years (range): 1549–1947 
-#> Premiere years (range): 1539–1981    
-#> Years of the first printing (range): 1540–1962
+#> Premiere years (range): 1515–1981    
+#> Years of the first printing (range): 1517–1962
 ```
 
 You can get all corpora at once:
@@ -80,9 +80,9 @@ You can get all corpora at once:
 ``` r
 all <- get_dracor()
 summary(all)
-#> 3131 plays in 16 corpora:    
+#> 3184 plays in 17 corpora:    
 #> Corpora id:  
-#> fre (1560 plays), ger (654 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), u (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), bash (3 plays), tat (3 plays)
+#> fre (1560 plays), ger (697 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), u (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), pol (10 plays), bash (3 plays), tat (3 plays)
 #> Written years (range): 43–1970   
 #> Premiere years (range): -472–1999    
 #> Years of the first printing (range): 1170–2017
@@ -99,6 +99,9 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> $id
 #> [1] "ger000088"
 #> 
+#> $uri
+#> [1] "https://dracor.org/api/v1/corpora/ger/plays/lessing-emilia-galotti"
+#> 
 #> $name
 #> [1] "lessing-emilia-galotti"
 #> 
@@ -108,21 +111,13 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> $title
 #> [1] "Emilia Galotti"
 #> 
-#> $author
-#> $author$name
-#> [1] "Lessing, Gotthold Ephraim"
-#> 
-#> $author$warning
-#> [1] "The single author property is deprecated. Use the array of 'authors' instead!"
-#> 
-#> 
 #> $authors
 #> # A tibble: 1 × 4
 #>   name                      fullname                 shortname refs        
 #>   <chr>                     <chr>                    <chr>     <list>      
 #> 1 Lessing, Gotthold Ephraim Gotthold Ephraim Lessing Lessing   <df [2 × 2]>
 #> 
-#> $genre
+#> $normalizedGenre
 #> [1] "Tragedy"
 #> 
 #> $libretto
@@ -133,7 +128,7 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> 
 #> $allInIndex
 #> [1] 0.6976744
-#>
+#> 
 #> $characters
 #> # A tibble: 13 × 12
 #>    id         name  isGroup gender numOfScenes numOfSpeechActs numOfWords degree
@@ -205,8 +200,11 @@ get_play_metadata(play = "lessing-emilia-galotti",
 #> [1] "http://www.textgridrep.org/textgrid:rksp.0"
 #> 
 #> 
+#> $datePremiered
+#> [1] "1772-03-13"
+#> 
 #> $originalSource
-#> [1] "Gotthold Ephraim Lessing: Werke. Herausgegeben von Herbert G. Göpfert in Zusammenarbeit mit Karl Eibl, Helmut Göbel, Karl S. Guthke, Gerd Hillen, Albert von Schirmding und Jörg Schönert, Band 1–8, München: Hanser, 1970 ff."
+#> [1] "Gotthold Ephraim Lessing: Emilia Galotti. Ein Trauerspiel in fünf Aufzügen. In: Werke. Zweiter Band. Herausgegeben von Herbert G. Göpfert. München: Hanser 1971, S. 127–204."
 ```
 
 ## Play network
@@ -337,46 +335,49 @@ locally saved on your computer), you can use function
 `set_dracor_api_url()`:
 
 ``` r
-set_dracor_api_url("https://staging.dracor.org/api")
-#> Working DraCor repository was changed from https://dracor.org/apiDraCor API URL:  https://staging.dracor.org/api 
-#>  name: DraCor API v0
-#> version: 0.91.2
-#> status: beta
+set_dracor_api_url("https://staging.dracor.org/api/v1")
+#> Working DraCor repository was changed from https://dracor.org/api/v1 
+#> DraCor API URL:  https://staging.dracor.org/api/v1 
+#>  name: DraCor API v1
+#> version: 1.0.2-28-ga8c07fe
+#> status: stable
 #> existdb: 6.2.0
-#> base: https://staging.dracor.org/api/v0
+#> base: https://staging.dracor.org/api/v1
+#> openapi: https://staging.dracor.org/api/v1/openapi.yaml
 get_dracor("u")
-#> # A tibble: 40 × 55
-#>    corpus id      playName yearNormalized title subtitle firstAuthorName authors
-#>  * <chr>  <chr>   <chr>             <int> <chr> <chr>    <chr>           <list> 
-#>  1 u      u000001 lesya-u…           1911 Адво… <NA>     Українка, Леся  <df>   
-#>  2 u      u00000… lesya-u…           1905 Три … <NA>     Українка, Леся  <df>   
-#>  3 u      u00000… lesya-u…           1901 Одер… Драмати… Українка, Леся  <df>   
-#>  4 u      u00000… lesya-u…           1909 У пу… <NA>     Українка, Леся  <df>   
-#>  5 u      u00000… lesya-u…           1896 Блак… <NA>     Українка, Леся  <df>   
-#>  6 u      u00000… lesya-u…           1906 В до… <NA>     Українка, Леся  <df>   
-#>  7 u      u00000… lesya-u…           1898 Іфіг… (драмат… Українка, Леся  <df>   
-#>  8 u      u00000… kropivn…           1863 Дай … Драма в… Кропивницький,… <df>   
-#>  9 u      u00000… lesya-u…           1896 Прощ… <NA>     Українка, Леся  <df>   
-#> 10 u      u00000… lesya-u…           1903 У по… Драмати… Українка, Леся  <df>   
-#> # ℹ 30 more rows
-#> # ℹ 47 more variables: source <chr>, sourceUrl <chr>, writtenYearStart <lgl>,
-#> #   writtenYearFinish <int>, printYearStart <lgl>, printYearFinish <lgl>,
-#> #   premiereYearStart <lgl>, premiereYearFinish <lgl>, wikidataId <lgl>,
+#> # A tibble: 44 × 60
+#>    corpus id       playName     yearNormalized title titleEn subtitle subtitleEn
+#>  * <chr>  <chr>    <chr>                 <int> <chr> <lgl>   <chr>    <lgl>     
+#>  1 u      u000001  lesya-ukrai…           1911 Адво… NA      <NA>     NA        
+#>  2 u      u0000010 lesya-ukrai…           1905 Три … NA      <NA>     NA        
+#>  3 u      u0000011 lesya-ukrai…           1901 Одер… NA      Драмати… NA        
+#>  4 u      u0000012 lesya-ukrai…           1909 У пу… NA      <NA>     NA        
+#>  5 u      u0000013 lesya-ukrai…           1896 Блак… NA      <NA>     NA        
+#>  6 u      u0000014 lesya-ukrai…           1906 В до… NA      <NA>     NA        
+#>  7 u      u0000015 lesya-ukrai…           1898 Іфіг… NA      (драмат… NA        
+#>  8 u      u0000016 kropivnitsk…           1863 Дай … NA      Драма в… NA        
+#>  9 u      u0000017 lesya-ukrai…           1896 Прощ… NA      <NA>     NA        
+#> 10 u      u0000018 lesya-ukrai…           1903 У по… NA      Драмати… NA        
+#> # ℹ 34 more rows
+#> # ℹ 52 more variables: firstAuthorName <chr>, authors <list>,
+#> #   source.name <chr>, source.url <chr>, yearWrittenStart <lgl>,
+#> #   yearWrittenFinish <int>, yearPrintedStart <lgl>, yearPrintedFinish <int>,
+#> #   yearPremieredStart <lgl>, yearPremieredFinish <lgl>, wikidataId <lgl>,
 #> #   networkSize <int>, networkdataCsvUrl <chr>, normalizedGenre <lgl>,
-#> #   size <int>, density <dbl>, diameter <int>, averageClustering <dbl>,
-#> #   averagePathLength <dbl>, averageDegree <dbl>, maxDegree <int>, …
+#> #   size <int>, density <dbl>, diameter <int>, averageClustering <dbl>, …
 ```
 
 Information on the working API can be retrieved by `dracor_api_info()`:
 
 ``` r
 dracor_api_info()
-#> DraCor API URL:  https://staging.dracor.org/api 
-#>  name: DraCor API v0
-#> version: 0.91.2
-#> status: beta
+#> DraCor API URL:  https://staging.dracor.org/api/v1 
+#>  name: DraCor API v1
+#> version: 1.0.2-28-ga8c07fe
+#> status: stable
 #> existdb: 6.2.0
-#> base: https://staging.dracor.org/api/v0
+#> base: https://staging.dracor.org/api/v1
+#> openapi: https://staging.dracor.org/api/v1/openapi.yaml
 ```
 
 ## Acknowledgments

@@ -24,7 +24,7 @@ divide_years <- function(dracor, year_column) {
 get_corpus <- function(corpus = NULL,
                        full_metadata = TRUE) {
   subtitle <- NULL # to pass check
-  titleEN <- NULL # to pass check
+  titleEn <- NULL # to pass check
   subtitleEn <- NULL # to pass check
   source.name <- NULL # to pass check
   source.url <- NULL # to pass check
