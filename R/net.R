@@ -502,12 +502,12 @@ summary.cooccur_igraph <- function(object, ...) {
 #' @inheritParams get_play_characters
 #' @examples
 #' \donttest{
-#' nedorosl_relations <- get_net_relations_igraph(
-#'   play = "fonvizin-nedorosl",
-#'   corpus = "rus"
+#' galotti_relations <- get_net_relations_igraph(
+#'   play = "lessing-emilia-galotti",
+#'   corpus = "ger"
 #' )
-#' plot(nedorosl_relations)
-#' summary(nedorosl_relations)
+#' plot(galotti_relations)
+#' summary(galotti_relations)
 #' }
 #' @seealso \code{\link{get_net_cooccur_igraph}}
 #' @import igraph

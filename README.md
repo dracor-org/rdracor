@@ -6,8 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-**Authors:** Ivan Pozdniakov, Frank Fischer<br /> **License:**
-[GPL-3](https://opensource.org/license/gpl-3-0/)
+**Authors:** Ivan Pozdniakov, Frank Fischer<br /> **License:** GPL-3
 
 The goal of **rdracor** is to provide an R interface for the [DraCor
 API](https://dracor.org/documentation/api) (DraCor: Drama Corpora
