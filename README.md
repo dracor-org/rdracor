@@ -255,27 +255,24 @@ Similarly, you can use function `get_net_relations_igraph()` to build a
 network based on relationships data:
 
 ``` r
-nedorosl_relations <- get_net_relations_igraph(play = "fonvizin-nedorosl",
-                                               corpus = "rus")
-plot(nedorosl_relations)
+galotti_relations <- get_net_relations_igraph(play = "lessing-emilia-galotti",
+                                               corpus = "ger")
+plot(galotti_relations)
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
 ``` r
-summary(nedorosl_relations)
-#> rus: fonvizin-nedorosl - relations network summary   
-#> Фонвизин, Денис Иванович: Недоросль (1782)   
+summary(galotti_relations)
+#> ger: lessing-emilia-galotti - relations network summary  
+#> Lessing, Gotthold Ephraim: Emilia Galotti (1772) 
 #>  
-#> Size: 15 (3 FEMALES, 12 MALES, 0 UNKNOWN)    
-#> Relations: 8 
-#> Простаков <--> Г-жа Простакова : spouses
-#> Скотинин <--> Г-жа Простакова : siblings
-#> Г-жа Простакова ---> Митрофан : parent_of
-#> Простаков ---> Митрофан : parent_of
-#> Еремеевна ---> Митрофан : associated_with
-#> Софья ---> Стародум : related_with
-#> ...and 2 more
+#> Size: 13 (3 FEMALES, 10 MALES, 0 UNKNOWN)    
+#> Relations: 4 
+#> Odoardo ---> Emilia : parent_of
+#> Claudia ---> Emilia : parent_of
+#> Marinelli ---> Der Prinz : associated_with
+#> Camillo Rota ---> Der Prinz : associated_with
 ```
 
 ## Text of a play
@@ -296,9 +293,9 @@ get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 - as a character vector:
 
 ``` r
-text_godunov <- get_text_chr_spoken(play = "lessing-emilia-galotti",
+text_galotti <- get_text_chr_spoken(play = "lessing-emilia-galotti",
                                      corpus = "ger")
-head(text_godunov)
+head(text_galotti)
 #> [1] "Klagen, nichts als Klagen! Bittschriften, nichts als Bittschriften! – Die traurigen Geschäfte; und man beneidet uns noch! – Das glaub' ich; wenn wir allen helfen könnten: dann wären wir zu beneiden. – Emilia? Eine Emilia? – Aber eine Emilia Bruneschi – nicht Galotti. Nicht Emilia Galotti! – Was will sie, diese Emilia Bruneschi? Viel gefodert; sehr viel. – Doch sie heißt Emilia. Gewährt! Es ist wohl noch keiner von den Räten in dem Vorzimmer?"
 #> [2] "Nein."                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 #> [3] "Ich habe zu früh Tag gemacht. – Der Morgen ist so schön. Ich will ausfahren. Marchese Marinelli soll mich begleiten. Laßt ihn rufen. – Ich kann doch nicht mehr arbeiten. – Ich war so ruhig, bild' ich mir ein, so ruhig – Auf einmal muß eine arme Bruneschi, Emilia heißen; – weg ist meine Ruhe, und alles! –"                                                                                                                                            

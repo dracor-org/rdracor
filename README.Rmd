@@ -122,10 +122,10 @@ Similarly, you can use function `get_net_relations_igraph()` to build a network
 based on relationships data:
 
 ```{r}
-nedorosl_relations <- get_net_relations_igraph(play = "fonvizin-nedorosl",
-                                               corpus = "rus")
-plot(nedorosl_relations)
-summary(nedorosl_relations)
+galotti_relations <- get_net_relations_igraph(play = "lessing-emilia-galotti",
+                                               corpus = "ger")
+plot(galotti_relations)
+summary(galotti_relations)
 ```
 
 ## Text of a play
@@ -141,9 +141,9 @@ get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 - as a character vector:
 
 ```{r}
-text_godunov <- get_text_chr_spoken(play = "lessing-emilia-galotti",
+text_galotti <- get_text_chr_spoken(play = "lessing-emilia-galotti",
                                      corpus = "ger")
-head(text_godunov)
+head(text_galotti)
 ```
 
 - as a data frame:
