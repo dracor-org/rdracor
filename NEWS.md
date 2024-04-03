@@ -1,3 +1,9 @@
+# rdracor 1.0.3
+
+* updated the packaged to changes in 'Dracor' API
+* updated tests
+* removed cyrillic letters from example plots
+
 # rdracor 0.7.7
 
 * fixed `get_play_metadata()` not working with `full_metadata = TRUE` if

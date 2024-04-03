@@ -1,3 +1,52 @@
+# rdracor 1.0.3
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+-   Updated the packaged to changes in 'Dracor' API
+-   Updated tests
+-   Removed cyrillic letters from example plots
+
+## R CMD check results
+
+There were no ERRORs or WARNINGs.
+
+There are 3 NOTEs:
+
+> checking CRAN incoming feasibility ... [11s] NOTE
+> Maintainer: 'Ivan Pozdniakov <bucherr@yandex.ru>'
+>
+> New submission
+>
+> Package was archived on CRAN
+> 
+> CRAN repository db overrides:
+>   X-CRAN-Comment: Archived on 2024-02-08 for repeated policy violation.
+> 
+>   On Internet access.
+
+This NOTE is related to the archival of the package.
+
+> checking for non-standard things in the check directory ... NOTE Found the
+following files/directories:
+    ''NULL''
+
+As noted in [R-hub issue #560](https://github.com/r-hub/rhub/issues/560), this seems to be an Rhub issue and so can likely be ignored.
+
+> checking for detritus in the temp directory ... NOTE
+  Found the following files/directories:
+    'lastMiKTeXException'
+
+As noted in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be due to a bug/crash in MiKTeX and can likely be ignored.
+
+## Test environments
+ 
+-   local OS X install, R 4.4.2
+-   Windows Server 2022, R-devel, 64 bit
+-   Fedora Linux, R-devel, clang, gfortran
+-   Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
 # rdracor 0.7.6
 
 ## Resubmission
