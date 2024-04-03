@@ -13,7 +13,7 @@ test_that("More than one corpus induce error for a play", {
 test_that("Valid request is created", {
   expect_equal(
     form_play_request(play = "pushkin-boris-godunov", corpus = "rus"),
-    "https://dracor.org/api/corpora/rus/play/pushkin-boris-godunov"
+    "https://dracor.org/api/v1/corpora/rus/plays/pushkin-boris-godunov"
   )
 })
 
@@ -53,6 +53,6 @@ test_that("dracor_api_info returns NULL", {
   expect_invisible(dracor_api_info())
 })
 
-test_that("dracor_api_info returns NULL", {
-  expect_equal(get_dracor_api_url(), "https://dracor.org/api")
+test_that("get_dracor_api_info returns https://dracor.org/api/v1", {
+  expect_equal(get_dracor_api_url(), "https://dracor.org/api/v1")
 })

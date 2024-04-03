@@ -29,9 +29,10 @@ test_that(
 )
 
 test_that(
-  "writtenYear with format 'YYYY/YYYY' is processed as integer in column writtenYearFinish",
+  "Written year with format 'YYYY/YYYY' is processed as integer in column
+  yearWrittenFinish",
   {
-    expect_is(get_dracor("rus")$writtenYearFinish, "integer")
+    expect_is(get_dracor("rus")$yearWrittenFinish, "integer")
   }
 )
 

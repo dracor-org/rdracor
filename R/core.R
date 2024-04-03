@@ -79,7 +79,7 @@ dracor_error <- function(resp) {
 #' parsing (see \code{default_type}) and additional parameters that are passed
 #' to the function for parsing.
 #' @examples
-#' dracor_api("https://dracor.org/api/info", expected_type = "application/json")
+#' dracor_api("https://dracor.org/api/v1/info", expected_type = "application/json")
 #' @seealso \code{\link{dracor_sparql}}
 #' @import httr
 #' @importFrom jsonlite fromJSON
