@@ -105,8 +105,7 @@ get_corpus <- function(corpus = NULL,
       dracor_list$plays[, source.url := NA_character_]
     }
     dracor_list$plays$author.name <- map_chr(dracor_list$plays$authors,
-                                             "name",
-                                             1)
+                                             function(x) x$name[1])
     data.table::setnames(
       dracor_list$plays,
       old = c("name", "author.name"),
