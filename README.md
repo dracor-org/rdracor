@@ -224,7 +224,7 @@ You can use the package `{igraph}` to work with this object as a graph:
 library(igraph)
 edge_density(emilia)
 #> [1] 0.3717949
-graph.cohesion(emilia)
+cohesion(emilia)
 #> [1] 1
 ```
 

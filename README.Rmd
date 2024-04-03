@@ -108,7 +108,7 @@ You can use the package `{igraph}` to work with this object as a graph:
 ```{r}
 library(igraph)
 edge_density(emilia)
-graph.cohesion(emilia)
+cohesion(emilia)
 ```
 
 In addition, you can get a summary with network properties and gender 

@@ -121,12 +121,12 @@ encoding scheme proposed in
 }}
 \examples{
 \donttest{
-nedorosl_relations <- get_net_relations_igraph(
-  play = "fonvizin-nedorosl",
-  corpus = "rus"
+galotti_relations <- get_net_relations_igraph(
+  play = "lessing-emilia-galotti",
+  corpus = "ger"
 )
-plot(nedorosl_relations)
-summary(nedorosl_relations)
+plot(galotti_relations)
+summary(galotti_relations)
 }
 }
 \references{
