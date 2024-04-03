@@ -157,7 +157,7 @@ get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 If you want to use another version of DraCor API (e.g. staging or locally saved on your computer), you can use function `set_dracor_api_url()`:
 
 ```{r}
-set_dracor_api_url("https://staging.dracor.org/api")
+set_dracor_api_url("https://staging.dracor.org/api/v1")
 get_dracor("u")
 ```
 

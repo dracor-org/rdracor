@@ -5,7 +5,7 @@ form_play_request <-
     stopifnot(is.character(corpus) && length(corpus) == 1)
     stopifnot(is.character(play) && length(play) == 1)
     request <-
-      paste0(get_dracor_api_url(), "/corpora/", corpus, "/play/", play)
+      paste0(get_dracor_api_url(), "/corpora/", corpus, "/plays/", play)
     if (!is.null(type)) {
       return(paste(request, type, sep = "/"))
     } else {
@@ -79,7 +79,7 @@ dracor_error <- function(resp) {
 #' parsing (see \code{default_type}) and additional parameters that are passed
 #' to the function for parsing.
 #' @examples
-#' dracor_api("https://dracor.org/api/info", expected_type = "application/json")
+#' dracor_api("https://dracor.org/api/v1/info", expected_type = "application/json")
 #' @seealso \code{\link{dracor_sparql}}
 #' @import httr
 #' @importFrom jsonlite fromJSON
@@ -213,5 +213,5 @@ get_dracor_api_url <- function() {
 set_dracor_api_url <- function(new_dracor_api_url) {
   cat("Working DraCor repository was changed from", get_dracor_api_url(), "\n")
   the$dracor_api_url <- new_dracor_api_url
-  rdracor::dracor_api_info()
+  dracor_api_info()
 }

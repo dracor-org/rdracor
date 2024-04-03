@@ -24,6 +24,10 @@ divide_years <- function(dracor, year_column) {
 get_corpus <- function(corpus = NULL,
                        full_metadata = TRUE) {
   subtitle <- NULL # to pass check
+  titleEn <- NULL # to pass check
+  subtitleEn <- NULL # to pass check
+  source.name <- NULL # to pass check
+  source.url <- NULL # to pass check
   columns_short_order <-
     c(
       "corpus",
@@ -31,20 +35,24 @@ get_corpus <- function(corpus = NULL,
       "playName",
       "yearNormalized",
       "title",
+      "titleEn",
       "subtitle",
+      "subtitleEn",
       "firstAuthorName",
       "authors",
-      "source",
-      "sourceUrl",
-      "writtenYearStart",
-      "writtenYearFinish",
-      "printYearStart",
-      "printYearFinish",
-      "premiereYearStart",
-      "premiereYearFinish",
+      "source.name",
+      "source.url",
+      "yearWrittenStart",
+      "yearWrittenFinish",
+      "yearPrintedStart",
+      "yearPrintedFinish",
+      "yearPremieredStart",
+      "yearPremieredFinish",
       "wikidataId",
       "networkSize",
-      "networkdataCsvUrl"
+      "networkdataCsvUrl",
+      "uri",
+      "datePremiered"
     )
   columns_extra_order <- c(
     "normalizedGenre",
@@ -79,28 +87,44 @@ get_corpus <- function(corpus = NULL,
         flatten = TRUE,
         as_tibble = FALSE
       )
-    data.table::setDT(dracor_list$dramas)
-    lapply(c("writtenYear", "printYear", "premiereYear"), function(x) {
-      divide_years(dracor_list$dramas, x)
+    data.table::setDT(dracor_list$plays)
+    lapply(c("yearWritten", "yearPrinted", "yearPremiered"), function(x) {
+      divide_years(dracor_list$plays, x)
     })
-    if (!"subtitle" %in% names(dracor_list$dramas)) {
-      dracor_list$dramas[, subtitle := NA_character_]
+    if (!"subtitle" %in% names(dracor_list$plays)) {
+      dracor_list$plays[, subtitle := NA_character_]
     }
+    if (!"titleEn" %in% names(dracor_list$plays)) {
+      dracor_list$plays[, titleEn := NA_character_]
+    }
+    if (!"subtitleEn" %in% names(dracor_list$plays)) {
+      dracor_list$plays[, subtitleEn := NA_character_]
+    }
+    if (!"source.name" %in% names(dracor_list$plays)) {
+      dracor_list$plays[, source.name := NA_character_]
+    }
+    if (!"source.url" %in% names(dracor_list$plays)) {
+      dracor_list$plays[, source.url := NA_character_]
+    }
+    dracor_list$plays$author.name <- map_chr(dracor_list$plays$authors,
+                                             function(x) x$name[1])
     data.table::setnames(
-      dracor_list$dramas,
+      dracor_list$plays,
       old = c("name", "author.name"),
       new = c("playName", "firstAuthorName"),
       skip_absent = TRUE
     )
-    dracor_list$dramas[, corpus := dracor_list$name]
-    data.table::setcolorder(dracor_list$dramas,
+    dracor_list$plays[, corpus := dracor_list$name]
+    columns_short_order <- columns_short_order[columns_short_order %in%
+                                                 colnames(dracor_list$plays)]
+    data.table::setcolorder(dracor_list$plays,
       neworder = columns_short_order
     )
   }
   if (isTRUE(full_metadata)) {
-    dracor_list$dramas <-
+    dracor_list$plays <-
       merge(
-        dracor_list$dramas,
+        dracor_list$plays,
         dracor_api(request = paste0(
           get_dracor_api_url(),
           "/corpora/",
@@ -110,25 +134,20 @@ get_corpus <- function(corpus = NULL,
         by = "id",
         suffixes = c("", "Meta")
       )
-    data.table::setcolorder(dracor_list$dramas,
-      neworder = c(
-        columns_short_order,
-        columns_extra_order
-      )
-    )
+    new_order <- c(columns_short_order, columns_extra_order)
+    new_order <- new_order[new_order %in% colnames(dracor_list$plays)]
+    data.table::setcolorder(dracor_list$plays,
+                            neworder = new_order)
+
     dublicate_columns <-
       c(
-        "name",
-        "yearPremiered",
-        "yearPrinted",
-        "yearNormalizedMeta",
-        "yearWritten",
+        "wikidataIdMeta",
         "titleMeta",
         "subtitleMeta"
       )
-    dracor_list$dramas[, (dublicate_columns) := NULL]
+    dracor_list$plays[, (dublicate_columns) := NULL]
   }
-  dracor_list$plays <- nrow(dracor_list$dramas)
+  dracor_list$amount_of_plays <- nrow(dracor_list$plays)
   return(dracor_list)
 }
 
@@ -140,7 +159,7 @@ get_corpus <- function(corpus = NULL,
 #' @import  data.table
 dracor <- function(dracor_list) {
   dracor_df <- tibble::as_tibble(type.convert(
-    data.table::rbindlist(lapply(dracor_list, `[[`, "dramas"), fill = TRUE),
+    data.table::rbindlist(lapply(dracor_list, `[[`, "plays"), fill = TRUE),
     as.is = TRUE,
     na.strings = c("NA", "-")
   ))
@@ -150,7 +169,7 @@ dracor <- function(dracor_list) {
     title = purrr::map_chr(dracor_list, "title"),
     description = purrr::map_chr(dracor_list, "description"),
     repository = purrr::map_chr(dracor_list, "repository"),
-    plays = purrr::map_int(dracor_list, "plays"),
+    plays = purrr::map_int(dracor_list, "amount_of_plays"),
     class = c("dracor", class(dracor_df))
   )
 }
@@ -166,17 +185,17 @@ is.dracor <- function(x) {
 #' @describeIn get_dracor Meaningful summary for \code{dracor_meta} object.
 summary.dracor <- function(object, ...) {
   written <-
-    suppressWarnings(range(object$writtenYearStart, object$writtenYearFinish,
+    suppressWarnings(range(object$yearWrittenStart, object$yearWrittenFinish,
       na.rm = TRUE
     ))
   premiere <-
     suppressWarnings(range(
-      object$premiereYearStart,
-      object$premiereYearFinish,
+      object$yearPremieredStart,
+      object$yearPremieredFinish,
       na.rm = TRUE
     ))
   printed <-
-    suppressWarnings(range(object$printYearStart, object$printYearFinish,
+    suppressWarnings(range(object$yearPrintedStart, object$yearPrintedFinish,
       na.rm = TRUE
     ))
   cat(

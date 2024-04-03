@@ -1,2 +1,2 @@
 the <- new.env(parent = emptyenv())
-the$dracor_api_url <- "https://dracor.org/api"
+the$dracor_api_url <- "https://dracor.org/api/v1"

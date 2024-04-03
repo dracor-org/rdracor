@@ -2,7 +2,7 @@ Package: rdracor
 Type: Package
 Title: Access to the 'DraCor' API
 Description: Provide an interface for 'Drama Corpora Project' ('DraCor') API: <https://dracor.org/documentation/api>.
-Version: 0.7.7
+Version: 1.0.1
 Authors@R: person("Ivan",
                   "Pozdniakov",
                   role = c("aut", "cre"),
