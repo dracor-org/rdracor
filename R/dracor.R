@@ -309,7 +309,8 @@ get_dracor <- function(corpus = "all",
     )
   }
   dracor_list <- purrr::map(corpus, purrr::safely(get_corpus),
-    full_metadata = full_metadata
+    full_metadata = full_metadata,
+    .progress = "Downloading corpora:"
   )
 
   dracor_data_list <- dracor_list %>%
