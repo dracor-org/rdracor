@@ -107,7 +107,14 @@ get_corpus <- function(corpus = NULL,
       dracor_list$plays[, source.url := NA_character_]
     }
     dracor_list$plays$author.name <- map_chr(dracor_list$plays$authors,
-                                             function(x) x$name[1])
+                                             function(x) {
+                                               if (length(x$name >= 1)) {
+                                                 return(x$name[1])
+                                               } else {
+                                                   return(NA_character_)
+                                               }
+                                             }
+                                               )
     data.table::setnames(
       dracor_list$plays,
       old = c("name", "author.name"),
@@ -282,7 +289,7 @@ summary.dracor <- function(object, ...) {
 #' }
 #' @seealso \code{\link{get_dracor_meta}}
 #' @importFrom jsonlite fromJSON
-#' @importFrom purrr compact map map_chr map_lgl safely
+#' @importFrom purrr compact map map_chr map_lgl safely possibly
 #' @import data.table
 #' @export
 get_dracor <- function(corpus = "all",
