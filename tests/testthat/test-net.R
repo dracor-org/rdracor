@@ -27,20 +27,20 @@ test_that("cooccur_igraph is returned by get_net_cooccur_igraph()", {
 })
 
 test_that("label_cooccur_igraph() return come NA for big network", {
-  henryiv <- get_net_cooccur_igraph("henry-iv-part-i", "shake")
+  henryiv <- get_net_cooccur_igraph("henry-iv-part-1", "shake")
   expect_true(any(is.na(label_cooccur_igraph(henryiv))))
 })
 
 test_that(
   "label_cooccur_igraph() do not return NA after max_graph_size adjustment",
   {
-    henryiv <- get_net_cooccur_igraph("henry-iv-part-i", "shake")
+    henryiv <- get_net_cooccur_igraph("henry-iv-part-1", "shake")
     expect_true(all(!is.na(label_cooccur_igraph(henryiv, max_graph_size = 36))))
   }
 )
 
 test_that("summary.cooccur_igraph() prints appropriate number of rows", {
-  henryiv <- get_net_cooccur_igraph("henry-iv-part-i", "shake")
+  henryiv <- get_net_cooccur_igraph("henry-iv-part-1", "shake")
   expect_equal(length(capture.output(summary(henryiv))), 15L)
 })
 

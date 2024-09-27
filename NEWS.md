@@ -1,3 +1,11 @@
+# rdracor 1.0.4
+
+* updated deprecated functions importerd from `{igraph}`
+* Added progress bar to `get_dracor()`
+* updated tests
+* fixed bug with getting corpora with plays without authors (e.g., AmDraCor)
+using `get_dracor()`
+
 # rdracor 1.0.3
 
 * updated the packaged to changes in 'Dracor' API

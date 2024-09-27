@@ -444,8 +444,8 @@ summary.cooccur_igraph <- function(object, ...) {
   density <- igraph::edge_density(object)
   diam <- igraph::diameter(object, directed = FALSE)
   mean_dist <- igraph::mean_distance(object, directed = FALSE)
-  cohesion <- igraph::graph.cohesion(object)
-  assort <- igraph::assortativity.degree(object, directed = FALSE)
+  cohesion <- igraph::cohesion(object)
+  assort <- igraph::assortativity_degree(object, directed = FALSE)
   global_clustering <- igraph::transitivity(object, "global")
   local_clustering_average <-
     igraph::transitivity(object, "average")
@@ -532,7 +532,7 @@ get_net_relations_igraph <- function(play = play,
       as_tibble = FALSE
     )
   data.table::setnames(relations, c("source", "type", "target", "relation"))
-  graph <- igraph::graph.data.frame(
+  graph <- igraph::graph_from_data_frame(
     relations[, c(
       "source",
       "target",
