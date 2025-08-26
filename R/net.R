@@ -213,6 +213,7 @@ get_net_cooccur_igraph <- function(play = NULL,
                                    corpus = NULL,
                                    as_igraph = FALSE) {
   nodes <- get_play_characters(play = play, corpus = corpus, as_tibble = FALSE)
+  data.table::setcolorder(nodes, "id")
   edges <- get_net_cooccur_edges(play = play, corpus = corpus, as_tibble = FALSE)
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
@@ -531,6 +532,7 @@ get_net_relations_igraph <- function(play = play,
       corpus = corpus,
       as_tibble = FALSE
     )
+  data.table::setcolorder(nodes, "id")
   data.table::setnames(relations, c("source", "type", "target", "relation"))
   graph <- igraph::graph_from_data_frame(
     relations[, c(
