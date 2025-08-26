@@ -1,3 +1,23 @@
+# rdracor 1.0.5
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+-   fixed bug with creating igraph objects with `get_net_*_igraph()` functions 
+    caused by DraCor API changes
+
+## R CMD check results
+
+There were no NOTEs, ERRORs or WARNINGs.
+
+
+## Test environments
+ 
+-   local OS X install, R 4.4.2
+-   Fedora Linux, R-devel, clang, gfortran
+-   Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
 # rdracor 1.0.4
 
 ## Resubmission
