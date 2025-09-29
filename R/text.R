@@ -92,7 +92,7 @@ get_text_chr_spoken <-
       if (!(toupper(gender) %in% c("MALE", "FEMALE", "UNKNOWN"))) {
         stop("gender must be one of 'MALE', 'FEMALE','UNKNOWN'")
       }
-      request <- paste0(request, "?gender=", toupper(gender))
+      request <- paste0(request, "?sex=", toupper(gender))
     }
     dracor_api(request,
       expected_type = "text/plain", split_text = split_text, ...

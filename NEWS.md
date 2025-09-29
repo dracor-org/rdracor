@@ -1,7 +1,12 @@
+# rdracor 1.0.6
+
+* updated requests for all "gender" to "sex" properties with respect to recent 
+'DraCor' API changes
+
 # rdracor 1.0.5
 
 * fixed bug with creating igraph objects with `get_net_*_igraph()` functions 
-caused by DraCor API changes
+caused by 'DraCor' API changes
 
 # rdracor 1.0.4
 
