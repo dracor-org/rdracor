@@ -375,7 +375,7 @@ plot.cooccur_igraph <- function(x,
     if (is.null(gender_colors)) {
       vertex.color <- NULL
     } else {
-      vertex.color <- gender_colors[igraph::vertex_attr(x, "gender")]
+      vertex.color <- gender_colors[igraph::vertex_attr(x, "sex")]
     }
   }
   if (!exists("vertex.size")) {
@@ -441,7 +441,7 @@ plot.cooccur_igraph <- function(x,
 #' @describeIn get_net_cooccur_igraph Meaningful summary for
 #'   \code{"cooccur_igraph"} object: network properties, gender distribution
 summary.cooccur_igraph <- function(object, ...) {
-  genders <- igraph::vertex_attr(object, "gender")
+  genders <- igraph::vertex_attr(object, "sex")
   density <- igraph::edge_density(object)
   diam <- igraph::diameter(object, directed = FALSE)
   mean_dist <- igraph::mean_distance(object, directed = FALSE)
@@ -575,7 +575,7 @@ is.relations_igraph <- function(x) {
 #' @describeIn get_net_relations_igraph Meaningful summary for
 #' \code{"relations_igraph"} object: relationships and their type.
 summary.relations_igraph <- function(object, ...) {
-  genders <- igraph::vertex_attr(object, "gender")
+  genders <- igraph::vertex_attr(object, "sex")
   edges_df <- as_data_frame(object)
   n <- nrow(edges_df)
   edges_df$arrow <-
