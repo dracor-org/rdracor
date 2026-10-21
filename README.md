@@ -82,7 +82,7 @@ corpora <- get_dracor_meta()
 summary(corpora)
 #> DraCor hosts 24 corpora comprising 4918 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2026-10-07 03:32:39.834).
+#> The last updated corpus was German Drama Corpus (2026-10-07 01:32:39.834).
 plot(corpora)
 ```
 
@@ -93,11 +93,11 @@ plot(corpora)
 ``` r
 ger <- get_dracor(corpus = "ger")
 summary(ger)
-#> 783 plays in German Drama Corpus 
-#> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor  
+#> 783 plays in German Drama Corpus
+#> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor
 #> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 750 German-language plays from the 1500s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
-#> Written years (range): 1549–1947 
-#> Premiere years (range): 1515–2023    
+#> Written years (range): 1549–1947
+#> Premiere years (range): 1515–2023
 #> Years of the first printing (range): 1510–2010
 ```
 
@@ -106,11 +106,11 @@ You can get all corpora at once:
 ``` r
 all <- get_dracor()
 summary(all)
-#> 4930 plays in 24 corpora:    
-#> Corpora id:  
+#> 4930 plays in 24 corpora:
+#> Corpora id:
 #> fre (1940 plays), ger (783 plays), eng (753 plays), dutch (228 plays), rus (212 plays), cal (205 plays), ita (157 plays), ro (93 plays), hun (74 plays), swe (68 plays), pol (50 plays), u (48 plays), greek (46 plays), am (40 plays), gersh (38 plays), ibs (37 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), ar (16 plays), yi (8 plays), bash (3 plays), tat (3 plays)
-#> Written years (range): 43–1970   
-#> Premiere years (range): -497–2023    
+#> Written years (range): 43–1970
+#> Premiere years (range): -497–2023
 #> Years of the first printing (range): 1170–2017
 ```
 
@@ -372,7 +372,7 @@ set_dracor_api_url("https://staging.dracor.org/api/v1")
 #> base: https://staging.dracor.org/api/v1
 #> status: stable
 get_dracor("u")
-#> # A tibble: 48 × 63
+#> # A tibble: 48 × 62
 #>    corpus id      playName      yearNormalized title titleEn subtitle subtitleEn
 #>  * <chr>  <chr>   <chr>                  <int> <chr> <chr>   <chr>    <lgl>     
 #>  1 u      u000001 ukrainka-adv…           1913 Адво… Attorn… Драмати… NA        
@@ -386,7 +386,7 @@ get_dracor("u")
 #>  9 u      u000009 ukrainka-try…           1913 Трип… Tripty… (Легенд… NA        
 #> 10 u      u000010 ukrainka-try…           1906 Три … Three … Діалог   NA        
 #> # ℹ 38 more rows
-#> # ℹ 55 more variables: firstAuthorName <chr>, authors <list>,
+#> # ℹ 54 more variables: firstAuthorName <chr>, authors <list>,
 #> #   source.name <chr>, source.url <chr>, yearWrittenStart <int>,
 #> #   yearWrittenFinish <int>, yearPrintedStart <lgl>, yearPrintedFinish <int>,
 #> #   yearPremieredStart <int>, yearPremieredFinish <int>, wikidataId <chr>,

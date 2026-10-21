@@ -32,6 +32,17 @@ as connection problems
 * fixed `citation("rdracor")`: full list of authors of the 'DraCor' paper and
 DOI; added a citation for the package
 * fixed typos in documentation; documented the format of `gender_colors`
+* fixed `plot()` for `cooccur_igraph` objects failing or warning when a metric
+is 0 for every character (e.g. betweenness in a two-character play) or the play
+has no co-occurrences; unknown relation types are drawn in grey
+* several authors of a play are separated with "; " in the attributes of
+network objects
+* `get_dracor()` downloads each corpus once even if its name is repeated and
+no longer returns the duplicated column `yearNormalizedMeta`
+* the `updated` column of `get_dracor_meta()` takes the UTC offset of 'DraCor'
+API timestamps into account
+* invalid `play` or `corpus` arguments give a clear error message
+* requests to 'DraCor' API identify the package with a User-Agent header
 
 # rdracor 1.0.6
 
