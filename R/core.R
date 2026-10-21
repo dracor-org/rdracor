@@ -126,10 +126,7 @@ dracor_api <- function(request,
       request,
       if (!isTRUE(default_type)) httr::accept(expected_type),
       httr::timeout(getOption("rdracor.timeout", 600)),
-      httr::config(
-        connecttimeout = getOption("rdracor.connect_timeout", 30),
-        ssl_verifypeer = FALSE
-      )
+      httr::config(connecttimeout = getOption("rdracor.connect_timeout", 30))
     ),
     error = function(e) {
       hint <- if (grepl("timed out", conditionMessage(e), ignore.case = TRUE)) {
@@ -210,8 +207,7 @@ dracor_api_available <- function(dracor_api_url = NULL, timeout = 10) {
   resp <- tryCatch(
     httr::GET(
       paste0(dracor_api_url, "/info"),
-      httr::timeout(timeout),
-      httr::config(ssl_verifypeer = FALSE)
+      httr::timeout(timeout)
     ),
     error = function(e) NULL
   )
