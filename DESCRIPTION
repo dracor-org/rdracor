@@ -2,7 +2,7 @@ Package: rdracor
 Type: Package
 Title: Access to the 'DraCor' API
 Description: Provide an interface for 'Drama Corpora Project' ('DraCor') API: <https://dracor.org/documentation/api>.
-Version: 1.0.6
+Version: 1.1.0
 Authors@R: person("Ivan",
                   "Pozdniakov",
                   role = c("aut", "cre"),
@@ -10,16 +10,15 @@ Authors@R: person("Ivan",
                   comment = c(ORCID = "0000-0002-2450-7004"))
 License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: true
-Imports: 
+Imports:
     jsonlite (>= 1.6),
     utils,
-    data.table (>= 1.12.2),
+    data.table (>= 1.13.0),
     xml2 (>= 1.2.2),
     igraph (>= 1.2.4.1),
     httr (>= 1.4.1),
     tibble (>= 3.1.8),
-    purrr (>= 0.3.5),
+    purrr (>= 1.0.0),
     stringr (>= 1.4.1),
     tidyr (>= 1.2.1),
     Rdpack (>= 2.4)

@@ -1,3 +1,19 @@
+# rdracor 1.1.0
+
+* all functions that request 'DraCor' API now fail gracefully: if the API is
+not available (no internet connection, the server is down or does not respond,
+error status, data that cannot be parsed), they show an informative message
+and return `NULL` instead of throwing an error
+* added time limits for requests to 'DraCor' API: options
+`rdracor.connect_timeout` (30 s) and `rdracor.timeout` (600 s), see
+`?dracor_api`
+* added `dracor_api_available()` to check whether 'DraCor' API is available
+* fixed `dracor_api_info()` failing if 'DraCor' API is not available
+* `get_dracor()` requests the list of corpora once instead of twice
+* examples are run only if 'DraCor' API is available
+* tests that need 'DraCor' API are not run on CRAN; added tests for the
+behaviour of the functions without 'DraCor' API
+
 # rdracor 1.0.6
 
 * updated requests for all "gender" to "sex" properties with respect to recent 
@@ -44,7 +60,6 @@ using `get_dracor()`
 # rdracor 0.7.3
 
 * Fixed error with outdated certificate 
->>>>>>> cba29901f42ade9ce755f800bd74cc22ac43ed72
 
 # rdracor 0.7.2
 
