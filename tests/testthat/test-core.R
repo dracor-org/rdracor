@@ -18,6 +18,7 @@ test_that("Valid request is created", {
 })
 
 test_that("dracor_sparql() returns xml_document by default", {
+  skip_if_no_dracor()
   expect_s3_class(
     dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"),
     "xml_document"
@@ -25,22 +26,7 @@ test_that("dracor_sparql() returns xml_document by default", {
 })
 
 test_that("dracor_sparql() returns character with parse = FALSE", {
-  expect_type(
-    dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10",
-      parse = FALSE
-    ),
-    "character"
-  )
-})
-
-test_that("dracor_sparql() returns xml_document", {
-  expect_s3_class(
-    dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10"),
-    "xml_document"
-  )
-})
-
-test_that("dracor_sparql() with parse = FALSE returns character", {
+  skip_if_no_dracor()
   expect_type(
     dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10",
       parse = FALSE
@@ -50,6 +36,7 @@ test_that("dracor_sparql() with parse = FALSE returns character", {
 })
 
 test_that("dracor_api_info returns NULL", {
+  skip_if_no_dracor()
   expect_invisible(dracor_api_info())
 })
 

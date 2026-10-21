@@ -1,8 +1,10 @@
 test_that("get_net_cooccur_metrics returns list", {
+  skip_if_no_dracor()
   expect_type(get_net_cooccur_metrics("pushkin-boris-godunov", "rus"), "list")
 })
 
 test_that("column names for get_net_cooccur_edges() are valid", {
+  skip_if_no_dracor()
   expect_equal(
     names(get_net_cooccur_edges("pushkin-boris-godunov", "rus")),
     c("Source", "Type", "Target", "Weight")
@@ -10,6 +12,7 @@ test_that("column names for get_net_cooccur_edges() are valid", {
 })
 
 test_that("get_net_cooccur_gexf() returns valid object", {
+  skip_if_no_dracor()
   gexf <- get_net_cooccur_gexf("pushkin-boris-godunov", "rus")
   expect_equal(
     as.character(xml2::xml_contents(
@@ -20,6 +23,7 @@ test_that("get_net_cooccur_gexf() returns valid object", {
 })
 
 test_that("cooccur_igraph is returned by get_net_cooccur_igraph()", {
+  skip_if_no_dracor()
   expect_s3_class(
     get_net_cooccur_igraph("gogol-zhenitba", "rus"),
     "cooccur_igraph"
@@ -27,6 +31,7 @@ test_that("cooccur_igraph is returned by get_net_cooccur_igraph()", {
 })
 
 test_that("label_cooccur_igraph() return come NA for big network", {
+  skip_if_no_dracor()
   henryiv <- get_net_cooccur_igraph("henry-iv-part-1", "shake")
   expect_true(any(is.na(label_cooccur_igraph(henryiv))))
 })
@@ -34,17 +39,20 @@ test_that("label_cooccur_igraph() return come NA for big network", {
 test_that(
   "label_cooccur_igraph() do not return NA after max_graph_size adjustment",
   {
+    skip_if_no_dracor()
     henryiv <- get_net_cooccur_igraph("henry-iv-part-1", "shake")
     expect_true(all(!is.na(label_cooccur_igraph(henryiv, max_graph_size = 36))))
   }
 )
 
 test_that("summary.cooccur_igraph() prints appropriate number of rows", {
+  skip_if_no_dracor()
   henryiv <- get_net_cooccur_igraph("henry-iv-part-1", "shake")
   expect_equal(length(capture.output(summary(henryiv))), 15L)
 })
 
 test_that("relations_igraph is returned by get_net_relations_igraph()", {
+  skip_if_no_dracor()
   expect_s3_class(
     get_net_relations_igraph("gogol-zhenitba", "rus"),
     "relations_igraph"
