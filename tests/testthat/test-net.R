@@ -58,3 +58,20 @@ test_that("relations_igraph is returned by get_net_relations_igraph()", {
     "relations_igraph"
   )
 })
+
+test_that("plot methods accept igraph arguments and custom gender_colors", {
+  skip_if_no_dracor()
+  pdf(NULL)
+  cooccur <- get_net_cooccur_igraph("gogol-zhenitba", "rus")
+  expect_silent(plot(cooccur, vertex.color = "red", vertex.size = 5))
+  expect_silent(plot(cooccur, edge_size_scale = NULL))
+  expect_silent(
+    plot(cooccur, gender_colors = c(FEMALE = "red", MALE = "blue", UNKNOWN = "grey"))
+  )
+  expect_silent(plot(cooccur, gender_colors = NULL))
+  expect_error(plot(cooccur, gender_colors = c("red", "blue", "grey")), "gender_colors")
+  relations <- get_net_relations_igraph("gogol-zhenitba", "rus")
+  expect_silent(plot(relations, main = "Zhenitba", vertex.color = "red"))
+  expect_silent(plot(relations, show_others = "none"))
+  dev.off()
+})

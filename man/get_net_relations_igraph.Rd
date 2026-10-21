@@ -53,10 +53,14 @@ instead of \code{cooccur_igraph}. \code{FALSE} by default.}
 \item{layout}{Function, an algorithm used for graph layout. See
 \link[igraph]{layout_}.}
 
-\item{gender_colors}{Named vector with 3 values with colors for
-MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
-colors. If you set parameter \code{vertex.color} (see
-\link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.}
+\item{gender_colors}{Named character vector with 3 colors for the
+\code{sex} of characters (\code{MALE}, \code{FEMALE} and \code{UNKNOWN}, as
+returned by 'DraCor' API), e.g. the default
+\code{c(MALE = "#0073C2", FEMALE = "#EFC000", UNKNOWN = "#99979D")}. Any R
+color specification can be used, the order of the elements does not matter.
+Set \code{NULL} to use the default igraph colors. If you set parameter
+\code{vertex.color} (see \link[igraph]{igraph.plotting}),
+\code{gender_colors} will be ignored.}
 
 \item{show_others}{Character value. What to do with vertices without
 relations?
