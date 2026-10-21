@@ -1,13 +1,30 @@
 test_that("Numeric values induce error", {
-  expect_error(form_play_request(1, 3))
+  expect_error(form_play_request(1, 3), "corpus must be a single character value")
+  expect_error(form_play_request("pushkin-boris-godunov", 3), "corpus must be")
+  expect_error(form_play_request(1, "rus"), "play must be a single character value")
 })
 
 test_that("NULL values induce error", {
-  expect_error(form_play_request())
+  expect_error(form_play_request(), "corpus must be")
+  expect_error(form_play_request(corpus = "rus"), "play must be")
+})
+
+test_that("NA and empty strings induce error", {
+  expect_error(form_play_request(NA_character_, "rus"), "play must be")
+  expect_error(form_play_request("pushkin-boris-godunov", ""), "corpus must be")
 })
 
 test_that("More than one corpus induce error for a play", {
-  expect_error(form_play_request("pushkin-boris-godunov", c("rus", "ger")))
+  expect_error(
+    form_play_request("pushkin-boris-godunov", c("rus", "ger")),
+    "corpus must be"
+  )
+})
+
+test_that("requests identify the package in the User-Agent header", {
+  ua <- dracor_user_agent()
+  expect_s3_class(ua, "request")
+  expect_match(ua$options$useragent, "^rdracor/[0-9.]+ \\(https://github.com/")
 })
 
 test_that("Valid request is created", {

@@ -2,8 +2,13 @@ form_play_request <-
   function(play = NULL,
            corpus = NULL,
            type = NULL) {
-    stopifnot(is.character(corpus) && length(corpus) == 1)
-    stopifnot(is.character(play) && length(play) == 1)
+    stopifnot(
+      "corpus must be a single character value" =
+        is.character(corpus) && length(corpus) == 1 &&
+          !is.na(corpus) && nzchar(corpus),
+      "play must be a single character value" =
+        is.character(play) && length(play) == 1 && !is.na(play) && nzchar(play)
+    )
     request <-
       paste0(get_dracor_api_url(), "/corpora/", corpus, "/plays/", play)
     if (!is.null(type)) {
@@ -12,6 +17,14 @@ form_play_request <-
       return(request)
     }
   }
+
+# identifies the package in the server logs of 'DraCor'
+dracor_user_agent <- function() {
+  httr::user_agent(paste0(
+    "rdracor/", utils::packageVersion("rdracor"),
+    " (https://github.com/dracor-org/rdracor)"
+  ))
+}
 
 #' @import httr
 dracor_error <- function(resp) {
@@ -121,10 +134,12 @@ dracor_api <- function(request,
   # evaluate the request outside of tryCatch(): errors from building it
   # (e.g. invalid play or corpus names) are not connection problems
   force(request)
+  user_agent <- dracor_user_agent()
   resp <- tryCatch(
     httr::GET(
       request,
       if (!isTRUE(default_type)) httr::accept(expected_type),
+      user_agent,
       httr::timeout(getOption("rdracor.timeout", 600)),
       httr::config(connecttimeout = getOption("rdracor.connect_timeout", 30))
     ),
@@ -209,6 +224,7 @@ dracor_api_available <- function(dracor_api_url = NULL, timeout = 10) {
   resp <- tryCatch(
     httr::GET(
       paste0(dracor_api_url, "/corpora"),
+      dracor_user_agent(),
       httr::timeout(timeout)
     ),
     error = function(e) NULL
