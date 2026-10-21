@@ -15,28 +15,21 @@ form_play_request <-
 
 #' @import httr
 dracor_error <- function(resp) {
-  if (resp$status_code == 404) {
-    stop(
-      sprintf(
-        "Status code - %i: Wrong Dracor API request - data were not found",
-        resp$status_code
-      )
+  status <- httr::status_code(resp)
+  problem <- if (status == 404) {
+    paste(
+      "data were not found. Check corpus and play names;",
+      "some data (e.g. relations) are not available for every play"
     )
-  } else if (resp$status_code == 400) {
-    stop(
-      sprintf(
-        "Status code - %i: Wrong Dracor API request - invalid request",
-        resp$status_code
-      )
-    )
-  } else if (resp$status_code >= 500) {
-    stop(sprintf(
-      "Status code - %i: Internal Dracor server problem",
-      resp$status_code
-    ))
-  } else if (resp$status_code != 200) {
-    stop(sprintf("Status code - %i: Unknown problem", resp$status_code))
+  } else if (status == 400) {
+    "invalid request"
+  } else if (status >= 500) {
+    "internal 'DraCor' server problem"
+  } else {
+    "unknown problem"
   }
+  message(sprintf("Status code - %i: %s\nRequest: %s", status, problem, resp$url))
+  invisible(NULL)
 }
 
 #' Send a GET request to DraCor API and parse the results
@@ -55,6 +48,29 @@ dracor_error <- function(resp) {
 #'   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
 #'   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
 #'   \item{\code{text/plain}}{No need for additional preprocessing}}
+#'
+#' If 'DraCor' API is not available (no internet connection, the server is down
+#' or does not respond within the time limits, see below), returns an error
+#' status or data that cannot be parsed, \code{dracor_api()} does not throw an
+#' error: it shows an informative message and returns \code{NULL} invisibly.
+#' All functions of the package that request data from 'DraCor' API behave the
+#' same way.
+#'
+#' @section Time limits:
+#' Two time limits apply to every request to 'DraCor' API. Both can be changed
+#' with \code{\link{options}()}:
+#' \describe{
+#'   \item{\code{rdracor.connect_timeout}}{Seconds to wait for the connection
+#'   to the server, 30 by default. If the server does not accept the connection
+#'   within this time, it is treated as unavailable.}
+#'   \item{\code{rdracor.timeout}}{Seconds to wait for the whole response,
+#'   600 (10 minutes) by default. Some requests, e.g. metadata of a big corpus,
+#'   can take several minutes on a slow connection.}
+#' }
+#' For example, to wait up to 30 minutes for a response, run
+#' \code{options(rdracor.timeout = 1800)} before requesting data; to restore
+#' the default, run \code{options(rdracor.timeout = NULL)}. To make the setting
+#' permanent, add the \code{options()} call to your \code{.Rprofile}.
 #'
 #' @param request Character, valid GET request.
 #' @param expected_type Character, 'MIME' type: one of
@@ -77,10 +93,11 @@ dracor_error <- function(resp) {
 #' \code{default_type} parameter. The resulting structure of the output depends
 #' on the selected \code{default_type} value, the respective function for
 #' parsing (see \code{default_type}) and additional parameters that are passed
-#' to the function for parsing.
+#' to the function for parsing. If 'DraCor' API is not available, \code{NULL}
+#' is returned invisibly (see Details).
 #' @examples
 #' dracor_api("https://dracor.org/api/v1/info", expected_type = "application/json")
-#' @seealso \code{\link{dracor_sparql}}
+#' @seealso \code{\link{dracor_sparql}} \code{\link{dracor_api_available}}
 #' @import httr
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
@@ -101,42 +118,101 @@ dracor_api <- function(request,
                        as_tibble = TRUE,
                        ...) {
   expected_type <- match.arg(expected_type)
-  if (isTRUE(default_type)) {
-    resp <- tryCatch(httr::GET(request,
-                               config = httr::config(ssl_verifypeer = FALSE)),
-                     error = function(e) message("Problem with server occured:\n
-                                                 improper data returned:\n", e))
-    return(httr::content(resp, as = "text", encoding = "UTF-8"))
-  } else {
-    resp <- tryCatch(httr::GET(request,
-                      httr::accept(expected_type),
-                      httr::config(ssl_verifypeer = FALSE)),
-                     error = function(e) message("Problem with server occured:\n
-                                                 improper data returned:\n", e))
-  }
-  dracor_error(resp)
-  cont <- httr::content(resp, as = "text", encoding = "UTF-8")
-  if (!isTRUE(parse)) {
-    return(cont)
-  }
-  switch(expected_type,
-    "application/json" = if (as_tibble) {
-      return(tibble::as_tibble(jsonlite::fromJSON(cont, ...)))
-    } else {
-      return(jsonlite::fromJSON(cont, ...))
-    },
-    "application/xml" = return(xml2::read_xml(cont, ...)),
-    "text/csv" = if (as_tibble) {
-      return(tibble::as_tibble(data.table::fread(cont, ...)))
-    } else {
-      return(data.table::fread(cont, ...))
-    },
-    "text/plain" = if (split_text) {
-      return(unlist(strsplit(cont, "\n")))
-    } else {
-      return(cont)
+  resp <- tryCatch(
+    httr::GET(
+      request,
+      if (!isTRUE(default_type)) httr::accept(expected_type),
+      httr::timeout(getOption("rdracor.timeout", 600)),
+      httr::config(
+        connecttimeout = getOption("rdracor.connect_timeout", 30),
+        ssl_verifypeer = FALSE
+      )
+    ),
+    error = function(e) {
+      hint <- if (grepl("timed out", conditionMessage(e), ignore.case = TRUE)) {
+        sprintf(
+          "\nTime limits can be increased, see ?dracor_api. Current values: options(rdracor.timeout = %s, rdracor.connect_timeout = %s)",
+          getOption("rdracor.timeout", 600),
+          getOption("rdracor.connect_timeout", 30)
+        )
+      } else {
+        ""
+      }
+      message(
+        "Could not connect to 'DraCor' API: ", conditionMessage(e), hint,
+        "\nRequest: ", request
+      )
+      NULL
     }
   )
+  if (is.null(resp)) {
+    return(invisible(NULL))
+  }
+  if (httr::status_code(resp) != 200) {
+    dracor_error(resp)
+    return(invisible(NULL))
+  }
+  cont <- httr::content(resp, as = "text", encoding = "UTF-8")
+  if (isTRUE(default_type) || !isTRUE(parse)) {
+    return(cont)
+  }
+  tryCatch(
+    switch(expected_type,
+           "application/json" = if (as_tibble) {
+             tibble::as_tibble(jsonlite::fromJSON(cont, ...))
+           } else {
+             jsonlite::fromJSON(cont, ...)
+           },
+           "application/xml" = xml2::read_xml(cont, ...),
+           "text/csv" = if (as_tibble) {
+             tibble::as_tibble(data.table::fread(cont, ...))
+           } else {
+             data.table::fread(cont, ...)
+           },
+           "text/plain" = if (split_text) {
+             unlist(strsplit(cont, "\n"))
+           } else {
+             cont
+           }
+    ),
+    error = function(e) {
+      message(
+        "'DraCor' API returned data that could not be parsed as ",
+        expected_type, ": ", conditionMessage(e),
+        "\nRequest: ", request
+      )
+      invisible(NULL)
+    }
+  )
+}
+
+
+#' Check whether 'DraCor' API is available
+#'
+#' \code{dracor_api_available()} sends a light request to 'DraCor' API and
+#' checks whether it responds. It never throws an error, so it can be used to
+#' run code that needs 'DraCor' API only if the API is available.
+#'
+#' @param dracor_api_url Character, 'DraCor' API URL. If NULL (default), the
+#' current 'DraCor' API URL is used.
+#' @param timeout Numeric, maximum number of seconds to wait for the response.
+#' Default value is 10.
+#' @return \code{TRUE} if 'DraCor' API is available, \code{FALSE} otherwise.
+#' @examples
+#' dracor_api_available()
+#' @seealso \code{\link{dracor_api_info}}
+#' @export
+dracor_api_available <- function(dracor_api_url = NULL, timeout = 10) {
+  if (is.null(dracor_api_url)) dracor_api_url <- get_dracor_api_url()
+  resp <- tryCatch(
+    httr::GET(
+      paste0(dracor_api_url, "/info"),
+      httr::timeout(timeout),
+      httr::config(ssl_verifypeer = FALSE)
+    ),
+    error = function(e) NULL
+  )
+  !is.null(resp) && httr::status_code(resp) == 200
 }
 
 #' Submit SPARQL queries to DraCor API
@@ -180,24 +256,24 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
 #' @return NULL
 #' @examples
 #' dracor_api_info()
-#' dracor_api_info("https://staging.dracor.org/api")
 #' get_dracor_api_url()
-#' @seealso \code{\link{dracor_api}}
+#' @seealso \code{\link{dracor_api}} \code{\link{dracor_api_available}}
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
 #' @export
 dracor_api_info <- function(dracor_api_url = NULL) {
-  if (is.null(dracor_api_url)) dracor_api_url = get_dracor_api_url()
-  tryCatch(
-    api_info_list <- dracor_api(paste0(dracor_api_url, "/info"),
-                                as_tibble = FALSE),
-    error = function(e) cat("DraCor API was not found:\n", e),
-    finally = cat("DraCor API URL: ", dracor_api_url, "\n",
-                  paste(names(api_info_list),
-                        unlist(api_info_list),
-                        sep = ": ",
-                        collapse = "\n"))
-  )
+  if (is.null(dracor_api_url)) dracor_api_url <- get_dracor_api_url()
+  api_info_list <- dracor_api(paste0(dracor_api_url, "/info"),
+                              as_tibble = FALSE)
+  if (is.null(api_info_list)) {
+    cat("DraCor API was not found:", dracor_api_url, "\n")
+    return(invisible(NULL))
+  }
+  cat("DraCor API URL: ", dracor_api_url, "\n",
+      paste(names(api_info_list),
+            unlist(api_info_list),
+            sep = ": ",
+            collapse = "\n"))
   invisible(NULL)
 }
 

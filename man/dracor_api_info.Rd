@@ -32,9 +32,8 @@ the API, status, existdb version, API version etc.
 }}
 \examples{
 dracor_api_info()
-dracor_api_info("https://staging.dracor.org/api")
 get_dracor_api_url()
 }
 \seealso{
-\code{\link{dracor_api}}
+\code{\link{dracor_api}} \code{\link{dracor_api_available}}
 }

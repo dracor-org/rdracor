@@ -23,9 +23,9 @@ Imports:
     stringr (>= 1.4.1),
     tidyr (>= 1.2.1),
     Rdpack (>= 2.4)
-RoxygenNote: 7.3.2
 RdMacros: Rdpack
 Suggests: 
     testthat (>= 2.1.0)
 URL: https://github.com/dracor-org/rdracor
 BugReports: https://github.com/dracor-org/rdracor/issues
+Config/roxygen2/version: 8.1.1

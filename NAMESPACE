@@ -8,6 +8,7 @@ S3method(summary,dracor)
 S3method(summary,dracor_meta)
 S3method(summary,relations_igraph)
 export(dracor_api)
+export(dracor_api_available)
 export(dracor_api_info)
 export(dracor_sparql)
 export(get_character_plays)
@@ -41,27 +42,33 @@ import(igraph)
 import(stringr)
 import(xml2)
 importFrom(Rdpack,reprompt)
-importFrom(graphics,abline)
-importFrom(graphics,axis)
-importFrom(graphics,par)
-importFrom(graphics,plot.default)
-importFrom(graphics,segments)
-importFrom(graphics,text)
+importFrom(graphics,
+  abline,
+  axis,
+  par,
+  plot.default,
+  segments,
+  text
+)
 importFrom(jsonlite,fromJSON)
-importFrom(purrr,compact)
-importFrom(purrr,flatten_chr)
-importFrom(purrr,map)
-importFrom(purrr,map_chr)
-importFrom(purrr,map_int)
-importFrom(purrr,map_lgl)
-importFrom(purrr,modify_at)
-importFrom(purrr,possibly)
-importFrom(purrr,safely)
+importFrom(purrr,
+  compact,
+  flatten_chr,
+  map,
+  map_chr,
+  map_int,
+  map_lgl,
+  modify_at,
+  possibly,
+  safely
+)
 importFrom(stats,na.omit)
 importFrom(tibble,as_tibble)
 importFrom(tidyr,replace_na)
-importFrom(utils,URLencode)
-importFrom(utils,head)
-importFrom(utils,tail)
-importFrom(utils,type.convert)
+importFrom(utils,
+  URLencode,
+  head,
+  tail,
+  type.convert
+)
 importFrom(xml2,read_xml)

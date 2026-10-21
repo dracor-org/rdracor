@@ -44,7 +44,8 @@ is returned. Otherwise, the resulting value is parsed according to a value of
 \code{default_type} parameter. The resulting structure of the output depends
 on the selected \code{default_type} value, the respective function for
 parsing (see \code{default_type}) and additional parameters that are passed
-to the function for parsing.
+to the function for parsing. If 'DraCor' API is not available, \code{NULL}
+is returned invisibly (see Details).
 }
 \description{
 Function \code{dracor_api()} sends a GET request to DraCor API with a
@@ -62,10 +63,35 @@ parsed depending on selected 'MIME' type in \code{expected_type}:
   \item{\code{application/xml}}{\code{\link[xml2:read_xml]{xml2::read_xml()}}}
   \item{\code{text/csv}}{\code{\link[data.table:fread]{data.table::fread()}}}
   \item{\code{text/plain}}{No need for additional preprocessing}}
+
+If 'DraCor' API is not available (no internet connection, the server is down
+or does not respond within the time limits, see below), returns an error
+status or data that cannot be parsed, \code{dracor_api()} does not throw an
+error: it shows an informative message and returns \code{NULL} invisibly.
+All functions of the package that request data from 'DraCor' API behave the
+same way.
 }
+\section{Time limits}{
+
+Two time limits apply to every request to 'DraCor' API. Both can be changed
+with \code{\link{options}()}:
+\describe{
+  \item{\code{rdracor.connect_timeout}}{Seconds to wait for the connection
+  to the server, 30 by default. If the server does not accept the connection
+  within this time, it is treated as unavailable.}
+  \item{\code{rdracor.timeout}}{Seconds to wait for the whole response,
+  600 (10 minutes) by default. Some requests, e.g. metadata of a big corpus,
+  can take several minutes on a slow connection.}
+}
+For example, to wait up to 30 minutes for a response, run
+\code{options(rdracor.timeout = 1800)} before requesting data; to restore
+the default, run \code{options(rdracor.timeout = NULL)}. To make the setting
+permanent, add the \code{options()} call to your \code{.Rprofile}.
+}
+
 \examples{
 dracor_api("https://dracor.org/api/v1/info", expected_type = "application/json")
 }
 \seealso{
-\code{\link{dracor_sparql}}
+\code{\link{dracor_sparql}} \code{\link{dracor_api_available}}
 }
