@@ -33,6 +33,17 @@ get_available_corpus_names <- function() {
   get_dracor_meta()$name
 }
 
+# 'DraCor' API gives timestamps like "2026-10-07T03:32:39.834+02:00". The UTC
+# offset is taken into account (R's %z needs it without the colon); timestamps
+# without an offset are read as UTC.
+parse_dracor_datetime <- function(x) {
+  x <- sub("([+-][0-9]{2}):([0-9]{2})$", "\\1\\2", x)
+  out <- as.POSIXct(x, format = "%FT%H:%M:%OS%z", tz = "UTC")
+  no_offset <- is.na(out) & !is.na(x)
+  out[no_offset] <- as.POSIXct(x[no_offset], format = "%FT%H:%M:%OS", tz = "UTC")
+  out
+}
+
 dracor_meta <- function(dracor_df) {
   dracor_meta <-
     type.convert(dracor_df,
@@ -41,8 +52,7 @@ dracor_meta <- function(dracor_df) {
     )
   names(dracor_meta) <-
     gsub("metrics.", "", names(dracor_meta), fixed = TRUE)
-  dracor_meta$updated <-
-    as.POSIXct(dracor_meta$updated, format = "%FT%H:%M:%OS", tz = "UTC")
+  dracor_meta$updated <- parse_dracor_datetime(dracor_meta$updated)
   dracor_meta <- dracor_meta[order(-dracor_meta$plays), ]
   class(dracor_meta) <- c("dracor_meta", class(dracor_meta))
   return(dracor_meta)
@@ -109,14 +119,17 @@ plot.dracor_meta <- function(x,
     lty = lty
   )
 
-  axis(
+  axis_args <- list(
     side = 2,
     at = y_in,
     labels = x$title,
     las = 1,
-    cex.axis = cex,
-    gap.axis = -1
+    cex.axis = cex
   )
+  # gap.axis = -1 keeps all labels even if they overlap; the argument
+  # appeared in R 4.0
+  if (getRversion() >= "4.0.0") axis_args$gap.axis <- -1
+  do.call(axis, axis_args)
 
   segments(x0 = 0,
            y0 = y_in,

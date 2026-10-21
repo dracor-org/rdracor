@@ -153,13 +153,11 @@ get_corpus <- function(corpus = NULL,
     data.table::setcolorder(dracor_list$plays,
                             neworder = new_order)
 
-    dublicate_columns <-
-      c(
-        "wikidataIdMeta",
-        "titleMeta",
-        "subtitleMeta"
-      )
-    dracor_list$plays[, (dublicate_columns) := NULL]
+    duplicate_columns <- intersect(
+      c("wikidataIdMeta", "titleMeta", "subtitleMeta", "yearNormalizedMeta"),
+      names(dracor_list$plays)
+    )
+    dracor_list$plays[, (duplicate_columns) := NULL]
   }
   dracor_list$amount_of_plays <- nrow(dracor_list$plays)
   return(dracor_list)
@@ -248,7 +246,7 @@ summary.dracor <- function(object, ...) {
           "Description: %s",
           attr(object, "description")
         ),
-        sep = "\t\n"
+        sep = "\n"
       )
     } else {
       cat(
@@ -260,10 +258,10 @@ summary.dracor <- function(object, ...) {
         paste(sprintf(
           "%s (%i plays)", attr(object, "name"), attr(object, "plays")
         ), collapse = ", "),
-        sep = "\t\n"
+        sep = "\n"
       )
     },
-    sep = "\t\n"
+    sep = "\n"
   )
 }
 
@@ -308,6 +306,7 @@ get_dracor <- function(corpus = "all",
   if (identical(corpus, "all")) {
     corpus <- available_corpora
   }
+  corpus <- unique(corpus)
   if (!all(corpus %in% available_corpora)) {
     stop(
       paste(

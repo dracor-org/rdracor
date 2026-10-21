@@ -23,13 +23,21 @@ test_that("is.dracor() doesn't work for integer", {
   expect_false(is.dracor(list()))
 })
 
+test_that("duplicated corpus names are downloaded once", {
+  skip_if_no_dracor()
+  once <- get_dracor("tat", full_metadata = FALSE)
+  twice <- get_dracor(c("tat", "tat"), full_metadata = FALSE)
+  expect_equal(nrow(twice), nrow(once))
+  expect_equal(attr(twice, "name"), "tat")
+})
+
 test_that(
   "summary() work for 'dracor' object if there is no info on some years",
   {
     skip_if_no_dracor()
-    expect_true(all(nchar(capture.output(
-      summary(get_dracor("tat"))
-    )) > 3L))
+    summary_lines <- capture.output(summary(get_dracor("tat")))
+    expect_true(all(nchar(summary_lines) > 3L))
+    expect_false(any(grepl("\t$", summary_lines)))
   }
 )
 
