@@ -77,3 +77,27 @@ test_that("plot methods accept igraph arguments and custom gender_colors", {
   expect_silent(plot(relations, show_others = "none"))
   dev.off()
 })
+
+test_that("scale_metric() handles constant, empty and missing values", {
+  expect_equal(scale_metric(c(0, 10, 20), c(5, 20)), c(5, 15, 25))
+  expect_equal(scale_metric(c(0, 0), c(5, 20)), c(5, 5))
+  expect_equal(scale_metric(c(3, 3), c(1, 2)), c(1, 1))
+  expect_equal(scale_metric(numeric(0), c(5, 20)), numeric(0))
+  expect_equal(scale_metric(c(NA, 0, 4), c(1, 2)), c(1, 1, 3))
+})
+
+test_that("plot methods work for plays with one or two characters", {
+  skip_if_no_dracor()
+  pdf(NULL)
+  monodrama <- get_net_cooccur_igraph("schumann-der-dichterling", "ger")
+  expect_silent(plot(monodrama))
+  two_characters <- get_net_cooccur_igraph("leisewitz-die-pfandung", "ger")
+  expect_silent(plot(two_characters, vertex_size_metric = "betweenness"))
+  dev.off()
+})
+
+test_that("relations_igraph edges have named attributes", {
+  skip_if_no_dracor()
+  relations <- get_net_relations_igraph("lessing-emilia-galotti", "ger")
+  expect_true(all(c("type", "relation") %in% igraph::edge_attr_names(relations)))
+})

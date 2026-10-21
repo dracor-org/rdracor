@@ -246,7 +246,7 @@ get_net_cooccur_igraph <- function(play = NULL,
     wikidataId = meta$wikidataId,
     genre = meta$genre,
     num_of_segments = nrow(meta$segments),
-    authors = paste0(meta$authors$name, collapse = ", "),
+    authors = paste0(meta$authors$name, collapse = "; "),
     title = meta$title,
     year = meta$yearNormalized,
     class = c("cooccur_igraph", "igraph")
@@ -314,6 +314,20 @@ label_cooccur_igraph <- function(graph,
   vertices_labels
 }
 
+# Rescale a vertex or edge metric to plotting sizes: scale[1] for the minimum,
+# at most scale[1] + scale[2] for the maximum (reached when the minimum is 0).
+# If the metric is 0 for all vertices (e.g. betweenness in a two-character
+# play) or there is nothing to scale (a monodrama has no edges), every element
+# gets scale[1] instead of NaN/Inf; missing values get scale[1] as well.
+scale_metric <- function(v, scale) {
+  if (length(v) == 0 || all(is.na(v)) || max(v, na.rm = TRUE) == 0) {
+    return(rep(scale[1], length(v)))
+  }
+  out <- (v - min(v, na.rm = TRUE)) / max(v, na.rm = TRUE) * scale[2] + scale[1]
+  out[is.na(out)] <- scale[1]
+  out
+}
+
 #' @param x A \code{cooccur_igraph} object to plot.
 #' @param layout Function, an algorithm used for the graph layout. See
 #' \link[igraph]{igraph.plotting}.
@@ -338,7 +352,8 @@ label_cooccur_igraph <- function(graph,
 #' @param vertex_size_scale Numeric vector with two values. The first number is
 #' the size of the smallest vertex, the second one defines how much bigger the
 #' other vertices are: the size of a vertex is
-#' \code{first + second * (metric - min(metric)) / max(metric)}. If
+#' \code{first + second * (metric - min(metric)) / max(metric)} (all vertices
+#' get the first value if the metric is 0 for all of them). If
 #' you specify vertex size by yourself using parameter
 #' \code{vertex.size}(see \link[igraph]{igraph.plotting}),
 #' \code{vertex_size_scale} is ignored.
@@ -411,9 +426,10 @@ plot.cooccur_igraph <- function(x,
       "vertex_size_scale must be a numeric vector with 2 values" =
         is.numeric(vertex_size_scale) && length(vertex_size_scale) == 2
     )
-    v_s <- igraph::vertex_attr(x, vertex_size_metric)
-    defaults$vertex.size <- (v_s - min(v_s)) / max(v_s) *
-      vertex_size_scale[2] + vertex_size_scale[1]
+    defaults$vertex.size <- scale_metric(
+      igraph::vertex_attr(x, vertex_size_metric),
+      vertex_size_scale
+    )
   }
   vertex_size <- if ("vertex.size" %in% user_set) {
     dots[["vertex.size"]]
@@ -443,9 +459,8 @@ plot.cooccur_igraph <- function(x,
       "edge_size_scale must be a numeric vector with 2 values" =
         is.numeric(edge_size_scale) && length(edge_size_scale) == 2
     )
-    w <- igraph::edge_attr(x, "weight")
     defaults$edge.width <-
-      (w - min(w)) / max(w) * edge_size_scale[2] + edge_size_scale[1]
+      scale_metric(igraph::edge_attr(x, "weight"), edge_size_scale)
   }
 
   invisible(do.call(
@@ -572,7 +587,9 @@ get_net_relations_igraph <- function(play = NULL,
     return(invisible(NULL))
   }
   data.table::setcolorder(nodes, "id")
-  data.table::setnames(relations, c("source", "type", "target", "relation"))
+  # the columns are Source, Type, Target, Label: rename by name, not by position
+  data.table::setnames(relations, tolower(names(relations)))
+  data.table::setnames(relations, "label", "relation")
   graph <- igraph::graph_from_data_frame(
     relations[, c(
       "source",
@@ -598,7 +615,7 @@ get_net_relations_igraph <- function(play = NULL,
     wikidataId = meta$wikidataId,
     genre = meta$genre,
     num_of_segments = nrow(meta$segments),
-    authors = paste0(meta$authors$name, collapse = "\n"),
+    authors = paste0(meta$authors$name, collapse = "; "),
     title = meta$title,
     year = meta$yearNormalized,
     character_ids = nodes$id,
@@ -618,7 +635,7 @@ is.relations_igraph <- function(x) {
 #' \code{"relations_igraph"} object: relationships and their type.
 summary.relations_igraph <- function(object, ...) {
   genders <- igraph::vertex_attr(object, "sex")
-  edges_df <- as_data_frame(object)
+  edges_df <- igraph::as_data_frame(object)
   n <- nrow(edges_df)
   edges_df$arrow <-
     ifelse(edges_df$type == "Directed", "--->", "<-->")
@@ -798,7 +815,8 @@ plot.relations_igraph <- function(x,
     relation == "associated_with", "#61affe",
     relation == "siblings", "#49cc90",
     relation == "spouses", "#e83e8c",
-    relation == "friends", "#1F2448"
+    relation == "friends", "#1F2448",
+    default = "grey50"
   )
   if (!"edge.arrow.mode" %in% user_set) {
     defaults$edge.arrow.mode <-

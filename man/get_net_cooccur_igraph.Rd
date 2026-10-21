@@ -69,7 +69,8 @@ case parameter \code{vertex_size_metric} is ignored.}
 \item{vertex_size_scale}{Numeric vector with two values. The first number is
 the size of the smallest vertex, the second one defines how much bigger the
 other vertices are: the size of a vertex is
-\code{first + second * (metric - min(metric)) / max(metric)}. If
+\code{first + second * (metric - min(metric)) / max(metric)} (all vertices
+get the first value if the metric is 0 for all of them). If
 you specify vertex size by yourself using parameter
 \code{vertex.size}(see \link[igraph]{igraph.plotting}),
 \code{vertex_size_scale} is ignored.}
