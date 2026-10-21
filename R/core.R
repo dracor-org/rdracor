@@ -189,9 +189,10 @@ dracor_api <- function(request,
 
 #' Check whether 'DraCor' API is available
 #'
-#' \code{dracor_api_available()} sends a light request to 'DraCor' API and
-#' checks whether it responds. It never throws an error, so it can be used to
-#' run code that needs 'DraCor' API only if the API is available.
+#' \code{dracor_api_available()} sends a light request (the list of corpora)
+#' to 'DraCor' API and checks whether it responds. It never throws an error, so
+#' it can be used to run code that needs 'DraCor' API only if the API is
+#' available.
 #'
 #' @param dracor_api_url Character, 'DraCor' API URL. If NULL (default), the
 #' current 'DraCor' API URL is used.
@@ -204,9 +205,10 @@ dracor_api <- function(request,
 #' @export
 dracor_api_available <- function(dracor_api_url = NULL, timeout = 10) {
   if (is.null(dracor_api_url)) dracor_api_url <- get_dracor_api_url()
+  # /corpora responds in a fraction of a second, /info takes 2-3 seconds
   resp <- tryCatch(
     httr::GET(
-      paste0(dracor_api_url, "/info"),
+      paste0(dracor_api_url, "/corpora"),
       httr::timeout(timeout)
     ),
     error = function(e) NULL

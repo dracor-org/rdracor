@@ -46,8 +46,9 @@ given play and corpus names.
 \dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
-emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
-tei_to_df(emilia_tei)
+# the same in two steps, for a short play:
+pfandung_tei <- get_text_tei(play = "leisewitz-die-pfandung", corpus = "ger")
+tei_to_df(pfandung_tei)
 }
 \dontshow{\}) # examplesIf}
 }

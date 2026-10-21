@@ -17,9 +17,10 @@ Default value is 10.}
 \code{TRUE} if 'DraCor' API is available, \code{FALSE} otherwise.
 }
 \description{
-\code{dracor_api_available()} sends a light request to 'DraCor' API and
-checks whether it responds. It never throws an error, so it can be used to
-run code that needs 'DraCor' API only if the API is available.
+\code{dracor_api_available()} sends a light request (the list of corpora)
+to 'DraCor' API and checks whether it responds. It never throws an error, so
+it can be used to run code that needs 'DraCor' API only if the API is
+available.
 }
 \examples{
 dracor_api_available()

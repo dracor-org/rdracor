@@ -129,8 +129,9 @@ line_table <- function(tei_line,
 #' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
-#' emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
-#' tei_to_df(emilia_tei)
+#' # the same in two steps, for a short play:
+#' pfandung_tei <- get_text_tei(play = "leisewitz-die-pfandung", corpus = "ger")
+#' tei_to_df(pfandung_tei)
 #' }
 #' @seealso \code{\link{get_play_metadata}}
 #' @importFrom purrr flatten_chr
