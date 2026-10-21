@@ -13,6 +13,25 @@ and return `NULL` instead of throwing an error
 * examples are run only if 'DraCor' API is available
 * tests that need 'DraCor' API are not run on CRAN; added tests for the
 behaviour of the functions without 'DraCor' API
+* fixed `tei_to_df()` and `get_text_df()` losing the speaker (`who`) of verse
+lines wrapped in `<lg>`; lines with several speakers keep all their ids;
+`tei_to_df()` no longer modifies the document passed to it
+* fixed `plot()` for `cooccur_igraph` and `relations_igraph` objects ignoring
+igraph arguments passed by the user (e.g. `vertex.color`, `vertex.size`);
+`gender_colors` can be given in any order; `edge_size_scale = NULL` works
+* fixed `plot()` for `relations_igraph` objects not drawing vertices: colours
+were taken from the character attribute `gender`, which 'DraCor' API v1.1.0
+renamed to `sex` (dracor-org/dracor-api#319)
+* `get_play_metadata(full_metadata = TRUE)` uses only the metadata columns
+returned by the API and no longer returns `normalizedGenre` twice
+* `set_dracor_api_url()` validates its argument and removes a trailing slash
+* `dracor_sparql()` uses the host of the current 'DraCor' API URL
+* argument validation errors (e.g. a missing play name) are no longer reported
+as connection problems
+* TLS certificates are verified for all requests
+* fixed `citation("rdracor")`: full list of authors of the 'DraCor' paper and
+DOI; added a citation for the package
+* fixed typos in documentation; documented the format of `gender_colors`
 
 # rdracor 1.0.6
 

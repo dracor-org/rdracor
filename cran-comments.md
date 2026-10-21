@@ -15,12 +15,19 @@ version I have:
     run only if it returns `TRUE` (`@examplesIf`)
 -   skipped all tests that need 'DraCor' API on CRAN (`skip_on_cran()`) and
     added offline tests checking that the functions fail gracefully
+-   fixed several bugs found while reviewing the package (speaker attribution
+    in `tei_to_df()`, plot methods, `citation()`, documentation), see NEWS.md
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs or NOTEs with 'DraCor' API made unavailable
-(all requests sent to a closed local port), using
+There were no ERRORs, WARNINGs or NOTEs, both with the internet connection
+(all examples and tests run against 'DraCor' API) and with 'DraCor' API made
+unavailable (all requests sent to a closed local port), using
 `R CMD check --as-cran --run-donttest`.
+
+Examples request data from 'DraCor' API, so their elapsed time depends on the
+response time of the server and can occasionally exceed 5 s; their CPU time
+is well below 5 s.
 
 ## Test environments
 

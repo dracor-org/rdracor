@@ -4,6 +4,7 @@
 # rdracor <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 **Authors:** Ivan Pozdniakov, Frank Fischer<br /> **License:** GPL-3
@@ -46,6 +47,32 @@ You can set DraCor URL API of your choice:
 set_dracor_api_url("https://staging.dracor.org/api/v1")
 ```
 
+## Slow or unavailable API
+
+All functions of the package request data from DraCor API. If the API
+cannot be reached (no internet connection, the server is down or does
+not respond), they do not throw an error: they show an informative
+message and return `NULL`. You can check whether the API responds:
+
+``` r
+dracor_api_available()
+#> [1] TRUE
+```
+
+Two time limits apply to every request, both can be changed with
+`options()`:
+
+- `rdracor.connect_timeout` — seconds to wait for the server to accept
+  the connection (30 by default);
+- `rdracor.timeout` — seconds to wait for the whole response (600 by
+  default).
+
+Increase them if your connection is slow, e.g.:
+
+``` r
+options(rdracor.timeout = 1800)
+```
+
 ## General info on corpora
 
 Retrieving general information about available corpora:
@@ -53,25 +80,25 @@ Retrieving general information about available corpora:
 ``` r
 corpora <- get_dracor_meta()
 summary(corpora)
-#> DraCor hosts 17 corpora comprising 3184 plays.
+#> DraCor hosts 24 corpora comprising 4918 plays.
 #> 
-#> The last updated corpus was German Drama Corpus (2024-04-03 10:50:28).
+#> The last updated corpus was German Drama Corpus (2026-10-07 03:32:39.834).
 plot(corpora)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" alt="" width="100%" />
 
 ## Plays in the corpus
 
 ``` r
 ger <- get_dracor(corpus = "ger")
 summary(ger)
-#> 697 plays in German Drama Corpus 
+#> 783 plays in German Drama Corpus 
 #> Corpus id: ger, repository: https://github.com/dracor-org/gerdracor  
-#> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 600 German-language plays from the 1540s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
+#> Description: Edited by Frank Fischer and Peer Trilcke. Features more than 750 German-language plays from the 1500s to the 1940s. For a corpus description and full credits please see the [README on GitHub](https://github.com/dracor-org/gerdracor).
 #> Written years (range): 1549–1947 
-#> Premiere years (range): 1515–1981    
-#> Years of the first printing (range): 1517–1962
+#> Premiere years (range): 1515–2023    
+#> Years of the first printing (range): 1510–2010
 ```
 
 You can get all corpora at once:
@@ -79,11 +106,11 @@ You can get all corpora at once:
 ``` r
 all <- get_dracor()
 summary(all)
-#> 3184 plays in 17 corpora:    
+#> 4930 plays in 24 corpora:    
 #> Corpora id:  
-#> fre (1560 plays), ger (697 plays), rus (212 plays), cal (205 plays), ita (139 plays), swe (68 plays), hun (41 plays), greek (40 plays), u (40 plays), gersh (38 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), pol (10 plays), bash (3 plays), tat (3 plays)
+#> fre (1940 plays), ger (783 plays), eng (753 plays), dutch (228 plays), rus (212 plays), cal (205 plays), ita (157 plays), ro (93 plays), hun (74 plays), swe (68 plays), pol (50 plays), u (48 plays), greek (46 plays), am (40 plays), gersh (38 plays), ibs (37 plays), shake (37 plays), rom (36 plays), als (30 plays), span (25 plays), ar (16 plays), yi (8 plays), bash (3 plays), tat (3 plays)
 #> Written years (range): 43–1970   
-#> Premiere years (range): -472–1999    
+#> Premiere years (range): -497–2023    
 #> Years of the first printing (range): 1170–2017
 ```
 
@@ -95,115 +122,118 @@ With `get_play_metadata()` you can get miscellaneous data for a play:
 get_play_metadata(play = "lessing-emilia-galotti", 
                   corpus = "ger",
                   full_metadata = FALSE) #use full_metadata = FALSE for faster download 
-#> $id
-#> [1] "ger000088"
-#> 
-#> $uri
-#> [1] "https://dracor.org/api/v1/corpora/ger/plays/lessing-emilia-galotti"
-#> 
-#> $name
-#> [1] "lessing-emilia-galotti"
-#> 
-#> $corpus
-#> [1] "ger"
-#> 
-#> $title
-#> [1] "Emilia Galotti"
-#> 
-#> $authors
-#> # A tibble: 1 × 4
-#>   name                      fullname                 shortname refs        
-#>   <chr>                     <chr>                    <chr>     <list>      
-#> 1 Lessing, Gotthold Ephraim Gotthold Ephraim Lessing Lessing   <df [2 × 2]>
-#> 
-#> $normalizedGenre
-#> [1] "Tragedy"
-#> 
-#> $libretto
-#> [1] FALSE
-#> 
 #> $allInSegment
 #> [1] 30
-#> 
-#> $allInIndex
-#> [1] 0.6976744
-#> 
-#> $characters
-#> # A tibble: 13 × 12
-#>    id         name  isGroup gender numOfScenes numOfSpeechActs numOfWords degree
-#>    <chr>      <chr> <lgl>   <chr>        <int>           <int>      <int>  <int>
-#>  1 der_prinz  Der … FALSE   MALE            17             157       4002      8
-#>  2 der_kamme… Der … FALSE   MALE             2               6         33      1
-#>  3 conti      Conti FALSE   MALE             2              24        604      1
-#>  4 marinelli  Mari… FALSE   MALE            19             221       4343      9
-#>  5 camillo_r… Cami… FALSE   MALE             1               6         78      1
-#>  6 claudia    Clau… FALSE   FEMALE          13              73       1581      7
-#>  7 pirro      Pirro FALSE   MALE             4              25        263      5
-#>  8 odoardo    Odoa… FALSE   MALE            12             108       2441      6
-#>  9 angelo     Ange… FALSE   MALE             2              28        487      2
-#> 10 emilia     Emil… FALSE   FEMALE           7              64       1702      6
-#> 11 appiani    Appi… FALSE   MALE             5              48        852      4
-#> 12 battista   Batt… FALSE   MALE             4              11        152      4
-#> 13 orsina     Orsi… FALSE   FEMALE           6              64       2111      4
-#> # ℹ 4 more variables: weightedDegree <int>, closeness <dbl>, betweenness <dbl>,
-#> #   eigenvector <dbl>
-#> 
-#> $segments
-#> # A tibble: 43 × 4
-#>    type  number title                              speakers 
-#>    <chr>  <int> <chr>                              <list>   
-#>  1 scene      1 Erster Aufzug | Erster Auftritt    <chr [2]>
-#>  2 scene      2 Erster Aufzug | Zweiter Auftritt   <chr [2]>
-#>  3 scene      3 Erster Aufzug | Dritter Auftritt   <chr [1]>
-#>  4 scene      4 Erster Aufzug | Vierter Auftritt   <chr [2]>
-#>  5 scene      5 Erster Aufzug | Fünfter Auftritt   <chr [1]>
-#>  6 scene      6 Erster Aufzug | Sechster Auftritt  <chr [2]>
-#>  7 scene      7 Erster Aufzug | Siebenter Auftritt <chr [2]>
-#>  8 scene      8 Erster Aufzug | Achter Auftritt    <chr [2]>
-#>  9 scene      9 Zweiter Aufzug | Erster Auftritt   <chr [2]>
-#> 10 scene     10 Zweiter Aufzug | Zweiter Auftritt  <chr [2]>
-#> # ℹ 33 more rows
-#> 
-#> $yearWritten
-#> NULL
-#> 
-#> $yearPremiered
-#> [1] "1772"
-#> 
-#> $yearPrinted
-#> [1] "1772"
-#> 
-#> $yearNormalized
-#> [1] 1772
 #> 
 #> $wikidataId
 #> [1] "Q782653"
 #> 
+#> $segments
+#> # A tibble: 43 × 4
+#>    type  title                              speakers  number
+#>    <chr> <chr>                              <list>     <int>
+#>  1 scene Erster Aufzug | Erster Auftritt    <chr [2]>      1
+#>  2 scene Erster Aufzug | Zweiter Auftritt   <chr [2]>      2
+#>  3 scene Erster Aufzug | Dritter Auftritt   <chr [1]>      3
+#>  4 scene Erster Aufzug | Vierter Auftritt   <chr [2]>      4
+#>  5 scene Erster Aufzug | Fünfter Auftritt   <chr [1]>      5
+#>  6 scene Erster Aufzug | Sechster Auftritt  <chr [2]>      6
+#>  7 scene Erster Aufzug | Siebenter Auftritt <chr [2]>      7
+#>  8 scene Erster Aufzug | Achter Auftritt    <chr [2]>      8
+#>  9 scene Zweiter Aufzug | Erster Auftritt   <chr [2]>      9
+#> 10 scene Zweiter Aufzug | Zweiter Auftritt  <chr [2]>     10
+#> # ℹ 33 more rows
+#> 
+#> $normalizedGenre
+#> [1] "Tragedy"
+#> 
 #> $subtitle
 #> [1] "Ein Trauerspiel in fünf Aufzügen"
 #> 
+#> $yearPremiered
+#> [1] "1772"
+#> 
+#> $corpus
+#> [1] "ger"
+#> 
+#> $uri
+#> [1] "https://dracor.org/api/v1/corpora/ger/plays/lessing-emilia-galotti"
+#> 
+#> $authors
+#> # A tibble: 1 × 4
+#>   shortname refs         name                      fullname                
+#>   <chr>     <list>       <chr>                     <chr>                   
+#> 1 Lessing   <df [2 × 2]> Lessing, Gotthold Ephraim Gotthold Ephraim Lessing
+#> 
+#> $yearWritten
+#> NULL
+#> 
+#> $title
+#> [1] "Emilia Galotti"
+#> 
+#> $allInIndex
+#> [1] 0.6976744
+#> 
+#> $name
+#> [1] "lessing-emilia-galotti"
+#> 
+#> $yearNormalized
+#> [1] 1772
+#> 
+#> $yearPrinted
+#> [1] "1772"
+#> 
+#> $originalSource
+#> [1] "Gotthold Ephraim Lessing: Emilia Galotti. Ein Trauerspiel in fünf Aufzügen. In: Werke. Zweiter Band. Herausgegeben von Herbert G. Göpfert. München: Hanser 1971, S. 127–204."
+#> 
+#> $characters
+#> # A tibble: 13 × 12
+#>    numOfScenes sex    betweenness degree numOfWords closeness id              
+#>          <int> <chr>        <dbl>  <int>      <int>     <dbl> <chr>           
+#>  1          17 MALE       0.467        8       4002     0.75  der_prinz       
+#>  2           2 MALE       0            1         33     0.444 der_kammerdiener
+#>  3           2 MALE       0            1        604     0.444 conti           
+#>  4          19 MALE       0.247        9       4343     0.8   marinelli       
+#>  5           1 MALE       0            1         78     0.444 camillo_rota    
+#>  6          13 FEMALE     0.0455       7       1581     0.6   claudia         
+#>  7           4 MALE       0.0265       5        263     0.545 pirro           
+#>  8          12 MALE       0.0551       6       2441     0.667 odoardo         
+#>  9           2 MALE       0            2        487     0.48  angelo          
+#> 10           7 FEMALE     0.0551       6       1702     0.667 emilia          
+#> 11           5 MALE       0.00379      4        852     0.522 appiani         
+#> 12           4 MALE       0.0121       4        152     0.6   battista        
+#> 13           6 FEMALE     0.0121       4       2111     0.6   orsina          
+#> # ℹ 5 more variables: numOfSpeechActs <int>, name <chr>, isGroup <lgl>,
+#> #   eigenvector <dbl>, weightedDegree <int>
+#> 
+#> $commit
+#> [1] "7a7a3147b57aed70393facd12cacd69d05f58091"
+#> 
 #> $relations
 #> # A tibble: 4 × 4
-#>   directed type            source       target   
-#>   <lgl>    <chr>           <chr>        <chr>    
-#> 1 TRUE     parent_of       odoardo      emilia   
-#> 2 TRUE     parent_of       claudia      emilia   
-#> 3 TRUE     associated_with marinelli    der_prinz
-#> 4 TRUE     associated_with camillo_rota der_prinz
+#>   target    source       type            directed
+#>   <chr>     <chr>        <chr>           <lgl>   
+#> 1 emilia    odoardo      parent_of       TRUE    
+#> 2 emilia    claudia      parent_of       TRUE    
+#> 3 der_prinz marinelli    associated_with TRUE    
+#> 4 der_prinz camillo_rota associated_with TRUE    
+#> 
+#> $libretto
+#> [1] FALSE
 #> 
 #> $source
-#> $source$name
-#> [1] "TextGrid Repository"
-#> 
 #> $source$url
 #> [1] "http://www.textgridrep.org/textgrid:rksp.0"
+#> 
+#> $source$name
+#> [1] "TextGrid Repository"
 #> 
 #> 
 #> $datePremiered
 #> [1] "1772-03-13"
 #> 
-#> $originalSource
-#> [1] "Gotthold Ephraim Lessing: Emilia Galotti. Ein Trauerspiel in fünf Aufzügen. In: Werke. Zweiter Band. Herausgegeben von Herbert G. Göpfert. München: Hanser 1971, S. 127–204."
+#> $id
+#> [1] "ger000088"
 ```
 
 ## Play network
@@ -216,7 +246,7 @@ emilia <- get_net_cooccur_igraph(play = "lessing-emilia-galotti", corpus = "ger"
 plot(emilia)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" alt="" width="100%" />
 
 You can use the package `{igraph}` to work with this object as a graph:
 
@@ -228,7 +258,7 @@ cohesion(emilia)
 #> [1] 1
 ```
 
-In addition, you can get a summary with network properties and gender
+In addition, you can get a summary with network properties and sex
 distribution:
 
 ``` r
@@ -259,7 +289,7 @@ galotti_relations <- get_net_relations_igraph(play = "lessing-emilia-galotti",
 plot(galotti_relations)
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" alt="" width="100%" />
 
 ``` r
 summary(galotti_relations)
@@ -283,10 +313,10 @@ You can get text of a play in different forms:
 ``` r
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 #> {xml_document}
-#> <TEI id="ger000088" lang="ger" xmlns="http://www.tei-c.org/ns/1.0">
-#> [1] <teiHeader>\n  <fileDesc>\n    <titleStmt>\n      <title type="main">Emil ...
+#> <TEI id="ger000088" lang="de" xmlns="http://www.tei-c.org/ns/1.0">
+#> [1] <teiHeader>\n  <fileDesc>\n    <titleStmt>\n      <title>Emilia Galotti</ ...
 #> [2] <standOff>\n  <listEvent>\n    <event type="print" when="1772">\n      <d ...
-#> [3] <text>\n  <front>\n    <titlePage>\n      <docAuthor>Gotthold Ephraim Les ...
+#> [3] <text>\n  <pb n="127"/>\n  <front>\n    <titlePage>\n      <docAuthor>Got ...
 ```
 
 - as a character vector:
@@ -334,33 +364,34 @@ locally saved on your computer), you can use function
 set_dracor_api_url("https://staging.dracor.org/api/v1")
 #> Working DraCor repository was changed from https://dracor.org/api/v1 
 #> DraCor API URL:  https://staging.dracor.org/api/v1 
-#>  name: DraCor API v1
-#> version: 1.0.2-28-ga8c07fe
-#> status: stable
-#> existdb: 6.2.0
+#>  openapi: https://staging.dracor.org/api/v1/openapi.yaml
+#> lastModified: 2026-10-17T17:02:35.514+02:00
+#> existdb: 6.4.0
+#> version: 1.5.0-beta.1-2-g577bcf3
+#> name: DraCor API v1
 #> base: https://staging.dracor.org/api/v1
-#> openapi: https://staging.dracor.org/api/v1/openapi.yaml
+#> status: stable
 get_dracor("u")
-#> # A tibble: 44 × 60
-#>    corpus id       playName     yearNormalized title titleEn subtitle subtitleEn
-#>  * <chr>  <chr>    <chr>                 <int> <chr> <lgl>   <chr>    <lgl>     
-#>  1 u      u000001  lesya-ukrai…           1911 Адво… NA      <NA>     NA        
-#>  2 u      u0000010 lesya-ukrai…           1905 Три … NA      <NA>     NA        
-#>  3 u      u0000011 lesya-ukrai…           1901 Одер… NA      Драмати… NA        
-#>  4 u      u0000012 lesya-ukrai…           1909 У пу… NA      <NA>     NA        
-#>  5 u      u0000013 lesya-ukrai…           1896 Блак… NA      <NA>     NA        
-#>  6 u      u0000014 lesya-ukrai…           1906 В до… NA      <NA>     NA        
-#>  7 u      u0000015 lesya-ukrai…           1898 Іфіг… NA      (драмат… NA        
-#>  8 u      u0000016 kropivnitsk…           1863 Дай … NA      Драма в… NA        
-#>  9 u      u0000017 lesya-ukrai…           1896 Прощ… NA      <NA>     NA        
-#> 10 u      u0000018 lesya-ukrai…           1903 У по… NA      Драмати… NA        
-#> # ℹ 34 more rows
-#> # ℹ 52 more variables: firstAuthorName <chr>, authors <list>,
-#> #   source.name <chr>, source.url <chr>, yearWrittenStart <lgl>,
+#> # A tibble: 48 × 63
+#>    corpus id      playName      yearNormalized title titleEn subtitle subtitleEn
+#>  * <chr>  <chr>   <chr>                  <int> <chr> <chr>   <chr>    <lgl>     
+#>  1 u      u000001 ukrainka-adv…           1913 Адво… Attorn… Драмати… NA        
+#>  2 u      u000002 ukrainka-yoh…           1909 Йога… Joanna… Драмати… NA        
+#>  3 u      u000003 ukrainka-ais…           1913 Айша… Aisha … Діалог   NA        
+#>  4 u      u000004 ukrainka-boi…           1914 Бояр… The No… Драмати… NA        
+#>  5 u      u000005 ukrainka-kas…           1908 Касс… Cassan… Драмати… NA        
+#>  6 u      u000006 ukrainka-kam…           1912 Камі… The St… <NA>     NA        
+#>  7 u      u000007 ukrainka-ruf…           1911 Руфі… Rufin … Драма в… NA        
+#>  8 u      u000008 ukrainka-orh…           1913 Оргія The Or… Драмати… NA        
+#>  9 u      u000009 ukrainka-try…           1913 Трип… Tripty… (Легенд… NA        
+#> 10 u      u000010 ukrainka-try…           1906 Три … Three … Діалог   NA        
+#> # ℹ 38 more rows
+#> # ℹ 55 more variables: firstAuthorName <chr>, authors <list>,
+#> #   source.name <chr>, source.url <chr>, yearWrittenStart <int>,
 #> #   yearWrittenFinish <int>, yearPrintedStart <lgl>, yearPrintedFinish <int>,
-#> #   yearPremieredStart <lgl>, yearPremieredFinish <lgl>, wikidataId <lgl>,
-#> #   networkSize <int>, networkdataCsvUrl <chr>, normalizedGenre <lgl>,
-#> #   size <int>, density <dbl>, diameter <int>, averageClustering <dbl>, …
+#> #   yearPremieredStart <int>, yearPremieredFinish <int>, wikidataId <chr>,
+#> #   networkSize <int>, networkdataCsvUrl <chr>, uri <chr>, datePremiered <chr>,
+#> #   normalizedGenre <lgl>, size <int>, density <dbl>, diameter <int>, …
 ```
 
 Information on the working API can be retrieved by `dracor_api_info()`:
@@ -368,12 +399,13 @@ Information on the working API can be retrieved by `dracor_api_info()`:
 ``` r
 dracor_api_info()
 #> DraCor API URL:  https://staging.dracor.org/api/v1 
-#>  name: DraCor API v1
-#> version: 1.0.2-28-ga8c07fe
-#> status: stable
-#> existdb: 6.2.0
+#>  openapi: https://staging.dracor.org/api/v1/openapi.yaml
+#> lastModified: 2026-10-17T17:02:35.514+02:00
+#> existdb: 6.4.0
+#> version: 1.5.0-beta.1-2-g577bcf3
+#> name: DraCor API v1
 #> base: https://staging.dracor.org/api/v1
-#> openapi: https://staging.dracor.org/api/v1/openapi.yaml
+#> status: stable
 ```
 
 ## Acknowledgments
