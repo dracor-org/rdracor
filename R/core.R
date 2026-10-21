@@ -118,6 +118,9 @@ dracor_api <- function(request,
                        as_tibble = TRUE,
                        ...) {
   expected_type <- match.arg(expected_type)
+  # evaluate the request outside of tryCatch(): errors from building it
+  # (e.g. invalid play or corpus names) are not connection problems
+  force(request)
   resp <- tryCatch(
     httr::GET(
       request,
@@ -218,6 +221,8 @@ dracor_api_available <- function(dracor_api_url = NULL, timeout = 10) {
 #' Submit SPARQL queries to DraCor API
 #'
 #' \code{dracor_sparql()} submits SPARQL queries and parses the result.
+#' The SPARQL endpoint is derived from the current 'DraCor' API URL (see
+#' \code{\link{set_dracor_api_url}}): \code{https://<host>/fuseki/sparql}.
 #'
 #' @return SPARQL xml parsed.
 #' @param sparql_query Character, SPARQL query.
@@ -236,8 +241,11 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
   if (is.null(sparql_query)) {
     stop("SPARQL query must be provided")
   }
+  api_url <- httr::parse_url(get_dracor_api_url())
   query <- paste0(
-    "https://dracor.org/fuseki/sparql?query=",
+    api_url$scheme, "://", api_url$hostname,
+    if (!is.null(api_url$port)) paste0(":", api_url$port),
+    "/fuseki/sparql?query=",
     URLencode(sparql_query, reserved = TRUE)
   )
   dracor_api(query, expected_type = "application/xml", parse = parse, ...)
@@ -287,6 +295,12 @@ get_dracor_api_url <- function() {
 #' @export
 #' @describeIn dracor_api_info Set new 'DraCor' API URL (globally), returns NULL
 set_dracor_api_url <- function(new_dracor_api_url) {
+  stopifnot(
+    "new_dracor_api_url must be a single character value" =
+      is.character(new_dracor_api_url) && length(new_dracor_api_url) == 1
+  )
+  # a trailing slash would produce requests with "//" that the API rejects
+  new_dracor_api_url <- sub("/+$", "", new_dracor_api_url)
   cat("Working DraCor repository was changed from", get_dracor_api_url(), "\n")
   the$dracor_api_url <- new_dracor_api_url
   dracor_api_info()

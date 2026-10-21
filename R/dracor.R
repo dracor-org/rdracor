@@ -111,7 +111,7 @@ get_corpus <- function(corpus = NULL,
     }
     dracor_list$plays$author.name <- map_chr(dracor_list$plays$authors,
                                              function(x) {
-                                               if (length(x$name >= 1)) {
+                                               if (length(x$name) >= 1) {
                                                  return(x$name[1])
                                                } else {
                                                    return(NA_character_)

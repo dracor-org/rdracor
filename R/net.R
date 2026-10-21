@@ -549,8 +549,8 @@ summary.cooccur_igraph <- function(object, ...) {
 #' @references
 #'   \insertAllCited{}
 #' @export
-get_net_relations_igraph <- function(play = play,
-                                     corpus = corpus,
+get_net_relations_igraph <- function(play = NULL,
+                                     corpus = NULL,
                                      as_igraph = FALSE) {
   relations <-
     get_net_relations_edges(

@@ -6,7 +6,7 @@
 \alias{plot.relations_igraph}
 \title{Retrieve an igraph relations network for a play}
 \usage{
-get_net_relations_igraph(play = play, corpus = corpus, as_igraph = FALSE)
+get_net_relations_igraph(play = NULL, corpus = NULL, as_igraph = FALSE)
 
 \method{summary}{relations_igraph}(object, ...)
 

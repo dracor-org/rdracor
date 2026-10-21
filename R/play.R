@@ -79,31 +79,39 @@ get_play_metadata <-
       if (is.null(full_meta)) {
         return(invisible(NULL))
       }
+      extra_columns <- c(
+        "normalizedGenre",
+        "size",
+        "density",
+        "diameter",
+        "averageClustering",
+        "averagePathLength",
+        "averageDegree",
+        "maxDegree",
+        "maxDegreeIds",
+        "numConnectedComponents",
+        "wordCountSp",
+        "wordCountText",
+        "wordCountStage",
+        "numOfSpeakers",
+        "numOfSpeakersFemale",
+        "numOfSpeakersMale",
+        "numOfSpeakersUnknown",
+        "numOfPersonGroups",
+        "numOfSegments",
+        "numOfActs",
+        "wikipediaLinkCount"
+      )
+      # keep only the columns that the API still returns and that are not
+      # already in the play metadata
+      extra_columns <- setdiff(
+        intersect(extra_columns, names(full_meta)),
+        names(meta)
+      )
       full_meta_play_list <- as.list(full_meta[
         full_meta$name == play,
-        c(
-          "normalizedGenre",
-          "size",
-          "density",
-          "diameter",
-          "averageClustering",
-          "averagePathLength",
-          "averageDegree",
-          "maxDegree",
-          "maxDegreeIds",
-          "numConnectedComponents",
-          "wordCountSp",
-          "wordCountText",
-          "wordCountStage",
-          "numOfSpeakers",
-          "numOfSpeakersFemale",
-          "numOfSpeakersMale",
-          "numOfSpeakersUnknown",
-          "numOfPersonGroups",
-          "numOfSegments",
-          "numOfActs",
-          "wikipediaLinkCount"
-        )
+        extra_columns,
+        drop = FALSE
       ])
       meta <- c(meta, full_meta_play_list)
     }

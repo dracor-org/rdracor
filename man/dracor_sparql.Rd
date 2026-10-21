@@ -20,6 +20,8 @@ SPARQL xml parsed.
 }
 \description{
 \code{dracor_sparql()} submits SPARQL queries and parses the result.
+The SPARQL endpoint is derived from the current 'DraCor' API URL (see
+\code{\link{set_dracor_api_url}}): \code{https://<host>/fuseki/sparql}.
 }
 \examples{
 \dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}

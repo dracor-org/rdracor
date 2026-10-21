@@ -43,3 +43,24 @@ test_that("dracor_api_info returns NULL", {
 test_that("get_dracor_api_info returns https://dracor.org/api/v1", {
   expect_equal(get_dracor_api_url(), "https://dracor.org/api/v1")
 })
+
+test_that("set_dracor_api_url() validates the URL and removes a trailing slash", {
+  old_url <- the$dracor_api_url
+  on.exit(the$dracor_api_url <- old_url)
+  expect_error(set_dracor_api_url(1), "single character")
+  expect_error(set_dracor_api_url(c("a", "b")), "single character")
+  suppressMessages(
+    expect_output(
+      set_dracor_api_url("http://127.0.0.1:9/api/v1/"),
+      "was changed from"
+    )
+  )
+  expect_equal(get_dracor_api_url(), "http://127.0.0.1:9/api/v1")
+})
+
+test_that("dracor_sparql() uses the host of the current 'DraCor' API URL", {
+  expect_message(
+    with_unavailable_dracor(dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 1")),
+    "127.0.0.1:9/fuseki/sparql"
+  )
+})
