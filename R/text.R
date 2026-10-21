@@ -120,6 +120,9 @@ get_text_chr_spoken_bych <-
       expected_type = "application/json",
       ...
     )
+    if (is.null(play_text)) {
+      return(invisible(NULL))
+    }
     if (!isTRUE(split_text)) {
       play_text$text <- purrr::map_chr(play_text$text, paste0, collapse = "\n")
     }

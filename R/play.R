@@ -56,7 +56,14 @@ get_play_metadata <-
       as_tibble = FALSE,
       ...
     )
-    meta$characters <- get_play_characters(play = play, corpus = corpus)
+    if (is.null(meta)) {
+      return(invisible(NULL))
+    }
+    characters <- get_play_characters(play = play, corpus = corpus)
+    if (is.null(characters)) {
+      return(invisible(NULL))
+    }
+    meta$characters <- characters
     if (isTRUE(full_metadata)) {
       full_meta <-
         dracor_api(
@@ -69,6 +76,9 @@ get_play_metadata <-
           flatten = TRUE,
           as_tibble = FALSE
         )
+      if (is.null(full_meta)) {
+        return(invisible(NULL))
+      }
       full_meta_play_list <- as.list(full_meta[
         full_meta$name == play,
         c(

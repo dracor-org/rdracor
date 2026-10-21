@@ -25,6 +25,9 @@ get_net_cooccur_metrics <- function(play = NULL, corpus = NULL, ...) {
     as_tibble = FALSE,
     ...
   )
+  if (is.null(metrics)) {
+    return(invisible(NULL))
+  }
   purrr::modify_if(metrics, is.data.frame, tibble::as_tibble)
 }
 
@@ -213,8 +216,14 @@ get_net_cooccur_igraph <- function(play = NULL,
                                    corpus = NULL,
                                    as_igraph = FALSE) {
   nodes <- get_play_characters(play = play, corpus = corpus, as_tibble = FALSE)
+  if (is.null(nodes)) {
+    return(invisible(NULL))
+  }
   data.table::setcolorder(nodes, "id")
   edges <- get_net_cooccur_edges(play = play, corpus = corpus, as_tibble = FALSE)
+  if (is.null(edges)) {
+    return(invisible(NULL))
+  }
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
@@ -223,6 +232,9 @@ get_net_cooccur_igraph <- function(play = NULL,
   if (as_igraph) return(graph)
 
   meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
+  if (is.null(meta)) {
+    return(invisible(NULL))
+  }
 
   structure(graph,
     play = play,
@@ -526,12 +538,18 @@ get_net_relations_igraph <- function(play = play,
       corpus = corpus,
       as_tibble = FALSE
     )
+  if (is.null(relations)) {
+    return(invisible(NULL))
+  }
   nodes <-
     get_play_characters(
       play = play,
       corpus = corpus,
       as_tibble = FALSE
     )
+  if (is.null(nodes)) {
+    return(invisible(NULL))
+  }
   data.table::setcolorder(nodes, "id")
   data.table::setnames(relations, c("source", "type", "target", "relation"))
   graph <- igraph::graph_from_data_frame(
@@ -548,6 +566,9 @@ get_net_relations_igraph <- function(play = play,
   if (as_igraph) return(graph)
 
   meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
+  if (is.null(meta)) {
+    return(invisible(NULL))
+  }
   structure(
     graph,
     play = play,

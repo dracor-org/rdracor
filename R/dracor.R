@@ -87,6 +87,9 @@ get_corpus <- function(corpus = NULL,
         flatten = TRUE,
         as_tibble = FALSE
       )
+    if (is.null(dracor_list)) {
+      return(NULL)
+    }
     data.table::setDT(dracor_list$plays)
     lapply(c("yearWritten", "yearPrinted", "yearPremiered"), function(x) {
       divide_years(dracor_list$plays, x)
@@ -129,15 +132,19 @@ get_corpus <- function(corpus = NULL,
     )
   }
   if (isTRUE(full_metadata)) {
+    corpus_metadata <- dracor_api(request = paste0(
+      get_dracor_api_url(),
+      "/corpora/",
+      corpus,
+      "/metadata"
+    ), flatten = TRUE)
+    if (is.null(corpus_metadata)) {
+      return(NULL)
+    }
     dracor_list$plays <-
       merge(
         dracor_list$plays,
-        dracor_api(request = paste0(
-          get_dracor_api_url(),
-          "/corpora/",
-          corpus,
-          "/metadata"
-        ), flatten = TRUE),
+        corpus_metadata,
         by = "id",
         suffixes = c("", "Meta")
       )
@@ -294,11 +301,13 @@ summary.dracor <- function(object, ...) {
 #' @export
 get_dracor <- function(corpus = "all",
                        full_metadata = TRUE) {
-  if (identical(corpus, "all")) {
-    dracor_meta <- get_dracor_meta()
-    corpus <- dracor_meta$name
-  }
   available_corpora <- get_available_corpus_names()
+  if (is.null(available_corpora)) {
+    return(invisible(NULL))
+  }
+  if (identical(corpus, "all")) {
+    corpus <- available_corpora
+  }
   if (!all(corpus %in% available_corpora)) {
     stop(
       paste(
@@ -319,18 +328,22 @@ get_dracor <- function(corpus = "all",
   dracor_empty_lgl <- dracor_data_list %>%
     purrr::map_lgl(is.null)
 
+  if (all(dracor_empty_lgl)) {
+    return(invisible(NULL))
+  }
+
   if (any(dracor_empty_lgl)) {
     dracor_error <- dracor_list %>%
       purrr::map("error") %>%
       purrr::compact() %>%
-      purrr::map_chr(as.character) %>%
-      paste0(collapse = "")
+      purrr::map_chr(conditionMessage) %>%
+      paste0(collapse = "\n")
 
     failed_corpora <- paste0(corpus[dracor_empty_lgl], collapse = ", ")
-    warning(paste("\nDownload failed:", failed_corpora, "Error descriptions:",
-      dracor_error,
-      sep = "\n"
-    ))
+    warning(paste(c(
+      "\nDownload failed:", failed_corpora,
+      if (nzchar(dracor_error)) c("Error descriptions:", dracor_error)
+    ), collapse = "\n"))
   }
 
   dracor_data_list %>%

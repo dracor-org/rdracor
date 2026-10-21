@@ -17,13 +17,15 @@
 #' @export
 get_dracor_meta <-
   function() {
-    dracor_meta(
-      dracor_api(
-        paste0(get_dracor_api_url(), "/corpora?include=metrics"),
-        expected_type = "application/json",
-        flatten = TRUE
-      )
+    corpora <- dracor_api(
+      paste0(get_dracor_api_url(), "/corpora?include=metrics"),
+      expected_type = "application/json",
+      flatten = TRUE
     )
+    if (is.null(corpora)) {
+      return(invisible(NULL))
+    }
+    dracor_meta(corpora)
   }
 
 

@@ -245,6 +245,9 @@ tei_to_df <- function(tei) {
 #' @describeIn tei_to_df Retrieves all stage directions of a play,
 #' given play and corpus names.
 get_text_df <- function(play, corpus) {
-  get_text_tei(play = play, corpus = corpus) %>%
-    tei_to_df()
+  tei <- get_text_tei(play = play, corpus = corpus)
+  if (is.null(tei)) {
+    return(invisible(NULL))
+  }
+  tei_to_df(tei)
 }
