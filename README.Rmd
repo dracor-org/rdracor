@@ -57,6 +57,28 @@ You can set DraCor URL API of your choice:
 set_dracor_api_url("https://staging.dracor.org/api/v1")
 ```
 
+## Slow or unavailable API
+
+All functions of the package request data from DraCor API. If the API cannot be
+reached (no internet connection, the server is down or does not respond), they
+do not throw an error: they show an informative message and return `NULL`. You
+can check whether the API responds:
+
+```{r}
+dracor_api_available()
+```
+
+Two time limits apply to every request, both can be changed with `options()`:
+
+- `rdracor.connect_timeout` — seconds to wait for the server to accept the
+  connection (30 by default);
+- `rdracor.timeout` — seconds to wait for the whole response (600 by default).
+
+Increase them if your connection is slow, e.g.:
+
+```{r, eval = FALSE}
+options(rdracor.timeout = 1800)
+```
 
 ## General info on corpora
 
@@ -111,8 +133,8 @@ edge_density(emilia)
 cohesion(emilia)
 ```
 
-In addition, you can get a summary with network properties and gender 
-distribution:  
+In addition, you can get a summary with network properties and sex
+distribution:
 
 ```{r}
 summary(emilia)

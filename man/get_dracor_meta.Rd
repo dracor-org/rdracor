@@ -38,10 +38,12 @@ available for each corpus.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 corpora_meta <- get_dracor_meta()
 corpora_meta
 summary(corpora_meta)
 plot(corpora_meta)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_dracor}}

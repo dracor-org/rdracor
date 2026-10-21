@@ -38,7 +38,9 @@ data, following the encoding scheme proposed in
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_net_cooccur_edges(play = "lessing-emilia-galotti", corpus = "ger")
+\dontshow{\}) # examplesIf}
 }
 \references{
 \insertAllCited{}

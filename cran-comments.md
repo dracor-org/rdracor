@@ -1,3 +1,38 @@
+# rdracor 1.1.0
+
+## Release summary
+
+This release responds to the CRAN team's request to make the package fail
+gracefully if the internet resource ('DraCor' API) is not available. In this
+version I have:
+
+-   made all functions that request 'DraCor' API fail gracefully: if the API
+    is not available, returns an error status or data that cannot be parsed,
+    they show an informative message and return `NULL` instead of an error
+-   added time limits for all requests to 'DraCor' API (options
+    `rdracor.connect_timeout` and `rdracor.timeout`)
+-   added `dracor_api_available()`; all examples that need 'DraCor' API are
+    run only if it returns `TRUE` (`@examplesIf`)
+-   skipped all tests that need 'DraCor' API on CRAN (`skip_on_cran()`) and
+    added offline tests checking that the functions fail gracefully
+-   fixed several bugs found while reviewing the package (speaker attribution
+    in `tei_to_df()`, plot methods, `citation()`, documentation), see NEWS.md
+
+## R CMD check results
+
+There were no ERRORs, WARNINGs or NOTEs, both with the internet connection
+(all examples and tests run against 'DraCor' API) and with 'DraCor' API made
+unavailable (all requests sent to a closed local port), using
+`R CMD check --as-cran --run-donttest`.
+
+Examples request data from 'DraCor' API, so their elapsed time depends on the
+response time of the server and can occasionally exceed 5 s; their CPU time
+is well below 5 s.
+
+## Test environments
+
+-   local macOS install, R 4.6.0
+
 # rdracor 1.0.6
 
 ## Resubmission

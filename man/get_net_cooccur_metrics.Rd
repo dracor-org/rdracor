@@ -27,7 +27,9 @@ given play and corpus names. Play network is constructed based on characters'
 co-occurrence matrix.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_net_cooccur_metrics(play = "lessing-emilia-galotti", corpus = "ger")
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_net_cooccur_igraph}}

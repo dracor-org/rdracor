@@ -20,7 +20,11 @@ supported.}
 }
 \value{
 TEI data parsed by
-  {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
+  {\code{\link[xml2:read_xml]{xml2::read_xml()}}}. The document keeps the
+  TEI namespace, so XPath expressions need the \code{d1:} prefix, e.g.
+  \code{xml2::xml_find_all(tei, "//d1:sp")}. Run
+  \code{xml2::xml_ns_strip(tei)} if you prefer to use XPath without
+  prefixes.
 }
 \description{
 \code{get_text_tei()} requests a text for a play in 'TEI' format, given play
@@ -28,9 +32,11 @@ and corpus names. 'TEI' is an XML vocabulary, which makes it easy to extract
 structural information \insertCite{fischer2019programmable}{rdracor}.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want a text in TEI without parsing by xml2::read_xml():
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+\dontshow{\}) # examplesIf}
 }
 \references{
 \insertAllCited{}

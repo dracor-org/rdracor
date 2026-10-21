@@ -38,16 +38,19 @@ object to a data frame.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_text_df()}: Retrieves all stage directions of a play,
+\item \code{get_text_df()}: Retrieves the text of a play as a data frame,
 given play and corpus names.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
-emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
-tei_to_df(emilia_tei)
+# the same in two steps, for a short play:
+pfandung_tei <- get_text_tei(play = "leisewitz-die-pfandung", corpus = "ger")
+tei_to_df(pfandung_tei)
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_play_metadata}}

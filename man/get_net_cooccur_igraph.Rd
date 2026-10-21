@@ -49,10 +49,14 @@ instead of \code{cooccur_igraph}. \code{FALSE} by default.}
 function \code{\link{label_cooccur_igraph}} is used to avoid overplotting on
 large graphs.}
 
-\item{gender_colors}{Named vector with 3 values with colors for
-MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use the default
-igraph colors. If you set parameter \code{vertex.color} (see
-\link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.}
+\item{gender_colors}{Named character vector with 3 colors for the
+\code{sex} of characters (\code{MALE}, \code{FEMALE} and \code{UNKNOWN}, as
+returned by 'DraCor' API), e.g. the default
+\code{c(MALE = "#0073C2", FEMALE = "#EFC000", UNKNOWN = "#99979D")}. Any R
+color specification can be used, the order of the elements does not matter.
+Set \code{NULL} to use the default igraph colors. If you set parameter
+\code{vertex.color} (see \link[igraph]{igraph.plotting}),
+\code{gender_colors} will be ignored.}
 
 \item{vertex_size_metric}{Character value, one of \code{"numOfWords"},
 \code{"numOfScenes"}, \code{"numOfSpeechActs"}, \code{"degree"},
@@ -63,16 +67,21 @@ parameter \code{vertex.size}(see \link[igraph]{igraph.plotting}), in this
 case parameter \code{vertex_size_metric} is ignored.}
 
 \item{vertex_size_scale}{Numeric vector with two values. The first number is
-for mean size of node(vertex), the second one is for node size variance. If
+the size of the smallest vertex, the second one defines how much bigger the
+other vertices are: the size of a vertex is
+\code{first + second * (metric - min(metric)) / max(metric)} (all vertices
+get the first value if the metric is 0 for all of them). If
 you specify vertex size by yourself using parameter
 \code{vertex.size}(see \link[igraph]{igraph.plotting}),
 \code{vertex_size_scale} is ignored.}
 
-\item{edge_size_scale}{Numeric vector with two values. The first number
-defines average size of edges, the second number defines edges size variance.
-If you specify edges size by yourself using parameter
-\code{edge.width}(see \link[igraph]{igraph.plotting}),
-\code{edge_size_scale} is ignored.}
+\item{edge_size_scale}{Numeric vector with two values. The first number is
+the width of the thinnest edge, the second one defines how much thicker the
+other edges are: the width of an edge is
+\code{first + second * (weight - min(weight)) / max(weight)}. Set
+\code{NULL} to use the default igraph edge width. If you specify edges width
+by yourself using parameter \code{edge.width}(see
+\link[igraph]{igraph.plotting}), \code{edge_size_scale} is ignored.}
 
 \item{vertex_label_adjust}{Logical. If \code{TRUE}, labels positions
 are moved to the top of the respectives nodes. If \code{FALSE}, labels
@@ -109,10 +118,11 @@ characters occur together.
 \code{plot.igraph} with slightly modified defaults.
 
 \item \code{summary(cooccur_igraph)}: Meaningful summary for
-\code{"cooccur_igraph"} object: network properties, gender distribution
+\code{"cooccur_igraph"} object: network properties, sex distribution
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 emilia_igraph <- get_net_cooccur_igraph(
   play = "lessing-emilia-galotti",
@@ -120,8 +130,12 @@ emilia_igraph <- get_net_cooccur_igraph(
 )
 igraph::diameter(emilia_igraph)
 plot(emilia_igraph)
+plot(emilia_igraph,
+  gender_colors = c(MALE = "steelblue", FEMALE = "tomato", UNKNOWN = "grey70")
+)
 summary(emilia_igraph)
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_net_relations_igraph}}

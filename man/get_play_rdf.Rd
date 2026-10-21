@@ -32,9 +32,11 @@ extraction data for a play from
 \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want RDF without parsing by xml2::read_xml():
 get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_play_metadata}} \code{\link{get_play_characters}}

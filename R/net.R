@@ -6,7 +6,7 @@
 #'
 #' @return List with network metrics for a specific play.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_net_cooccur_metrics(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_net_cooccur_igraph}}
 #' \code{\link{get_net_cooccur_gexf}} \code{\link{get_net_cooccur_graphml}}
@@ -25,6 +25,9 @@ get_net_cooccur_metrics <- function(play = NULL, corpus = NULL, ...) {
     as_tibble = FALSE,
     ...
   )
+  if (is.null(metrics)) {
+    return(invisible(NULL))
+  }
   purrr::modify_if(metrics, is.data.frame, tibble::as_tibble)
 }
 
@@ -37,7 +40,7 @@ get_net_cooccur_metrics <- function(play = NULL, corpus = NULL, ...) {
 #'
 #' @return data frame with edges (each row = one edge of a network).
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_net_cooccur_edges(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_net_cooccur_igraph}}
 #' \code{\link{get_net_cooccur_gexf}} \code{\link{get_net_cooccur_graphml}}
@@ -66,7 +69,7 @@ get_net_cooccur_edges <-
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_net_cooccur_gexf(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want 'GEXF' without parsing by xml2::read_xml():
@@ -104,10 +107,10 @@ get_net_cooccur_gexf <-
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger")
-#' # If you want 'GEXF' without parsing by xml2::read_xml():
+#' # If you want 'GraphML' without parsing by xml2::read_xml():
 #' get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 #' }
 #' @seealso \code{\link{get_net_cooccur_igraph}}
@@ -194,7 +197,7 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #' @return \code{cooccur_igraph} — an object that inherits \code{igraph} and can be
 #' treated as such.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' emilia_igraph <- get_net_cooccur_igraph(
 #'   play = "lessing-emilia-galotti",
@@ -202,6 +205,9 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #' )
 #' igraph::diameter(emilia_igraph)
 #' plot(emilia_igraph)
+#' plot(emilia_igraph,
+#'   gender_colors = c(MALE = "steelblue", FEMALE = "tomato", UNKNOWN = "grey70")
+#' )
 #' summary(emilia_igraph)
 #' }
 #' @seealso \code{\link{get_net_relations_igraph}}
@@ -213,8 +219,14 @@ get_net_cooccur_igraph <- function(play = NULL,
                                    corpus = NULL,
                                    as_igraph = FALSE) {
   nodes <- get_play_characters(play = play, corpus = corpus, as_tibble = FALSE)
+  if (is.null(nodes)) {
+    return(invisible(NULL))
+  }
   data.table::setcolorder(nodes, "id")
   edges <- get_net_cooccur_edges(play = play, corpus = corpus, as_tibble = FALSE)
+  if (is.null(edges)) {
+    return(invisible(NULL))
+  }
   data.table::setnames(edges, tolower(names(edges)))
   edges <- edges[, c("source", "target", "weight")]
   graph <-
@@ -223,6 +235,9 @@ get_net_cooccur_igraph <- function(play = NULL,
   if (as_igraph) return(graph)
 
   meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
+  if (is.null(meta)) {
+    return(invisible(NULL))
+  }
 
   structure(graph,
     play = play,
@@ -231,7 +246,7 @@ get_net_cooccur_igraph <- function(play = NULL,
     wikidataId = meta$wikidataId,
     genre = meta$genre,
     num_of_segments = nrow(meta$segments),
-    authors = paste0(meta$authors$name, collapse = ", "),
+    authors = paste0(meta$authors$name, collapse = "; "),
     title = meta$title,
     year = meta$yearNormalized,
     class = c("cooccur_igraph", "igraph")
@@ -260,10 +275,10 @@ is.cooccur_igraph <- function(x) {
 #' @param max_graph_size Integer, maximum network size for plotting all labels.
 #' If you don't want to delete any labels, set \code{Inf}.
 #' @param top_nodes Integer, number of labels to be plotted. Characters with the
-#'   highest number of words will be selected.
+#'   highest values of \code{label_size_metric} will be selected.
 #' @param label_size_metric Character, a metric that is used to rank characters
 #' in a play.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' emilia_igraph <- get_net_cooccur_igraph(
 #'   play = "lessing-emilia-galotti",
@@ -299,16 +314,34 @@ label_cooccur_igraph <- function(graph,
   vertices_labels
 }
 
+# Rescale a vertex or edge metric to plotting sizes: scale[1] for the minimum,
+# at most scale[1] + scale[2] for the maximum (reached when the minimum is 0).
+# If the metric is 0 for all vertices (e.g. betweenness in a two-character
+# play) or there is nothing to scale (a monodrama has no edges), every element
+# gets scale[1] instead of NaN/Inf; missing values get scale[1] as well.
+scale_metric <- function(v, scale) {
+  if (length(v) == 0 || all(is.na(v)) || max(v, na.rm = TRUE) == 0) {
+    return(rep(scale[1], length(v)))
+  }
+  out <- (v - min(v, na.rm = TRUE)) / max(v, na.rm = TRUE) * scale[2] + scale[1]
+  out[is.na(out)] <- scale[1]
+  out
+}
+
 #' @param x A \code{cooccur_igraph} object to plot.
 #' @param layout Function, an algorithm used for the graph layout. See
 #' \link[igraph]{igraph.plotting}.
 #' @param vertex.label Character vector of character names. By default,
 #' function \code{\link{label_cooccur_igraph}} is used to avoid overplotting on
 #' large graphs.
-#' @param gender_colors Named vector with 3 values with colors for
-#' MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use the default
-#' igraph colors. If you set parameter \code{vertex.color} (see
-#' \link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.
+#' @param gender_colors Named character vector with 3 colors for the
+#' \code{sex} of characters (\code{MALE}, \code{FEMALE} and \code{UNKNOWN}, as
+#' returned by 'DraCor' API), e.g. the default
+#' \code{c(MALE = "#0073C2", FEMALE = "#EFC000", UNKNOWN = "#99979D")}. Any R
+#' color specification can be used, the order of the elements does not matter.
+#' Set \code{NULL} to use the default igraph colors. If you set parameter
+#' \code{vertex.color} (see \link[igraph]{igraph.plotting}),
+#' \code{gender_colors} will be ignored.
 #' @param vertex_size_metric Character value, one of \code{"numOfWords"},
 #' \code{"numOfScenes"}, \code{"numOfSpeechActs"}, \code{"degree"},
 #' \code{"weightedDegree"}, \code{"closeness"}, \code{"betweenness"},
@@ -317,15 +350,20 @@ label_cooccur_igraph <- function(graph,
 #' parameter \code{vertex.size}(see \link[igraph]{igraph.plotting}), in this
 #' case parameter \code{vertex_size_metric} is ignored.
 #' @param vertex_size_scale Numeric vector with two values. The first number is
-#' for mean size of node(vertex), the second one is for node size variance. If
+#' the size of the smallest vertex, the second one defines how much bigger the
+#' other vertices are: the size of a vertex is
+#' \code{first + second * (metric - min(metric)) / max(metric)} (all vertices
+#' get the first value if the metric is 0 for all of them). If
 #' you specify vertex size by yourself using parameter
 #' \code{vertex.size}(see \link[igraph]{igraph.plotting}),
 #' \code{vertex_size_scale} is ignored.
-#' @param edge_size_scale Numeric vector with two values. The first number
-#' defines average size of edges, the second number defines edges size variance.
-#' If you specify edges size by yourself using parameter
-#' \code{edge.width}(see \link[igraph]{igraph.plotting}),
-#' \code{edge_size_scale} is ignored.
+#' @param edge_size_scale Numeric vector with two values. The first number is
+#' the width of the thinnest edge, the second one defines how much thicker the
+#' other edges are: the width of an edge is
+#' \code{first + second * (weight - min(weight)) / max(weight)}. Set
+#' \code{NULL} to use the default igraph edge width. If you specify edges width
+#' by yourself using parameter \code{edge.width}(see
+#' \link[igraph]{igraph.plotting}), \code{edge_size_scale} is ignored.
 #' @param vertex_label_adjust Logical. If \code{TRUE}, labels positions
 #' are moved to the top of the respectives nodes. If \code{FALSE}, labels
 #' are placed in the nodes centers. \code{TRUE} by default. If you set parameter
@@ -366,72 +404,81 @@ plot.cooccur_igraph <- function(x,
                                vertex.label.font = 2L,
                                vertex.frame.color = "white",
                                ...) {
-  if (!exists("vertex.color")) {
+  # igraph parameters passed by the user in ... take precedence over the
+  # values computed below
+  dots <- list(...)
+  user_set <- names(dots)
+  defaults <- list()
+
+  if (!"vertex.color" %in% user_set && !is.null(gender_colors)) {
     stopifnot(
-      "gender_colors must be named vector with 3 values or NULL" =
-        names(gender_colors) == c("MALE", "FEMALE", "UNKNOWN") |
-          is.null(gender_colors)
+      "gender_colors must be a vector of 3 colors named MALE, FEMALE and UNKNOWN, or NULL" =
+        setequal(names(gender_colors), c("MALE", "FEMALE", "UNKNOWN"))
     )
-    if (is.null(gender_colors)) {
-      vertex.color <- NULL
-    } else {
-      vertex.color <- gender_colors[igraph::vertex_attr(x, "sex")]
-    }
+    sex <- igraph::vertex_attr(x, "sex")
+    sex[is.na(sex)] <- "UNKNOWN"
+    defaults$vertex.color <- gender_colors[sex]
   }
-  if (!exists("vertex.size")) {
+
+  if (!"vertex.size" %in% user_set) {
     vertex_size_metric <- match.arg(vertex_size_metric)
     stopifnot(
-      "vertex_size_scale must be numeric vector with 2 values" =
-        length(vertex_size_scale) == 2 &
-          is.numeric(vertex_size_scale)
+      "vertex_size_scale must be a numeric vector with 2 values" =
+        is.numeric(vertex_size_scale) && length(vertex_size_scale) == 2
     )
-    v_s <- igraph::vertex_attr(x, vertex_size_metric)
-    vertex.size <- (v_s - min(v_s)) / max(v_s) *
-      vertex_size_scale[2] + vertex_size_scale[1]
+    defaults$vertex.size <- scale_metric(
+      igraph::vertex_attr(x, vertex_size_metric),
+      vertex_size_scale
+    )
+  }
+  vertex_size <- if ("vertex.size" %in% user_set) {
+    dots[["vertex.size"]]
+  } else {
+    defaults$vertex.size
   }
 
-  if (!exists("vertex.label.dist")) {
+  if (!"vertex.label.dist" %in% user_set) {
     stopifnot(
       "vertex_label_adjust must be TRUE or FALSE" =
-        isTRUE(vertex_label_adjust) |
-          isFALSE(vertex_label_adjust)
+        isTRUE(vertex_label_adjust) || isFALSE(vertex_label_adjust)
     )
-    if (vertex_label_adjust) {
-      vertex.label.dist <- vertex.size / 10 + .75
+    defaults$vertex.label.dist <- if (vertex_label_adjust) {
+      vertex_size / 10 + .75
     } else {
-      vertex.label.dist <- 0
+      0
     }
   }
 
-  vertex.shape <-
-    c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
-
-  if (!exists("edge.width") & !is.null(edge_size_scale)) {
-    stopifnot(
-      "edge_size_scale must be numeric vector with 2 values" =
-        length(edge_size_scale) == 2 &
-          is.numeric(edge_size_scale)
-    )
-    w <- igraph::edge_attr(x, "weight")
-    edge.width <-
-      (w - min(w)) / max(w) * edge_size_scale[2] + edge_size_scale[1]
+  if (!"vertex.shape" %in% user_set) {
+    defaults$vertex.shape <-
+      c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
   }
 
-  igraph::plot.igraph(
-    x,
-    vertex.color = vertex.color,
-    vertex.size = vertex.size,
-    vertex.shape = vertex.shape,
-    vertex.frame.color = vertex.frame.color,
-    vertex.label = vertex.label,
-    vertex.label.color = vertex.label.color,
-    vertex.label.family = vertex.label.family,
-    vertex.label.font = vertex.label.font,
-    vertex.label.dist = vertex.label.dist,
-    edge.width = edge.width,
-    layout = layout,
-    ...
-  )
+  if (!"edge.width" %in% user_set && !is.null(edge_size_scale)) {
+    stopifnot(
+      "edge_size_scale must be a numeric vector with 2 values" =
+        is.numeric(edge_size_scale) && length(edge_size_scale) == 2
+    )
+    defaults$edge.width <-
+      scale_metric(igraph::edge_attr(x, "weight"), edge_size_scale)
+  }
+
+  invisible(do.call(
+    igraph::plot.igraph,
+    c(
+      list(
+        x,
+        layout = layout,
+        vertex.label = vertex.label,
+        vertex.label.color = vertex.label.color,
+        vertex.label.family = vertex.label.family,
+        vertex.label.font = vertex.label.font,
+        vertex.frame.color = vertex.frame.color
+      ),
+      defaults,
+      dots
+    )
+  ))
 }
 
 
@@ -439,7 +486,7 @@ plot.cooccur_igraph <- function(x,
 #' @method summary cooccur_igraph
 #' @export
 #' @describeIn get_net_cooccur_igraph Meaningful summary for
-#'   \code{"cooccur_igraph"} object: network properties, gender distribution
+#'   \code{"cooccur_igraph"} object: network properties, sex distribution
 summary.cooccur_igraph <- function(object, ...) {
   genders <- igraph::vertex_attr(object, "sex")
   density <- igraph::edge_density(object)
@@ -469,9 +516,9 @@ summary.cooccur_igraph <- function(object, ...) {
     sprintf(
       "         Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",
       length(genders),
-      sum(genders == "FEMALE"),
-      sum(genders == "MALE"),
-      sum(genders == "UNKNOWN")
+      sum(genders == "FEMALE", na.rm = TRUE),
+      sum(genders == "MALE", na.rm = TRUE),
+      sum(genders == "UNKNOWN", na.rm = TRUE)
     ),
     sprintf("      Density: %.2f", density),
     sprintf("       Degree:"),
@@ -490,18 +537,19 @@ summary.cooccur_igraph <- function(object, ...) {
 
 #' Retrieve an igraph relations network for a play
 #'
-#' \code{get_net_relations_igraph()} a play network, given play and corpus names
-#' . The network represent kinship and other relationships data, following the
+#' \code{get_net_relations_igraph()} returns a play network, given play and
+#' corpus names. The network represents kinship and other relationships data,
+#' following the
 #' encoding scheme proposed in
 #' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #'
 #' @param as_igraph Logical, if \code{TRUE}, returns simple igraph object
-#' instead of \code{cooccur_igraph}. \code{FALSE} by default.
+#' instead of \code{relations_igraph}. \code{FALSE} by default.
 #'
 #' @return \code{relations_igraph} — an object that inherits \code{igraph} and
 #' can be treated as such.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' galotti_relations <- get_net_relations_igraph(
 #'   play = "lessing-emilia-galotti",
@@ -517,8 +565,8 @@ summary.cooccur_igraph <- function(object, ...) {
 #' @references
 #'   \insertAllCited{}
 #' @export
-get_net_relations_igraph <- function(play = play,
-                                     corpus = corpus,
+get_net_relations_igraph <- function(play = NULL,
+                                     corpus = NULL,
                                      as_igraph = FALSE) {
   relations <-
     get_net_relations_edges(
@@ -526,14 +574,22 @@ get_net_relations_igraph <- function(play = play,
       corpus = corpus,
       as_tibble = FALSE
     )
+  if (is.null(relations)) {
+    return(invisible(NULL))
+  }
   nodes <-
     get_play_characters(
       play = play,
       corpus = corpus,
       as_tibble = FALSE
     )
+  if (is.null(nodes)) {
+    return(invisible(NULL))
+  }
   data.table::setcolorder(nodes, "id")
-  data.table::setnames(relations, c("source", "type", "target", "relation"))
+  # the columns are Source, Type, Target, Label: rename by name, not by position
+  data.table::setnames(relations, tolower(names(relations)))
+  data.table::setnames(relations, "label", "relation")
   graph <- igraph::graph_from_data_frame(
     relations[, c(
       "source",
@@ -548,6 +604,9 @@ get_net_relations_igraph <- function(play = play,
   if (as_igraph) return(graph)
 
   meta <- get_play_metadata(play = play, corpus = corpus, full_metadata = FALSE)
+  if (is.null(meta)) {
+    return(invisible(NULL))
+  }
   structure(
     graph,
     play = play,
@@ -556,7 +615,7 @@ get_net_relations_igraph <- function(play = play,
     wikidataId = meta$wikidataId,
     genre = meta$genre,
     num_of_segments = nrow(meta$segments),
-    authors = paste0(meta$authors$name, collapse = "\n"),
+    authors = paste0(meta$authors$name, collapse = "; "),
     title = meta$title,
     year = meta$yearNormalized,
     character_ids = nodes$id,
@@ -576,7 +635,7 @@ is.relations_igraph <- function(x) {
 #' \code{"relations_igraph"} object: relationships and their type.
 summary.relations_igraph <- function(object, ...) {
   genders <- igraph::vertex_attr(object, "sex")
-  edges_df <- as_data_frame(object)
+  edges_df <- igraph::as_data_frame(object)
   n <- nrow(edges_df)
   edges_df$arrow <-
     ifelse(edges_df$type == "Directed", "--->", "<-->")
@@ -604,9 +663,9 @@ summary.relations_igraph <- function(object, ...) {
     sprintf(
       "Size: %i (%i FEMALES, %i MALES, %i UNKNOWN)",
       length(genders),
-      sum(genders == "FEMALE"),
-      sum(genders == "MALE"),
-      sum(genders == "UNKNOWN")
+      sum(genders == "FEMALE", na.rm = TRUE),
+      sum(genders == "MALE", na.rm = TRUE),
+      sum(genders == "UNKNOWN", na.rm = TRUE)
     ),
     sprintf("Relations: %i", n),
     if (n > 6) {
@@ -623,10 +682,14 @@ summary.relations_igraph <- function(object, ...) {
 #' @param x A \code{relations_igraph} object to plot.
 #' @param layout Function, an algorithm used for graph layout. See
 #' \link[igraph]{layout_}.
-#' @param gender_colors Named vector with 3 values with colors for
-#' MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
-#' colors. If you set parameter \code{vertex.color} (see
-#' \link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.
+#' @param gender_colors Named character vector with 3 colors for the
+#' \code{sex} of characters (\code{MALE}, \code{FEMALE} and \code{UNKNOWN}, as
+#' returned by 'DraCor' API), e.g. the default
+#' \code{c(MALE = "#0073C2", FEMALE = "#EFC000", UNKNOWN = "#99979D")}. Any R
+#' color specification can be used, the order of the elements does not matter.
+#' Set \code{NULL} to use the default igraph colors. If you set parameter
+#' \code{vertex.color} (see \link[igraph]{igraph.plotting}),
+#' \code{gender_colors} will be ignored.
 #' @param show_others Character value. What to do with vertices without
 #' relations?
 #' \itemize{
@@ -690,96 +753,98 @@ plot.relations_igraph <- function(x,
   character_ids <- attr(x, "character_ids")
   show_others <- match.arg(show_others)
 
-  if (show_others == "vertex") {
-    vertex.label.cex <- ifelse(character_ids %in% nodes_with_relations,
+  # igraph parameters passed by the user in ... take precedence over the
+  # values computed below
+  dots <- list(...)
+  user_set <- names(dots)
+  defaults <- list()
+
+  has_relations <- character_ids %in% nodes_with_relations
+  if (!"vertex.label.cex" %in% user_set) {
+    defaults$vertex.label.cex <- ifelse(
+      has_relations,
       vertex_label_size[1],
-      0.01
+      if (show_others == "vertex_label") vertex_label_size[2] else 0.01
     )
-    vertex.size <- ifelse(character_ids %in% nodes_with_relations,
+  }
+  if (!"vertex.size" %in% user_set) {
+    defaults$vertex.size <- ifelse(
+      has_relations,
       vertex_size[1],
-      vertex_size[2]
+      if (show_others == "none") 0 else vertex_size[2]
     )
-  } else if (show_others == "vertex_label") {
-    vertex.label.cex <- ifelse(
-      character_ids %in% nodes_with_relations,
-      vertex_label_size[1],
-      vertex_label_size[2]
-    )
-    vertex.size <- ifelse(character_ids %in% nodes_with_relations,
-      vertex_size[1],
-      vertex_size[2]
-    )
+  }
+  vertex_size_used <- if ("vertex.size" %in% user_set) {
+    dots[["vertex.size"]]
   } else {
-    vertex.label.cex <- ifelse(character_ids %in% nodes_with_relations,
-      vertex_label_size[1],
-      0.01
-    )
-    vertex.size <- ifelse(character_ids %in% nodes_with_relations,
-      vertex_size[1],
-      0
-    )
+    defaults$vertex.size
   }
 
-  edge.arrow.mode <- ifelse(E(x)$type == "Undirected", "-", ">")
-
-  if (!exists("vertex.color")) {
+  if (!"vertex.color" %in% user_set && !is.null(gender_colors)) {
     stopifnot(
-      "gender_colors must be named vector with 3 values or NULL" =
-        names(gender_colors) == c("MALE", "FEMALE", "UNKNOWN") |
-          is.null(gender_colors)
+      "gender_colors must be a vector of 3 colors named MALE, FEMALE and UNKNOWN, or NULL" =
+        setequal(names(gender_colors), c("MALE", "FEMALE", "UNKNOWN"))
     )
-    if (is.null(gender_colors)) {
-      vertex.color <- NULL
-    } else {
-      vertex.color <- gender_colors[igraph::vertex_attr(x, "gender")]
-    }
+    sex <- igraph::vertex_attr(x, "sex")
+    sex[is.na(sex)] <- "UNKNOWN"
+    defaults$vertex.color <- gender_colors[sex]
   }
-  if (!exists("vertex.label.dist")) {
+
+  if (!"vertex.label.dist" %in% user_set) {
     stopifnot(
       "vertex_label_adjust must be TRUE or FALSE" =
-        isTRUE(vertex_label_adjust) |
-          isFALSE(vertex_label_adjust)
+        isTRUE(vertex_label_adjust) || isFALSE(vertex_label_adjust)
     )
-    if (vertex_label_adjust) {
-      vertex.label.dist <- vertex.size / 10 + .75
+    defaults$vertex.label.dist <- if (vertex_label_adjust) {
+      vertex_size_used / 10 + .75
     } else {
-      vertex.label.dist <- 0
+      0
     }
   }
 
-  vertex.shape <-
-    c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
+  if (!"vertex.shape" %in% user_set) {
+    defaults$vertex.shape <-
+      c("circle", "square")[as.numeric(igraph::vertex_attr(x, "isGroup")) + 1]
+  }
 
-  E(x)$color <- data.table::fcase(
-    E(x)$relation == "parent_of", "#6f42c1",
-    E(x)$relation == "lover_of", "#f93e3e",
-    E(x)$relation == "related_with", "#fca130",
-    E(x)$relation == "associated_with", "#61affe",
-    E(x)$relation == "siblings", "#49cc90",
-    E(x)$relation == "spouses", "#e83e8c",
-    E(x)$relation == "friends", "#1F2448"
+  relation <- igraph::edge_attr(x, "relation")
+  edge_color <- data.table::fcase(
+    relation == "parent_of", "#6f42c1",
+    relation == "lover_of", "#f93e3e",
+    relation == "related_with", "#fca130",
+    relation == "associated_with", "#61affe",
+    relation == "siblings", "#49cc90",
+    relation == "spouses", "#e83e8c",
+    relation == "friends", "#1F2448",
+    default = "grey50"
   )
-  igraph::plot.igraph(
-    x,
-    layout = layout,
-    vertex.size = vertex.size,
-    vertex.shape = vertex.shape,
-    vertex.color = vertex.color,
-    vertex.label.color = vertex.label.color,
-    vertex.label.family = vertex.label.family,
-    vertex.label.cex = vertex.label.cex,
-    vertex.label.font = vertex.label.font,
-    vertex.frame.color = vertex.frame.color,
-    edge.arrow.mode = edge.arrow.mode,
-    vertex.label.dist = vertex.label.dist,
-    edge.color = edge_attr(x, "color"),
-    edge.curved = edge.curved,
-    edge.arrow.size = edge.arrow.size,
-    edge.arrow.width = edge.arrow.width,
-    edge.label = edge_attr(x, "relation"),
-    edge.label.color = edge_attr(x, "color"),
-    edge.label.font = edge.label.font,
-    edge.label.font = edge.label.font,
-    edge.label.cex = edge.label.cex
-  )
+  if (!"edge.arrow.mode" %in% user_set) {
+    defaults$edge.arrow.mode <-
+      ifelse(igraph::edge_attr(x, "type") == "Undirected", "-", ">")
+  }
+  if (!"edge.color" %in% user_set) defaults$edge.color <- edge_color
+  if (!"edge.label" %in% user_set) defaults$edge.label <- relation
+  if (!"edge.label.color" %in% user_set) defaults$edge.label.color <- edge_color
+
+  invisible(do.call(
+    igraph::plot.igraph,
+    c(
+      list(
+        x,
+        layout = layout,
+        vertex.label.color = vertex.label.color,
+        vertex.label.family = vertex.label.family,
+        vertex.label.font = vertex.label.font,
+        vertex.frame.color = vertex.frame.color,
+        edge.arrow.size = edge.arrow.size,
+        edge.arrow.width = edge.arrow.width,
+        edge.curved = edge.curved,
+        edge.label.family = edge.label.family,
+        edge.label.font = edge.label.font,
+        edge.label.cex = edge.label.cex
+      ),
+      defaults,
+      dots
+    )
+  ))
 }

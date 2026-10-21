@@ -39,16 +39,18 @@ You need to provide a vector with valid names of the corpora, e.g.
 }
 \section{Functions}{
 \itemize{
-\item \code{summary(dracor)}: Meaningful summary for \code{dracor_meta} object.
+\item \code{summary(dracor)}: Meaningful summary for \code{dracor} object.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 tat <- get_dracor("tat")
 summary(tat)
 get_dracor(c("ita", "span", "greek"))
-get_dracor()
+# get_dracor() downloads all corpora, it may take several minutes
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_dracor_meta}}

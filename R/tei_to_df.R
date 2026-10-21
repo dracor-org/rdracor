@@ -84,10 +84,12 @@ segment_info <- function(tei_line, sep = " | ") {
     collapse = sep
   )
 
+  # a line can be nested deeper than <sp> (e.g. <sp><lg><l>), so the speaker
+  # is taken from the enclosing <sp>, not from the direct parent
   who <- tei_line %>%
-    xml2::xml_parent() %>% # map to avoid deduplication
+    xml2::xml_find_first("ancestor::sp") %>%
     xml2::xml_attr("who") %>%
-    stringr::str_remove("#")
+    stringr::str_remove_all("#")
 
   data.table::data.table(who, scene, scene_path, subdiv_path)
 }
@@ -124,11 +126,12 @@ line_table <- function(tei_line,
 #' @param tei A TEI object stored as an object of class \code{xml_document}.
 #' You can use this function if you have already downloaded TEI using
 #' \code{\link{get_text_tei}}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
-#' emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
-#' tei_to_df(emilia_tei)
+#' # the same in two steps, for a short play:
+#' pfandung_tei <- get_text_tei(play = "leisewitz-die-pfandung", corpus = "ger")
+#' tei_to_df(pfandung_tei)
 #' }
 #' @seealso \code{\link{get_play_metadata}}
 #' @importFrom purrr flatten_chr
@@ -209,8 +212,9 @@ tei_to_df <- function(tei) {
     collapse = " | "
   )
 
-  tei %>%
-    xml2::xml_ns_strip()
+  # work on a copy: xml_ns_strip() modifies the document in place
+  tei <- xml2::read_xml(as.character(tei))
+  xml2::xml_ns_strip(tei)
   play_text_df <- tei %>%
     xml2::xml_find_all(xpath) %>%
     lapply(
@@ -242,9 +246,12 @@ tei_to_df <- function(tei) {
 
 #' @inheritParams get_play_metadata
 #' @export
-#' @describeIn tei_to_df Retrieves all stage directions of a play,
+#' @describeIn tei_to_df Retrieves the text of a play as a data frame,
 #' given play and corpus names.
 get_text_df <- function(play, corpus) {
-  get_text_tei(play = play, corpus = corpus) %>%
-    tei_to_df()
+  tei <- get_text_tei(play = play, corpus = corpus)
+  if (is.null(tei)) {
+    return(invisible(NULL))
+  }
+  tei_to_df(tei)
 }

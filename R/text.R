@@ -5,9 +5,13 @@
 #' structural information \insertCite{fischer2019programmable}{rdracor}.
 #'
 #' @return TEI data parsed by
-#'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
+#'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}. The document keeps the
+#'   TEI namespace, so XPath expressions need the \code{d1:} prefix, e.g.
+#'   \code{xml2::xml_find_all(tei, "//d1:sp")}. Run
+#'   \code{xml2::xml_ns_strip(tei)} if you prefer to use XPath without
+#'   prefixes.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want a text in TEI without parsing by xml2::read_xml():
 #' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
@@ -30,7 +34,9 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 #' given play and corpus names.
 #' @inheritParams get_play_characters
 #' @param gender Character, optional parameter to extract lines for characters
-#' of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.
+#' of specified sex: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"} (the
+#' \code{sex} property of characters in 'DraCor' API; the parameter keeps its
+#' historical name for backward compatibility).
 #' @param split_text If \code{TRUE} returns text as a character vector of lines.
 #' Otherwise, returns text as one character value. \code{TRUE} by default.
 #' @return For \code{get_text_chr_spoken()}, \code{get_text_chr_stage()} and
@@ -52,7 +58,7 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 #'   \code{"text"} column, the \code{"text"} column is a simple character
 #'   column}
 #' }
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger")
 #' get_text_chr_spoken(
 #'   play = "lessing-emilia-galotti",
@@ -120,6 +126,9 @@ get_text_chr_spoken_bych <-
       expected_type = "application/json",
       ...
     )
+    if (is.null(play_text)) {
+      return(invisible(NULL))
+    }
     if (!isTRUE(split_text)) {
       play_text$text <- purrr::map_chr(play_text$text, paste0, collapse = "\n")
     }

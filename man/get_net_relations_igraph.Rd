@@ -6,7 +6,7 @@
 \alias{plot.relations_igraph}
 \title{Retrieve an igraph relations network for a play}
 \usage{
-get_net_relations_igraph(play = play, corpus = corpus, as_igraph = FALSE)
+get_net_relations_igraph(play = NULL, corpus = NULL, as_igraph = FALSE)
 
 \method{summary}{relations_igraph}(object, ...)
 
@@ -42,7 +42,7 @@ supported.}
 \code{\link{get_dracor_meta}}).}
 
 \item{as_igraph}{Logical, if \code{TRUE}, returns simple igraph object
-instead of \code{cooccur_igraph}. \code{FALSE} by default.}
+instead of \code{relations_igraph}. \code{FALSE} by default.}
 
 \item{object}{An object of class \code{relations_igraph}.}
 
@@ -53,10 +53,14 @@ instead of \code{cooccur_igraph}. \code{FALSE} by default.}
 \item{layout}{Function, an algorithm used for graph layout. See
 \link[igraph]{layout_}.}
 
-\item{gender_colors}{Named vector with 3 values with colors for
-MALE, FEMALE and UNKNOWN respectively. Set \code{NULL} to use default igraph
-colors. If you set parameter \code{vertex.color} (see
-\link[igraph]{igraph.plotting}), \code{gender_colors} will be ignored.}
+\item{gender_colors}{Named character vector with 3 colors for the
+\code{sex} of characters (\code{MALE}, \code{FEMALE} and \code{UNKNOWN}, as
+returned by 'DraCor' API), e.g. the default
+\code{c(MALE = "#0073C2", FEMALE = "#EFC000", UNKNOWN = "#99979D")}. Any R
+color specification can be used, the order of the elements does not matter.
+Set \code{NULL} to use the default igraph colors. If you set parameter
+\code{vertex.color} (see \link[igraph]{igraph.plotting}),
+\code{gender_colors} will be ignored.}
 
 \item{show_others}{Character value. What to do with vertices without
 relations?
@@ -105,8 +109,9 @@ are placed in the nodes centers. \code{TRUE} by default. If you set parameter
 can be treated as such.
 }
 \description{
-\code{get_net_relations_igraph()} a play network, given play and corpus names
-. The network represent kinship and other relationships data, following the
+\code{get_net_relations_igraph()} returns a play network, given play and
+corpus names. The network represents kinship and other relationships data,
+following the
 encoding scheme proposed in
 \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 }
@@ -120,6 +125,7 @@ encoding scheme proposed in
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 galotti_relations <- get_net_relations_igraph(
   play = "lessing-emilia-galotti",
@@ -128,6 +134,7 @@ galotti_relations <- get_net_relations_igraph(
 plot(galotti_relations)
 summary(galotti_relations)
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
 \insertAllCited{}

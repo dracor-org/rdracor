@@ -87,6 +87,9 @@ get_corpus <- function(corpus = NULL,
         flatten = TRUE,
         as_tibble = FALSE
       )
+    if (is.null(dracor_list)) {
+      return(NULL)
+    }
     data.table::setDT(dracor_list$plays)
     lapply(c("yearWritten", "yearPrinted", "yearPremiered"), function(x) {
       divide_years(dracor_list$plays, x)
@@ -108,7 +111,7 @@ get_corpus <- function(corpus = NULL,
     }
     dracor_list$plays$author.name <- map_chr(dracor_list$plays$authors,
                                              function(x) {
-                                               if (length(x$name >= 1)) {
+                                               if (length(x$name) >= 1) {
                                                  return(x$name[1])
                                                } else {
                                                    return(NA_character_)
@@ -129,15 +132,19 @@ get_corpus <- function(corpus = NULL,
     )
   }
   if (isTRUE(full_metadata)) {
+    corpus_metadata <- dracor_api(request = paste0(
+      get_dracor_api_url(),
+      "/corpora/",
+      corpus,
+      "/metadata"
+    ), flatten = TRUE)
+    if (is.null(corpus_metadata)) {
+      return(NULL)
+    }
     dracor_list$plays <-
       merge(
         dracor_list$plays,
-        dracor_api(request = paste0(
-          get_dracor_api_url(),
-          "/corpora/",
-          corpus,
-          "/metadata"
-        ), flatten = TRUE),
+        corpus_metadata,
         by = "id",
         suffixes = c("", "Meta")
       )
@@ -146,13 +153,11 @@ get_corpus <- function(corpus = NULL,
     data.table::setcolorder(dracor_list$plays,
                             neworder = new_order)
 
-    dublicate_columns <-
-      c(
-        "wikidataIdMeta",
-        "titleMeta",
-        "subtitleMeta"
-      )
-    dracor_list$plays[, (dublicate_columns) := NULL]
+    duplicate_columns <- intersect(
+      c("wikidataIdMeta", "titleMeta", "subtitleMeta", "yearNormalizedMeta"),
+      names(dracor_list$plays)
+    )
+    dracor_list$plays[, (duplicate_columns) := NULL]
   }
   dracor_list$amount_of_plays <- nrow(dracor_list$plays)
   return(dracor_list)
@@ -189,7 +194,7 @@ is.dracor <- function(x) {
 #' @param ... Other arguments to be passed to \code{\link{summary.default}}.
 #' @method summary dracor
 #' @export
-#' @describeIn get_dracor Meaningful summary for \code{dracor_meta} object.
+#' @describeIn get_dracor Meaningful summary for \code{dracor} object.
 summary.dracor <- function(object, ...) {
   written <-
     suppressWarnings(range(object$yearWrittenStart, object$yearWrittenFinish,
@@ -241,7 +246,7 @@ summary.dracor <- function(object, ...) {
           "Description: %s",
           attr(object, "description")
         ),
-        sep = "\t\n"
+        sep = "\n"
       )
     } else {
       cat(
@@ -253,10 +258,10 @@ summary.dracor <- function(object, ...) {
         paste(sprintf(
           "%s (%i plays)", attr(object, "name"), attr(object, "plays")
         ), collapse = ", "),
-        sep = "\t\n"
+        sep = "\n"
       )
     },
-    sep = "\t\n"
+    sep = "\n"
   )
 }
 
@@ -280,12 +285,12 @@ summary.dracor <- function(object, ...) {
 #' metadata are retrieved.
 #' @return \code{dracor} object that inherits data frame (and can be used as
 #' such).
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' tat <- get_dracor("tat")
 #' summary(tat)
 #' get_dracor(c("ita", "span", "greek"))
-#' get_dracor()
+#' # get_dracor() downloads all corpora, it may take several minutes
 #' }
 #' @seealso \code{\link{get_dracor_meta}}
 #' @importFrom jsonlite fromJSON
@@ -294,11 +299,14 @@ summary.dracor <- function(object, ...) {
 #' @export
 get_dracor <- function(corpus = "all",
                        full_metadata = TRUE) {
-  if (identical(corpus, "all")) {
-    dracor_meta <- get_dracor_meta()
-    corpus <- dracor_meta$name
-  }
   available_corpora <- get_available_corpus_names()
+  if (is.null(available_corpora)) {
+    return(invisible(NULL))
+  }
+  if (identical(corpus, "all")) {
+    corpus <- available_corpora
+  }
+  corpus <- unique(corpus)
   if (!all(corpus %in% available_corpora)) {
     stop(
       paste(
@@ -319,18 +327,22 @@ get_dracor <- function(corpus = "all",
   dracor_empty_lgl <- dracor_data_list %>%
     purrr::map_lgl(is.null)
 
+  if (all(dracor_empty_lgl)) {
+    return(invisible(NULL))
+  }
+
   if (any(dracor_empty_lgl)) {
     dracor_error <- dracor_list %>%
       purrr::map("error") %>%
       purrr::compact() %>%
-      purrr::map_chr(as.character) %>%
-      paste0(collapse = "")
+      purrr::map_chr(conditionMessage) %>%
+      paste0(collapse = "\n")
 
     failed_corpora <- paste0(corpus[dracor_empty_lgl], collapse = ", ")
-    warning(paste("\nDownload failed:", failed_corpora, "Error descriptions:",
-      dracor_error,
-      sep = "\n"
-    ))
+    warning(paste(c(
+      "\nDownload failed:", failed_corpora,
+      if (nzchar(dracor_error)) c("Error descriptions:", dracor_error)
+    ), collapse = "\n"))
   }
 
   dracor_data_list %>%
@@ -341,8 +353,8 @@ get_dracor <- function(corpus = "all",
 #' Retrieve plays having a character identified by 'Wikidata ID'
 #'
 #' \code{get_character_plays()} requests plays that include a character that can
-#' by found in 'Wikidata' by it's id. \code{get_character_plays()} sends a
-#' request and parses the the result to get those plays as a data frame.
+#' be found in 'Wikidata' by its id. \code{get_character_plays()} sends a
+#' request and parses the result to get those plays as a data frame.
 #'
 #' @return Data frame, in which one row represents one play. Information on
 #' author(s) name, character name, play name, URL and ID is represented in
@@ -351,7 +363,7 @@ get_dracor <- function(corpus = "all",
 #' 'Wikidata ID' can be found on
 #' \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}. Character vector
 #' (longer than 1) is not supported.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' wiki_id <- "Q131412"
 #' get_character_plays(wiki_id)
 #' @seealso \code{\link{get_dracor}}

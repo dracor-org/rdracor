@@ -1,11 +1,31 @@
 citHeader("To cite rdracor in publications use:")
 
+year <- sub("-.*", "", meta$`Date/Publication`)
+if (!length(year)) year <- format(Sys.Date(), "%Y")
+
 bibentry(
-  bibtype    = "InProceedings",
-  title    = "Programmable corpora: Introducing DraCor, an infrastructure for the research on European drama",
-  author   = "Fisher, Frank, et al.",
+  bibtype   = "Manual",
+  title     = "rdracor: Access to the 'DraCor' API",
+  author    = person("Ivan", "Pozdniakov"),
+  year      = year,
+  note      = paste("R package version", meta$Version),
+  url       = "https://CRAN.R-project.org/package=rdracor"
+)
+
+bibentry(
+  bibtype   = "InProceedings",
+  title     = "Programmable corpora: Introducing DraCor, an infrastructure for the research on European drama",
+  author    = c(
+    person("Frank", "Fischer"),
+    person("Ingo", "Börner"),
+    person("Mathias", "Göbel"),
+    person("Angelika", "Hechtl"),
+    person("Christopher", "Kittel"),
+    person("Carsten", "Milling"),
+    person("Peer", "Trilcke")
+  ),
   booktitle = "Digital Humanities 2019: 'Complexities' (DH2019)",
-  year     = "2019",
-  volume   = "Digital Humanities 2019: 'Complexities' (DH2019), Utrecht, 9–12 July 2019",
-  url      = "https://zenodo.org/record/4284002#.Y8LZhi96DpC"
+  address   = "Utrecht",
+  year      = 2019,
+  doi       = "10.5281/zenodo.4284002"
 )

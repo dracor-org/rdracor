@@ -19,15 +19,17 @@ supported.}
 \item{...}{Additional arguments passed to \code{\link{dracor_api}}.}
 }
 \value{
-Data frame, every raw represents one character in the play.
+Data frame, every row represents one character in the play.
 }
 \description{
 \code{get_play_characters()} requests miscellaneous information for characters in
 a play, given play and corpus names: name, number and size of their lines,
-gender, some network metrics etc.
+sex, some network metrics etc.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_play_characters(play = "lessing-emilia-galotti", corpus = "ger")
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_play_metadata}}

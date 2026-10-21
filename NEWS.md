@@ -1,3 +1,49 @@
+# rdracor 1.1.0
+
+* all functions that request 'DraCor' API now fail gracefully: if the API is
+not available (no internet connection, the server is down or does not respond,
+error status, data that cannot be parsed), they show an informative message
+and return `NULL` instead of throwing an error
+* added time limits for requests to 'DraCor' API: options
+`rdracor.connect_timeout` (30 s) and `rdracor.timeout` (600 s), see
+`?dracor_api`
+* added `dracor_api_available()` to check whether 'DraCor' API is available
+* fixed `dracor_api_info()` failing if 'DraCor' API is not available
+* `get_dracor()` requests the list of corpora once instead of twice
+* examples are run only if 'DraCor' API is available
+* tests that need 'DraCor' API are not run on CRAN; added tests for the
+behaviour of the functions without 'DraCor' API
+* fixed `tei_to_df()` and `get_text_df()` losing the speaker (`who`) of verse
+lines wrapped in `<lg>`; lines with several speakers keep all their ids;
+`tei_to_df()` no longer modifies the document passed to it
+* fixed `plot()` for `cooccur_igraph` and `relations_igraph` objects ignoring
+igraph arguments passed by the user (e.g. `vertex.color`, `vertex.size`);
+`gender_colors` can be given in any order; `edge_size_scale = NULL` works
+* fixed `plot()` for `relations_igraph` objects not drawing vertices: colours
+were taken from the character attribute `gender`, which 'DraCor' API v1.1.0
+renamed to `sex` (dracor-org/dracor-api#319)
+* `get_play_metadata(full_metadata = TRUE)` uses only the metadata columns
+returned by the API and no longer returns `normalizedGenre` twice
+* `set_dracor_api_url()` validates its argument and removes a trailing slash
+* `dracor_sparql()` uses the host of the current 'DraCor' API URL
+* argument validation errors (e.g. a missing play name) are no longer reported
+as connection problems
+* TLS certificates are verified for all requests
+* fixed `citation("rdracor")`: full list of authors of the 'DraCor' paper and
+DOI; added a citation for the package
+* fixed typos in documentation; documented the format of `gender_colors`
+* fixed `plot()` for `cooccur_igraph` objects failing or warning when a metric
+is 0 for every character (e.g. betweenness in a two-character play) or the play
+has no co-occurrences; unknown relation types are drawn in grey
+* several authors of a play are separated with "; " in the attributes of
+network objects
+* `get_dracor()` downloads each corpus once even if its name is repeated and
+no longer returns the duplicated column `yearNormalizedMeta`
+* the `updated` column of `get_dracor_meta()` takes the UTC offset of 'DraCor'
+API timestamps into account
+* invalid `play` or `corpus` arguments give a clear error message
+* requests to 'DraCor' API identify the package with a User-Agent header
+
 # rdracor 1.0.6
 
 * updated requests for all "gender" to "sex" properties with respect to recent 
@@ -44,7 +90,6 @@ using `get_dracor()`
 # rdracor 0.7.3
 
 * Fixed error with outdated certificate 
->>>>>>> cba29901f42ade9ce755f800bd74cc22ac43ed72
 
 # rdracor 0.7.2
 
