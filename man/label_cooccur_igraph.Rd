@@ -19,7 +19,7 @@ label_cooccur_igraph(
 If you don't want to delete any labels, set \code{Inf}.}
 
 \item{top_nodes}{Integer, number of labels to be plotted. Characters with the
-highest number of words will be selected.}
+highest values of \code{label_size_metric} will be selected.}
 
 \item{label_size_metric}{Character, a metric that is used to rank characters
 in a play.}

@@ -245,7 +245,7 @@ tei_to_df <- function(tei) {
 
 #' @inheritParams get_play_metadata
 #' @export
-#' @describeIn tei_to_df Retrieves all stage directions of a play,
+#' @describeIn tei_to_df Retrieves the text of a play as a data frame,
 #' given play and corpus names.
 get_text_df <- function(play, corpus) {
   tei <- get_text_tei(play = play, corpus = corpus)

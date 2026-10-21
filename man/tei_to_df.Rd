@@ -38,7 +38,7 @@ object to a data frame.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_text_df()}: Retrieves all stage directions of a play,
+\item \code{get_text_df()}: Retrieves the text of a play as a data frame,
 given play and corpus names.
 
 }}

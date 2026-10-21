@@ -110,7 +110,7 @@ get_net_cooccur_gexf <-
 #' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger")
-#' # If you want 'GEXF' without parsing by xml2::read_xml():
+#' # If you want 'GraphML' without parsing by xml2::read_xml():
 #' get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 #' }
 #' @seealso \code{\link{get_net_cooccur_igraph}}
@@ -275,7 +275,7 @@ is.cooccur_igraph <- function(x) {
 #' @param max_graph_size Integer, maximum network size for plotting all labels.
 #' If you don't want to delete any labels, set \code{Inf}.
 #' @param top_nodes Integer, number of labels to be plotted. Characters with the
-#'   highest number of words will be selected.
+#'   highest values of \code{label_size_metric} will be selected.
 #' @param label_size_metric Character, a metric that is used to rank characters
 #' in a play.
 #' @examplesIf dracor_api_available()
@@ -471,7 +471,7 @@ plot.cooccur_igraph <- function(x,
 #' @method summary cooccur_igraph
 #' @export
 #' @describeIn get_net_cooccur_igraph Meaningful summary for
-#'   \code{"cooccur_igraph"} object: network properties, gender distribution
+#'   \code{"cooccur_igraph"} object: network properties, sex distribution
 summary.cooccur_igraph <- function(object, ...) {
   genders <- igraph::vertex_attr(object, "sex")
   density <- igraph::edge_density(object)
@@ -522,13 +522,14 @@ summary.cooccur_igraph <- function(object, ...) {
 
 #' Retrieve an igraph relations network for a play
 #'
-#' \code{get_net_relations_igraph()} a play network, given play and corpus names
-#' . The network represent kinship and other relationships data, following the
+#' \code{get_net_relations_igraph()} returns a play network, given play and
+#' corpus names. The network represents kinship and other relationships data,
+#' following the
 #' encoding scheme proposed in
 #' \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 #'
 #' @param as_igraph Logical, if \code{TRUE}, returns simple igraph object
-#' instead of \code{cooccur_igraph}. \code{FALSE} by default.
+#' instead of \code{relations_igraph}. \code{FALSE} by default.
 #'
 #' @return \code{relations_igraph} — an object that inherits \code{igraph} and
 #' can be treated as such.

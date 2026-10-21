@@ -2,9 +2,9 @@
 #'
 #' \code{get_play_characters()} requests miscellaneous information for characters in
 #' a play, given play and corpus names: name, number and size of their lines,
-#' gender, some network metrics etc.
+#' sex, some network metrics etc.
 #'
-#' @return Data frame, every raw represents one character in the play.
+#' @return Data frame, every row represents one character in the play.
 #'
 #' @param play Character, name of a play (you can find all play names in
 #'   \code{"playName"} column within an object returned by

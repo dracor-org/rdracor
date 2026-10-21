@@ -42,7 +42,7 @@ supported.}
 \code{\link{get_dracor_meta}}).}
 
 \item{as_igraph}{Logical, if \code{TRUE}, returns simple igraph object
-instead of \code{cooccur_igraph}. \code{FALSE} by default.}
+instead of \code{relations_igraph}. \code{FALSE} by default.}
 
 \item{object}{An object of class \code{relations_igraph}.}
 
@@ -109,8 +109,9 @@ are placed in the nodes centers. \code{TRUE} by default. If you set parameter
 can be treated as such.
 }
 \description{
-\code{get_net_relations_igraph()} a play network, given play and corpus names
-. The network represent kinship and other relationships data, following the
+\code{get_net_relations_igraph()} returns a play network, given play and
+corpus names. The network represents kinship and other relationships data,
+following the
 encoding scheme proposed in
 \insertCite{wiedmer_nathalie_2020_4621778}{rdracor}.
 }

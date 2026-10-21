@@ -44,7 +44,7 @@ data, following the encoding scheme proposed in
 \dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger")
-# If you want 'GEXF' without parsing by xml2::read_xml():
+# If you want 'GraphML' without parsing by xml2::read_xml():
 get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
 }
 \dontshow{\}) # examplesIf}

@@ -117,7 +117,7 @@ characters occur together.
 \code{plot.igraph} with slightly modified defaults.
 
 \item \code{summary(cooccur_igraph)}: Meaningful summary for
-\code{"cooccur_igraph"} object: network properties, gender distribution
+\code{"cooccur_igraph"} object: network properties, sex distribution
 
 }}
 \examples{

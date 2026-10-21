@@ -196,7 +196,7 @@ is.dracor <- function(x) {
 #' @param ... Other arguments to be passed to \code{\link{summary.default}}.
 #' @method summary dracor
 #' @export
-#' @describeIn get_dracor Meaningful summary for \code{dracor_meta} object.
+#' @describeIn get_dracor Meaningful summary for \code{dracor} object.
 summary.dracor <- function(object, ...) {
   written <-
     suppressWarnings(range(object$yearWrittenStart, object$yearWrittenFinish,
@@ -354,8 +354,8 @@ get_dracor <- function(corpus = "all",
 #' Retrieve plays having a character identified by 'Wikidata ID'
 #'
 #' \code{get_character_plays()} requests plays that include a character that can
-#' by found in 'Wikidata' by it's id. \code{get_character_plays()} sends a
-#' request and parses the the result to get those plays as a data frame.
+#' be found in 'Wikidata' by its id. \code{get_character_plays()} sends a
+#' request and parses the result to get those plays as a data frame.
 #'
 #' @return Data frame, in which one row represents one play. Information on
 #' author(s) name, character name, play name, URL and ID is represented in

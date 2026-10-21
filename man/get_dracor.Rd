@@ -39,7 +39,7 @@ You need to provide a vector with valid names of the corpora, e.g.
 }
 \section{Functions}{
 \itemize{
-\item \code{summary(dracor)}: Meaningful summary for \code{dracor_meta} object.
+\item \code{summary(dracor)}: Meaningful summary for \code{dracor} object.
 
 }}
 \examples{

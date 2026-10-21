@@ -38,7 +38,9 @@ supported.}
 \code{\link{get_dracor_meta}}).}
 
 \item{gender}{Character, optional parameter to extract lines for characters
-of specified gender: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"}.}
+of specified sex: \code{"MALE"}, \code{"FEMALE"}, \code{"UNKNOWN"} (the
+\code{sex} property of characters in 'DraCor' API; the parameter keeps its
+historical name for backward compatibility).}
 
 \item{split_text}{If \code{TRUE} returns text as a character vector of lines.
 Otherwise, returns text as one character value. \code{TRUE} by default.}
