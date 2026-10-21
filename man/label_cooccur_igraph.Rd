@@ -41,6 +41,7 @@ significant characters of the selected play. This function can be used to set
 if it is true, returns names for top \code{top_nodes} and NA for the rest.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 emilia_igraph <- get_net_cooccur_igraph(
   play = "lessing-emilia-galotti",
@@ -48,6 +49,7 @@ emilia_igraph <- get_net_cooccur_igraph(
 )
 label_cooccur_igraph(emilia_igraph, max_graph_size = 10, top_nodes = 4)
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_net_cooccur_igraph}}

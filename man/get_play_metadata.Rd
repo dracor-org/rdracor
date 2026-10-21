@@ -29,11 +29,13 @@ List with the play metadata.
 and corpus names.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_play_metadata(
   play = "lessing-emilia-galotti",
   corpus = "ger",
   full_metadata = FALSE
 )
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_net_cooccur_edges}} \code{\link{get_play_rdf}}

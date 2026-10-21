@@ -7,7 +7,7 @@
 #'
 #' @return \code{dracor_meta} object that inherits data frame (and can be used
 #'   as such).
-#' @examples
+#' @examplesIf dracor_api_available()
 #' corpora_meta <- get_dracor_meta()
 #' corpora_meta
 #' summary(corpora_meta)

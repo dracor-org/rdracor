@@ -287,12 +287,12 @@ summary.dracor <- function(object, ...) {
 #' metadata are retrieved.
 #' @return \code{dracor} object that inherits data frame (and can be used as
 #' such).
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' tat <- get_dracor("tat")
 #' summary(tat)
 #' get_dracor(c("ita", "span", "greek"))
-#' get_dracor()
+#' # get_dracor() downloads all corpora, it may take several minutes
 #' }
 #' @seealso \code{\link{get_dracor_meta}}
 #' @importFrom jsonlite fromJSON
@@ -364,7 +364,7 @@ get_dracor <- function(corpus = "all",
 #' 'Wikidata ID' can be found on
 #' \url{https://www.wikidata.org/wiki/Wikidata:Main_Page}. Character vector
 #' (longer than 1) is not supported.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' wiki_id <- "Q131412"
 #' get_character_plays(wiki_id)
 #' @seealso \code{\link{get_dracor}}

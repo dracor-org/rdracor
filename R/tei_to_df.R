@@ -124,7 +124,7 @@ line_table <- function(tei_line,
 #' @param tei A TEI object stored as an object of class \code{xml_document}.
 #' You can use this function if you have already downloaded TEI using
 #' \code{\link{get_text_tei}}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 #' emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")

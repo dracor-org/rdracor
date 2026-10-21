@@ -43,11 +43,13 @@ given play and corpus names.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 get_text_df(play = "lessing-emilia-galotti", corpus = "ger")
 emilia_tei <- get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 tei_to_df(emilia_tei)
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_play_metadata}}

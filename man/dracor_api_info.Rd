@@ -31,8 +31,10 @@ the API, status, existdb version, API version etc.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 dracor_api_info()
 get_dracor_api_url()
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{dracor_api}} \code{\link{dracor_api_available}}

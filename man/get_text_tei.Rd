@@ -28,9 +28,11 @@ and corpus names. 'TEI' is an XML vocabulary, which makes it easy to extract
 structural information \insertCite{fischer2019programmable}{rdracor}.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want a text in TEI without parsing by xml2::read_xml():
 get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
+\dontshow{\}) # examplesIf}
 }
 \references{
 \insertAllCited{}

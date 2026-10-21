@@ -113,6 +113,7 @@ characters occur together.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 emilia_igraph <- get_net_cooccur_igraph(
   play = "lessing-emilia-galotti",
@@ -122,6 +123,7 @@ igraph::diameter(emilia_igraph)
 plot(emilia_igraph)
 summary(emilia_igraph)
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_net_relations_igraph}}

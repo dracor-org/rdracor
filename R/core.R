@@ -95,7 +95,7 @@ dracor_error <- function(resp) {
 #' parsing (see \code{default_type}) and additional parameters that are passed
 #' to the function for parsing. If 'DraCor' API is not available, \code{NULL}
 #' is returned invisibly (see Details).
-#' @examples
+#' @examplesIf dracor_api_available()
 #' dracor_api("https://dracor.org/api/v1/info", expected_type = "application/json")
 #' @seealso \code{\link{dracor_sparql}} \code{\link{dracor_api_available}}
 #' @import httr
@@ -225,7 +225,7 @@ dracor_api_available <- function(dracor_api_url = NULL, timeout = 10) {
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
 #' @inheritParams get_play_metadata
-#' @examples
+#' @examplesIf dracor_api_available()
 #' dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10")
 #' # If you want to avoid parsing by xml2::read_xml():
 #' dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE)
@@ -254,7 +254,7 @@ dracor_sparql <- function(sparql_query = NULL, parse = TRUE, ...) {
 #' the current 'DraCor' API URL.
 #'
 #' @return NULL
-#' @examples
+#' @examplesIf dracor_api_available()
 #' dracor_api_info()
 #' get_dracor_api_url()
 #' @seealso \code{\link{dracor_api}} \code{\link{dracor_api_available}}

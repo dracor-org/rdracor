@@ -87,6 +87,7 @@ including speakers (if applicable), given play and corpus names.
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger")
 get_text_chr_spoken(
   play = "lessing-emilia-galotti",
@@ -111,6 +112,7 @@ get_text_chr_stage_with_sp(
   play = "lessing-emilia-galotti",
   corpus = "ger"
 )
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_text_tei}} \code{\link{get_text_df}}

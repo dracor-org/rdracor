@@ -90,7 +90,9 @@ permanent, add the \code{options()} call to your \code{.Rprofile}.
 }
 
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 dracor_api("https://dracor.org/api/v1/info", expected_type = "application/json")
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{dracor_sparql}} \code{\link{dracor_api_available}}

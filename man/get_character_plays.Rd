@@ -23,8 +23,10 @@ by found in 'Wikidata' by it's id. \code{get_character_plays()} sends a
 request and parses the the result to get those plays as a data frame.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 wiki_id <- "Q131412"
 get_character_plays(wiki_id)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_dracor}}

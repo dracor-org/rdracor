@@ -120,6 +120,7 @@ encoding scheme proposed in
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 galotti_relations <- get_net_relations_igraph(
   play = "lessing-emilia-galotti",
@@ -128,6 +129,7 @@ galotti_relations <- get_net_relations_igraph(
 plot(galotti_relations)
 summary(galotti_relations)
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
 \insertAllCited{}

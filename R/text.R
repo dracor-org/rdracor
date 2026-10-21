@@ -7,7 +7,7 @@
 #' @return TEI data parsed by
 #'   {\code{\link[xml2:read_xml]{xml2::read_xml()}}}.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want a text in TEI without parsing by xml2::read_xml():
 #' get_text_tei(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)
@@ -52,7 +52,7 @@ get_text_tei <- function(play = NULL, corpus = NULL, ...) {
 #'   \code{"text"} column, the \code{"text"} column is a simple character
 #'   column}
 #' }
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_text_chr_spoken(play = "lessing-emilia-galotti", corpus = "ger")
 #' get_text_chr_spoken(
 #'   play = "lessing-emilia-galotti",

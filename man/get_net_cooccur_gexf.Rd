@@ -42,6 +42,7 @@ data, following the encoding scheme proposed in
 
 }}
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 get_net_cooccur_gexf(play = "lessing-emilia-galotti", corpus = "ger")
 # If you want 'GEXF' without parsing by xml2::read_xml():
@@ -51,6 +52,7 @@ get_net_cooccur_gexf(
   parse = FALSE
 )
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
 \insertAllCited{}

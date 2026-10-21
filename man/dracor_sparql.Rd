@@ -22,9 +22,11 @@ SPARQL xml parsed.
 \code{dracor_sparql()} submits SPARQL queries and parses the result.
 }
 \examples{
+\dontshow{if (dracor_api_available()) withAutoprint(\{ # examplesIf}
 dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10")
 # If you want to avoid parsing by xml2::read_xml():
 dracor_sparql("SELECT * WHERE {?s ?p ?o} LIMIT 10", parse = FALSE)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{get_dracor}}

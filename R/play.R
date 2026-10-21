@@ -14,7 +14,7 @@
 #'   \code{name} column within an object returned by
 #'   \code{\link{get_dracor_meta}}).
 #' @param ... Additional arguments passed to \code{\link{dracor_api}}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_play_characters(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_play_metadata}}
 #' @export
@@ -34,7 +34,7 @@ get_play_characters <- function(play = NULL, corpus = NULL, ...) {
 #' @inheritParams get_play_characters
 #' @param full_metadata Logical: if \code{TRUE} (default value), then additional
 #' metadata are retrieved.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_play_metadata(
 #'   play = "lessing-emilia-galotti",
 #'   corpus = "ger",
@@ -123,7 +123,7 @@ get_play_metadata <-
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want RDF without parsing by xml2::read_xml():
 #' get_play_rdf(play = "lessing-emilia-galotti", corpus = "ger", parse = FALSE)

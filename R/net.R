@@ -6,7 +6,7 @@
 #'
 #' @return List with network metrics for a specific play.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_net_cooccur_metrics(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_net_cooccur_igraph}}
 #' \code{\link{get_net_cooccur_gexf}} \code{\link{get_net_cooccur_graphml}}
@@ -40,7 +40,7 @@ get_net_cooccur_metrics <- function(play = NULL, corpus = NULL, ...) {
 #'
 #' @return data frame with edges (each row = one edge of a network).
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' get_net_cooccur_edges(play = "lessing-emilia-galotti", corpus = "ger")
 #' @seealso \code{\link{get_net_cooccur_igraph}}
 #' \code{\link{get_net_cooccur_gexf}} \code{\link{get_net_cooccur_graphml}}
@@ -69,7 +69,7 @@ get_net_cooccur_edges <-
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_net_cooccur_gexf(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want 'GEXF' without parsing by xml2::read_xml():
@@ -107,7 +107,7 @@ get_net_cooccur_gexf <-
 #' @param parse Logical, if \code{TRUE} the result is parsed by
 #' {\code{\link[xml2:read_xml]{xml2::read_xml()}}}, otherwise character value is
 #' returned. Default value is \code{TRUE}.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' get_net_cooccur_graphml(play = "lessing-emilia-galotti", corpus = "ger")
 #' # If you want 'GEXF' without parsing by xml2::read_xml():
@@ -197,7 +197,7 @@ get_net_relations_graphml <- function(play = NULL, corpus = NULL, ...) {
 #' @return \code{cooccur_igraph} — an object that inherits \code{igraph} and can be
 #' treated as such.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' emilia_igraph <- get_net_cooccur_igraph(
 #'   play = "lessing-emilia-galotti",
@@ -275,7 +275,7 @@ is.cooccur_igraph <- function(x) {
 #'   highest number of words will be selected.
 #' @param label_size_metric Character, a metric that is used to rank characters
 #' in a play.
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' emilia_igraph <- get_net_cooccur_igraph(
 #'   play = "lessing-emilia-galotti",
@@ -513,7 +513,7 @@ summary.cooccur_igraph <- function(object, ...) {
 #' @return \code{relations_igraph} — an object that inherits \code{igraph} and
 #' can be treated as such.
 #' @inheritParams get_play_characters
-#' @examples
+#' @examplesIf dracor_api_available()
 #' \donttest{
 #' galotti_relations <- get_net_relations_igraph(
 #'   play = "lessing-emilia-galotti",
