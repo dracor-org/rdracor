@@ -84,10 +84,12 @@ segment_info <- function(tei_line, sep = " | ") {
     collapse = sep
   )
 
+  # a line can be nested deeper than <sp> (e.g. <sp><lg><l>), so the speaker
+  # is taken from the enclosing <sp>, not from the direct parent
   who <- tei_line %>%
-    xml2::xml_parent() %>% # map to avoid deduplication
+    xml2::xml_find_first("ancestor::sp") %>%
     xml2::xml_attr("who") %>%
-    stringr::str_remove("#")
+    stringr::str_remove_all("#")
 
   data.table::data.table(who, scene, scene_path, subdiv_path)
 }
@@ -209,8 +211,9 @@ tei_to_df <- function(tei) {
     collapse = " | "
   )
 
-  tei %>%
-    xml2::xml_ns_strip()
+  # work on a copy: xml_ns_strip() modifies the document in place
+  tei <- xml2::read_xml(as.character(tei))
+  xml2::xml_ns_strip(tei)
   play_text_df <- tei %>%
     xml2::xml_find_all(xpath) %>%
     lapply(
